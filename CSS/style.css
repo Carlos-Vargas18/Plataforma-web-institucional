@@ -58,6 +58,426 @@ body::after {
   bottom: -100px;
   left: -80px;
 }
+/* ════════════════════════════════════════════════════════════
+   SISTEMA DE DISEÑO: EDUCONNECT PREMIUM
+   ════════════════════════════════════════════════════════════ */
+:root {
+    /* Paleta de Colores Exacta de tu Captura */
+    --edu-action-blue: #3f51b5;     /* Azul del botón Iniciar Sesión */
+    --edu-deep-blue: #283593;       /* Azul profundo del panel derecho */
+    --edu-accent-purple: #7986cb;   /* Púrpura suave para detalles hover */
+    
+    /* Neutros Premium */
+    --edu-bg-light: #f4f7fe;        /* Fondo gris-azul muy suave */
+    --edu-text-dark: #0a103d;       /* Títulos ultra oscuros */
+    --edu-text-muted: #5c677d;      /* Texto de cuerpo */
+    --edu-white: #ffffff;
+    
+    /* Efectos Visuales */
+    --edu-shadow-pro: 0 10px 40px rgba(0, 0, 0, 0.05);
+    --edu-shadow-hover: 0 20px 60px rgba(63, 81, 181, 0.1);
+    
+    /* Curva de Animación Premium (Suave y con rebote) */
+    --edu-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ════════════════════════════════════════════════════════════
+   RESETEO Y HABILITACIÓN DE SCROLL
+   ════════════════════════════════════════════════════════════ */
+html {
+    scroll-behavior: smooth;
+    height: auto;
+}
+
+body {
+    background-color: var(--edu-bg-light);
+    color: var(--edu-text-muted);
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.7;
+    /* IMPORTANTE: Estas líneas aseguran que puedas bajar */
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Asegura que el footer se quede abajo */
+#landing-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* ════════════════════════════════════════════════════════════
+   HEADER NAVEGACIÓN (Efecto Cristal)
+   ════════════════════════════════════════════════════════════ */
+.header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    padding: 1.2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--edu-text-dark);
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-logo i {
+    color: var(--edu-action-blue);
+    font-size: 1.5rem;
+}
+
+.header-nav {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--edu-text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--edu-transition);
+    position: relative;
+    padding-bottom: 5px;
+}
+
+/* Línea de hover profesional */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: var(--edu-action-blue);
+    transition: var(--edu-transition);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--edu-action-blue);
+}
+
+/* Botón de Plataforma Estilo tu Login */
+.header-container button {
+    background: var(--edu-action-blue);
+    color: white; /* Corregido a blanco para legibilidad profesional */
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px; /* Estilo píldora moderna */
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--edu-transition);
+    box-shadow: 0 4px 15px rgba(63, 81, 181, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-container button:hover {
+    transform: translateY(-3px);
+    background: var(--edu-deep-blue);
+    box-shadow: 0 10px 25px rgba(63, 81, 181, 0.4);
+}
+
+/* ════════════════════════════════════════════════════════════
+   HERO SECTION (Degradado y Espaciado de Alta Gama)
+   ════════════════════════════════════════════════════════════ */
+.hero {
+    background: linear-gradient(135deg, #4e54c8 0%, #283593 100%);
+    color: white;
+    padding: 150px 30px;
+    text-align: center;
+    position: relative;
+    /* Eliminamos cualquier clip-path que bloqueaba el scroll */
+}
+
+/* Título Adaptable (clamp) */
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 25px;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 750px;
+    margin: 0 auto;
+    opacity: 0.9;
+    font-weight: 300;
+    line-height: 1.7;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SECCIONES Y TARJETAS (Intuitivas e Iconográficas)
+   ════════════════════════════════════════════════════════════ */
+.news-section, .social-section, .contact-section {
+    padding: 120px 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--edu-text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.section-title i {
+    color: var(--edu-action-blue);
+    font-size: 2.2rem;
+}
+
+/* Grilla Moderna y Responsiva */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.news-card {
+    background: var(--white);
+    border-radius: 25px;
+    padding: 40px;
+    transition: var(--edu-transition);
+    border: 1px solid rgba(0,0,0,0.02);
+    box-shadow: var(--edu-shadow-pro);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.news-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: var(--edu-shadow-hover);
+}
+
+.news-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.news-image i {
+    font-size: 3rem;
+    color: var(--edu-action-blue);
+}
+
+.news-content h3 {
+    color: var(--edu-text-dark);
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.news-content p {
+    flex: 1; /* Empuja el enlace hacia abajo */
+    margin-bottom: 25px;
+}
+
+.read-more {
+    color: var(--edu-action-blue);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--edu-transition);
+}
+
+.read-more:hover {
+    gap: 12px; /* Efecto de flecha que se mueve */
+}
+
+/* ════════════════════════════════════════════════════════════
+   REDES SOCIALES (Mil veces más intuitivas)
+   ════════════════════════════════════════════════════════════ */
+.social-section {
+    background: var(--white);
+    padding: 80px 30px;
+    border-radius: 30px;
+    box-shadow: var(--edu-shadow-pro);
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.social-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+.social-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 2rem;
+    color: var(--white);
+    text-decoration: none;
+    transition: var(--edu-transition);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Colores de marca oficiales */
+.facebook { background: #1877f2; }
+.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.twitter { background: #1da1f2; }
+.youtube { background: #ff0000; }
+
+.social-icon:hover {
+    transform: translateY(-10px) scale(1.1) rotate(8deg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+/* ════════════════════════════════════════════════════════════
+   CONTACTO: REDISEÑO TOTAL (Mapa Premium)
+   ════════════════════════════════════════════════════════════ */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 60px;
+    margin-top: 60px;
+    align-items: start;
+}
+
+.map-container {
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid rgba(63, 81, 181, 0.1); /* Brillo sutil */
+    box-shadow: var(--edu-shadow-pro);
+    transition: var(--edu-transition);
+}
+
+.map-container:hover {
+    border: 2px solid rgba(63, 81, 181, 0.3);
+    box-shadow: 0 15px 40px rgba(63, 81, 181, 0.1);
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.contact-card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 18px;
+    transition: var(--edu-transition);
+    border: 1px solid rgba(0,0,0,0.02);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.contact-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--edu-shadow-pro);
+    background: rgba(255,255,255,0.9);
+}
+
+.contact-icon i {
+    color: var(--edu-action-blue);
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.contact-card h3 {
+    color: var(--edu-text-dark);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+/* ════════════════════════════════════════════════════════════
+   FOOTER (Efecto cristal oscuro)
+   ════════════════════════════════════════════════════════════ */
+.footer {
+    background: rgba(40, 53, 147, 0.95);
+    backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 100px 30px 40px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-content {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 60px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 60px;
+}
+
+.footer-section h4 {
+    color: white;
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-section h4 i {
+    color: var(--edu-accent-purple);
+}
+
+.footer-section ul { list-style: none; padding: 0; }
+.footer-section ul li { margin-bottom: 12px; }
+.footer-section a { color: rgba(255,255,255,0.6); text-decoration: none; transition: 0.3s; }
+.footer-section a:hover { color: white; }
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.4);
+}
 
 /* TARJETA PRINCIPAL */
 .card {

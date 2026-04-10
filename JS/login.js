@@ -1,3 +1,24 @@
+function mostrarApartado(seccion) {
+    const landing = document.getElementById('landing-page');
+    const plataforma = document.getElementById('plataforma-page');
+
+    if (seccion === 'plataforma') {
+        // Ocultamos la web y mostramos la plataforma
+        landing.style.display = 'none';
+        plataforma.style.display = 'block';
+        // Opcional: Scrollear al inicio de la página
+        window.scrollTo(0, 0);
+    } else {
+        // Volvemos a la landing
+        plataforma.style.display = 'none';
+        landing.style.display = 'block';
+    }
+}
+
+
+
+
+
 /* ============================================================
    CONFIGURACIÓN SUPABASE
    ============================================================ */
