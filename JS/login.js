@@ -321,9 +321,136 @@ function closeModalOutside(e, id) {
     }
 }
 
-/* ============================================================
-   DASHBOARD
+
+
+   /* ============================================================
+   FUNCIONES PARA DATOS DEL DASHBOARD EN VIVO
    ============================================================ */
+
+// Obtener estadísticas del dashboard (VERSIÓN COMPLETA - TODAS LAS MÉTRICAS)
+async function loadDashboardStats() {
+    try {
+        const token = localStorage.getItem('sb_token');
+        
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_dashboard_stats`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON,
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const stats = await response.json();
+        console.log('Estadísticas cargadas:', stats);
+        
+        // === TARJETAS PRINCIPALES ===
+        const estudiantesElement = document.querySelector('.stat-card:first-child .stat-info h3');
+        const materiasElement = document.querySelector('.stat-card:nth-child(2) .stat-info h3');
+        const calificacionesElement = document.querySelector('.stat-card:nth-child(3) .stat-info h3');
+        const gruposElement = document.querySelector('.stat-card:nth-child(4) .stat-info h3');
+        
+        if (estudiantesElement) estudiantesElement.textContent = stats.total_estudiantes || 0;
+        if (materiasElement) materiasElement.textContent = stats.total_materias || 0;
+        if (calificacionesElement) calificacionesElement.textContent = stats.total_calificaciones || 0;
+        if (gruposElement) gruposElement.textContent = stats.total_grupos || 0;
+        
+        // === MÉTRICA 1: Promedio General ===
+        const promedioElement = document.querySelector('.metric-card:first-child .metric-value');
+        const promedioTrend = document.querySelector('.metric-card:first-child .metric-trend');
+        
+        if (promedioElement) promedioElement.textContent = stats.promedio_general || 0;
+        if (promedioTrend) {
+            promedioTrend.innerHTML = stats.texto_tendencia_promedio;
+            promedioTrend.className = 'metric-trend ' + stats.tendencia_promedio;
+        }
+        
+        // === MÉTRICA 2: Tasa de Aprobación ===
+        const tasaElement = document.querySelector('.metric-card:nth-child(2) .metric-value');
+        const tasaTrend = document.querySelector('.metric-card:nth-child(2) .metric-trend');
+        
+        if (tasaElement) tasaElement.textContent = (stats.tasa_aprobacion || 0) + '%';
+        if (tasaTrend) {
+            tasaTrend.innerHTML = stats.texto_tendencia_tasa;
+            tasaTrend.className = 'metric-trend ' + stats.tendencia_tasa;
+        }
+        
+        // === MÉTRICA 3: Meta de Graduación ===
+        const metaElement = document.querySelector('.metric-card:nth-child(3) .metric-value');
+        const metaText = document.querySelector('.metric-card:nth-child(3) .metric-trend');
+        
+        if (metaElement) metaElement.textContent = stats.meta_graduacion + '%';
+        if (metaText) {
+            metaText.innerHTML = stats.texto_meta;
+            metaText.className = 'metric-trend ' + stats.clase_meta;
+        }
+        
+        // === MÉTRICA 4: Objetivo Anual ===
+        const objetivoElement = document.querySelector('.metric-card:nth-child(4) .metric-value');
+        const objetivoText = document.querySelector('.metric-card:nth-child(4) .metric-trend');
+        
+        if (objetivoElement) objetivoElement.textContent = stats.objetivo_anual + '%';
+        if (objetivoText) {
+            objetivoText.innerHTML = stats.texto_objetivo;
+            objetivoText.className = 'metric-trend ' + stats.clase_objetivo;
+        }
+        
+        return stats;
+    } catch (error) {
+        console.error('Error cargando estadísticas:', error);
+        return null;
+    }
+}
+
+// Obtener rendimiento por materias
+async function loadRendimientoMaterias() {
+    try {
+        const token = localStorage.getItem('sb_token');
+        
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_rendimiento_materias`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON,
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const materias = await response.json();
+        console.log('Rendimiento cargado:', materias);
+        
+        const tbody = document.querySelector('.data-table tbody');
+        
+        if (tbody && materias && materias.length > 0) {
+            tbody.innerHTML = '';
+            materias.forEach(materia => {
+                const row = document.createElement('tr');
+                let gradeClass = 'good';
+                if (materia.promedio >= 4.5) gradeClass = 'excellent';
+                else if (materia.promedio >= 3.0) gradeClass = 'good';
+                else gradeClass = 'bad';
+                
+                row.innerHTML = `
+                    <td class="subject-name">${materia.materia_nombre}</td>
+                    <td><span class="grade-badge ${gradeClass}">${materia.promedio}</span></td>
+                    <td>${materia.aprobados}</td>
+                    <td>${materia.reprobados}</td>
+                    <td>${materia.mejor_estudiante || 'N/A'} (${materia.mejor_nota || 0})</td>
+                `;
+                tbody.appendChild(row);
+            });
+        } else if (tbody) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay calificaciones registradas</td></tr>';
+        }
+    } catch (error) {
+        console.error('Error cargando materias:', error);
+    }
+}
+
+/* ============================================================
+   MOSTRAR DASHBOARD
+   ============================================================ */
+
 function showDashboard() {
     console.log('🟢 Mostrando dashboard');
     
@@ -341,9 +468,14 @@ function showDashboard() {
             userNameSpan.textContent = userName;
         }
         
-        console.log('✅ Dashboard visible');
+        // CARGAR DATOS DEL DASHBOARD
+        loadDashboardStats();
+        loadRendimientoMaterias();
+        
+        console.log('✅ Dashboard visible y datos cargados');
     }
 }
+
 
 /* ============================================================
    CERRAR SESIÓN

@@ -1080,3 +1080,108 @@ body::after {
     grid-template-columns: 1fr;
   }
 }
+
+/* Scroll para la tabla de rendimiento */
+.data-table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+/* Personalizar scrollbar */
+.data-table-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.data-table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.data-table-container::-webkit-scrollbar-thumb {
+    background: #3B5BDB;
+    border-radius: 10px;
+}
+
+.data-table-container::-webkit-scrollbar-thumb:hover {
+    background: #1e3a8a;
+}
+
+/* Fijar encabezado de la tabla al hacer scroll */
+.data-table thead {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+/* Colores para calificaciones */
+.grade-badge.excellent {
+    background: #F3E5F5;
+    color: #9C27B0;
+}
+
+.grade-badge.good {
+    background: #E8F5E9;
+    color: #4CAF50;
+}
+
+.grade-badge.bad {
+    background: #FFEBEE;
+    color: #EF4444;
+}
+
+/* Estilos para las métricas */
+.metric-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 91, 219, 0.12);
+}
+
+.metric-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6B7280;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1A1A2E;
+    margin-bottom: 8px;
+}
+
+.metric-trend {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.metric-trend.up {
+    background: #E8F5E9;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.metric-trend.down {
+    background: #FFEBEE;
+    color: #EF4444;
+    font-weight: bold;
+}
+
+.metric-trend.neutral {
+    background: #FFF3E0;
+    color: #F59E0B;
+    font-weight: bold;
+}
