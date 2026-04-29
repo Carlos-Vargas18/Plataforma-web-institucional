@@ -163,8 +163,8 @@ async function handleLogin() {
             localStorage.setItem('sb_email', data.user.email);
             localStorage.setItem('sb_user_name', data.user.user_metadata?.name || email);
             
-            // Mostrar dashboard
-            showDashboard();
+            // REDIRECCIÓN DIRECTA
+            window.location.href = './HTML/dashboard-admin.html';
         }
         
     } catch (error) {
@@ -451,30 +451,7 @@ async function loadRendimientoMaterias() {
    MOSTRAR DASHBOARD
    ============================================================ */
 
-function showDashboard() {
-    console.log('🟢 Mostrando dashboard');
-    
-    const loginCard = document.querySelector('.card');
-    const dashboard = document.getElementById('dashboard');
-    
-    if (loginCard && dashboard) {
-        loginCard.style.display = 'none';
-        dashboard.style.display = 'flex';
-        
-        // Mostrar nombre del usuario
-        const userName = localStorage.getItem('sb_user_name');
-        const userNameSpan = document.getElementById('userNameDisplay');
-        if (userNameSpan && userName) {
-            userNameSpan.textContent = userName;
-        }
-        
-        // CARGAR DATOS DEL DASHBOARD
-        loadDashboardStats();
-        loadRendimientoMaterias();
-        
-        console.log('✅ Dashboard visible y datos cargados');
-    }
-}
+
 
 
 /* ============================================================
@@ -494,3 +471,15 @@ document.addEventListener('keydown', (e) => {
         closeModal('registerModal');
     }
 });
+
+// Verificar si estamos en el dashboard
+if (window.location.pathname.includes('dashboard-admin.html')) {
+  // No hacer nada, dejar que el dashboard maneje la sesión
+  console.log('Estamos en dashboard, no redirigir');
+} else {
+  // Solo en login.html verificamos token para redirigir al dashboard
+  const token = localStorage.getItem('sb_token');
+  if (token && !window.location.pathname.includes('index.html')) {
+    verifyToken(token);
+  }
+}

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduConnect — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <link rel="stylesheet" href="../CSS/dashboard-admin.css" />
+</head>
+<body class="dashboard-page">
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+          </svg>
+        </div>
+        <span class="brand-name">EduConnect</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>Dashboard</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Usuarios</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span>Materias</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span>Calificaciones</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+            </svg>
+            <span>Grupos</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Configuración</span>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="sidebar-logout" onclick="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- HEADER -->
+      <div class="dashboard-header">
+        <div class="header-title">
+          <h1>Panel de Administración</h1>
+          <p>Bienvenido, <span id="userNameDisplay">Administrador</span></p>
+        </div>
+        <div class="header-actions">
+          <div class="notification-bell">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="notif-badge">3</span>
+          </div>
+          <div class="user-avatar admin-avatar">
+            <span>👨‍💼</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS CARDS - Datos dinámicos -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalEstudiantes">0</h3>
+            <p>Estudiantes Activos</p>
+            <span class="stat-status ok">Cargando...</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalMaterias">0</h3>
+            <p>Materias Activas</p>
+            <span class="stat-status draft">Cargando...</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalCalificaciones">0</h3>
+            <p>Calificaciones Registradas</p>
+            <span class="stat-status pending">Cargando...</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3 id="totalGrupos">0</h3>
+            <p>Grupos / Clases</p>
+            <span class="stat-status signed">Cargando...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MÉTRICAS -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+            <span>Promedio General</span>
+          </div>
+          <div class="metric-value" id="promedioGeneral">0</div>
+          <div class="metric-trend up">Cargando...</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+            <span>Tasa de Aprobación</span>
+          </div>
+          <div class="metric-value" id="tasaAprobacion">0%</div>
+          <div class="metric-trend up">Cargando...</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>
+            </svg>
+            <span>Meta de Graduación</span>
+          </div>
+          <div class="metric-value">92%</div>
+          <div class="metric-trend">Faltan 8% para meta</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-4l-3 9-4-18-3 9H2"/>
+            </svg>
+            <span>Objetivo Anual</span>
+          </div>
+          <div class="metric-value">95%</div>
+          <div class="metric-trend up">Superando expectativas</div>
+        </div>
+      </div>
+
+      <!-- TABLA RENDIMIENTO POR MATERIA -->
+      <div class="data-table-container">
+        <div class="table-header">
+          <h3>📊 Rendimiento por Materia</h3>
+          <select class="period-selector">
+            <option>Este Mes</option>
+            <option>Este Año</option>
+            <option>Todo el Tiempo</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Materia</th>
+              <th>Promedio</th>
+              <th>Aprobados</th>
+              <th>Reprobados</th>
+              <th>Mejor Estudiante</th>
+            </tr>
+          </thead>
+          <tbody id="rendimientoTableBody">
+            <tr>
+              <td colspan="5" style="text-align: center;">Cargando datos...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- GESTIÓN DE USUARIOS -->
+      <div class="admin-panel">
+        <div class="panel-header">
+          <h3>👥 Gestión de Usuarios</h3>
+          <button class="btn-add">+ Agregar Usuario</button>
+        </div>
+        <div class="user-list" id="userList">
+          <div class="user-item">
+            <div class="user-details">
+              <strong>Cargando usuarios...</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /dashboard -->
+
+  <!-- SCRIPTS -->
+  <script src="../JS/login.js"></script>
+  <script>
+    // Función para cargar datos reales de Supabase
+    // Función para cargar datos reales de Supabase
+async function cargarDatosReales() {
+  console.log('🔄 Cargando datos desde Supabase...');
+  
+  const token = localStorage.getItem('sb_token');
+  if (!token) {
+    console.error('No hay token');
+    // NO redirijas automáticamente, solo muestra error
+    return;
+  }
+  
+  try {
+    // 1. Obtener estudiantes (si la tabla existe)
+    try {
+      const estudiantesRes = await fetch('https://bsxpqofjoojcdvsojcon.supabase.co/rest/v1/usuarios?role=eq.estudiante&select=id', {
+        headers: {
+          'apikey': 'sb_publishable_fRqKbNMcTrvV1XdpK4mKcQ_SV7GLCf8',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (estudiantesRes.ok) {
+        const estudiantes = await estudiantesRes.json();
+        document.getElementById('totalEstudiantes').textContent = estudiantes?.length || 0;
+        const statusElements = document.querySelectorAll('.stat-status');
+        if (statusElements[0]) statusElements[0].textContent = `${estudiantes?.length || 0} estudiantes`;
+      } else {
+        document.getElementById('totalEstudiantes').textContent = '0';
+      }
+    } catch (e) {
+      console.log('Tabla usuarios no existe aún');
+      document.getElementById('totalEstudiantes').textContent = '0';
+    }
+    
+    // 2. Obtener materias
+    try {
+      const materiasRes = await fetch('https://bsxpqofjoojcdvsojcon.supabase.co/rest/v1/materias?select=id', {
+        headers: {
+          'apikey': 'sb_publishable_fRqKbNMcTrvV1XdpK4mKcQ_SV7GLCf8',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (materiasRes.ok) {
+        const materias = await materiasRes.json();
+        document.getElementById('totalMaterias').textContent = materias?.length || 0;
+      }
+    } catch (e) {
+      console.log('Error cargando materias:', e);
+    }
+    
+    // 3. Obtener calificaciones
+    try {
+      const calificacionesRes = await fetch('https://bsxpqofjoojcdvsojcon.supabase.co/rest/v1/calificaciones?select=id', {
+        headers: {
+          'apikey': 'sb_publishable_fRqKbNMcTrvV1XdpK4mKcQ_SV7GLCf8',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (calificacionesRes.ok) {
+        const calificaciones = await calificacionesRes.json();
+        document.getElementById('totalCalificaciones').textContent = calificaciones?.length || 0;
+      }
+    } catch (e) {
+      console.log('Error cargando calificaciones:', e);
+    }
+    
+    // 4. Cargar rendimiento por materias
+    await cargarRendimientoMaterias();
+    
+    console.log('✅ Datos cargados correctamente');
+    
+  } catch (error) {
+    console.error('Error general:', error);
+  }
+}
+
+// Función para cargar el rendimiento por materias
+async function cargarRendimientoMaterias() {
+  const token = localStorage.getItem('sb_token');
+  const tbody = document.getElementById('rendimientoTableBody');
+  
+  try {
+    // Intentar obtener calificaciones con join a materias
+    const response = await fetch('https://bsxpqofjoojcdvsojcon.supabase.co/rest/v1/calificaciones?select=id,nota,materia_id,materias(nombre)', {
+      headers: {
+        'apikey': 'sb_publishable_fRqKbNMcTrvV1XdpK4mKcQ_SV7GLCf8',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (response.ok) {
+      const calificaciones = await response.json();
+      
+      if (calificaciones && calificaciones.length > 0) {
+        // Agrupar por materia
+        const materiasMap = new Map();
+        calificaciones.forEach(cal => {
+          const materiaNombre = cal.materias?.nombre || 'Sin materia';
+          if (!materiasMap.has(materiaNombre)) {
+            materiasMap.set(materiaNombre, { notas: [], total: 0, count: 0 });
+          }
+          const nota = cal.nota || 0;
+          materiasMap.get(materiaNombre).notas.push(nota);
+        });
+        
+        // Mostrar en tabla
+        tbody.innerHTML = '';
+        for (let [nombre, data] of materiasMap) {
+          const promedio = (data.notas.reduce((a,b) => a + b, 0) / data.notas.length).toFixed(1);
+          let gradeClass = 'good';
+          if (promedio >= 4.5) gradeClass = 'excellent';
+          else if (promedio >= 3.0) gradeClass = 'good';
+          else gradeClass = 'bad';
+          
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="subject-name">📚 ${nombre}</td>
+            <td><span class="grade-badge ${gradeClass}">${promedio}</span></td>
+            <td>${data.notas.filter(n => n >= 3).length}</td>
+            <td>${data.notas.filter(n => n < 3).length}</td>
+            <td>Por calcular</td>
+          `;
+          tbody.appendChild(row);
+        }
+      } else {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay calificaciones registradas</td></tr>';
+      }
+    } else {
+      // Si no hay tabla de calificaciones, mostrar datos de ejemplo
+      tbody.innerHTML = `
+        <tr>
+          <td class="subject-name">📐 Matemáticas</td>
+          <td><span class="grade-badge good">85.2</span></td>
+          <td>0</td>
+          <td>0</td>
+          <td>Sin datos</td>
+        </tr>
+        <tr>
+          <td class="subject-name">📚 Lenguaje</td>
+          <td><span class="grade-badge good">88.7</span></td>
+          <td>0</td>
+          <td>0</td>
+          <td>Sin datos</td>
+        </tr>
+      `;
+    }
+  } catch (error) {
+    console.error('Error cargando rendimiento:', error);
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Error cargando datos</td></tr>';
+  }
+}
+    
+    // 4. Obtener grupos (nueva)
+try {
+  const gruposRes = await fetch('https://bsxpqofjoojcdvsojcon.supabase.co/rest/v1/grupos?select=id', {
+    headers: {
+      'apikey': 'sb_publishable_fRqKbNMcTrvV1XdpK4mKcQ_SV7GLCf8',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  if (gruposRes.ok) {
+    const grupos = await gruposRes.json();
+    document.getElementById('totalGrupos').textContent = grupos?.length || 0;
+    if (statusElements[3]) statusElements[3].textContent = `${grupos?.length || 0} grupos`;
+  }
+} catch (e) {
+  console.log('Error cargando grupos:', e);
+  document.getElementById('totalGrupos').textContent = '0';
+}
+    
+    // Navegación del sidebar
+    document.querySelectorAll('.sidebar-nav li').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.sidebar-nav li').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

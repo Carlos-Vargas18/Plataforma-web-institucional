@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduConnect — Estudiante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <link rel="stylesheet" href="../CSS/dashboard-estudiante.css" />
+</head>
+<body class="dashboard-page">
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR ESTUDIANTE -->
+    <div class="sidebar sidebar-estudiante">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+          </svg>
+        </div>
+        <span class="brand-name">EduConnect</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li class="active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>Inicio</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span>Mis Notas</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span>Horario</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span>Programas</span>
+          </li>
+          <li>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Noticias</span>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="sidebar-logout" onclick="window.location.href='../index.html'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content">
+
+      <div class="dashboard-header">
+        <div class="header-title">
+          <h1>Mi Panel Académico</h1>
+          <p>Hola, <span id="estudianteName">Ana García</span> 👋 — Grado 10° A</p>
+        </div>
+        <div class="header-actions">
+          <div class="notification-bell">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          <div class="user-avatar est-avatar"><span>👩‍🎓</span></div>
+        </div>
+      </div>
+
+      <!-- RESUMEN STATS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>87.4</h3>
+            <p>Promedio General</p>
+            <span class="stat-status ok">¡Buen desempeño!</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>6/7</h3>
+            <p>Materias Aprobadas</p>
+            <span class="stat-status ok">1 pendiente</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>Período 2</h3>
+            <p>Período Actual</p>
+            <span class="stat-status draft">En curso</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>95%</h3>
+            <p>Asistencia</p>
+            <span class="stat-status signed">Excelente</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORIAL DE NOTAS -->
+      <div class="data-table-container">
+        <div class="table-header">
+          <h3>📋 Mis Calificaciones</h3>
+          <select class="period-selector">
+            <option>Período 1</option>
+            <option selected>Período 2</option>
+            <option>Período 3</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Materia</th>
+              <th>Docente</th>
+              <th>Nota 1</th>
+              <th>Nota 2</th>
+              <th>Nota 3</th>
+              <th>Promedio</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="subject-name">📐 Matemáticas</td>
+              <td>Prof. Silva</td>
+              <td>92</td><td>88</td><td>95</td>
+              <td><span class="grade-badge excellent">91.7</span></td>
+              <td><span class="stat-status ok">Aprobado</span></td>
+            </tr>
+            <tr>
+              <td class="subject-name">📚 Lenguaje</td>
+              <td>Prof. Romero</td>
+              <td>85</td><td>90</td><td>88</td>
+              <td><span class="grade-badge good">87.7</span></td>
+              <td><span class="stat-status ok">Aprobado</span></td>
+            </tr>
+            <tr>
+              <td class="subject-name">🔬 Ciencias</td>
+              <td>Prof. Castro</td>
+              <td>60</td><td>65</td><td>58</td>
+              <td><span class="grade-badge warning">61.0</span></td>
+              <td><span class="stat-status pending">En riesgo</span></td>
+            </tr>
+            <tr>
+              <td class="subject-name">🌍 Sociales</td>
+              <td>Prof. Díaz</td>
+              <td>88</td><td>84</td><td>90</td>
+              <td><span class="grade-badge good">87.3</span></td>
+              <td><span class="stat-status ok">Aprobado</span></td>
+            </tr>
+            <tr>
+              <td class="subject-name">💻 Informática</td>
+              <td>Prof. Ríos</td>
+              <td>95</td><td>98</td><td>97</td>
+              <td><span class="grade-badge excellent">96.7</span></td>
+              <td><span class="stat-status ok">Aprobado</span></td>
+            </tr>
+            <tr>
+              <td class="subject-name">🎨 Artes</td>
+              <td>Prof. Mora</td>
+              <td>80</td><td>85</td><td>82</td>
+              <td><span class="grade-badge good">82.3</span></td>
+              <td><span class="stat-status ok">Aprobado</span></td>
+            </tr>
+            <tr>
+              <td class="subject-name">⚽ Ed. Física</td>
+              <td>Prof. Herrera</td>
+              <td>90</td><td>92</td><td>95</td>
+              <td><span class="grade-badge excellent">92.3</span></td>
+              <td><span class="stat-status ok">Aprobado</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- NOTICIAS / EVENTOS -->
+      <div class="news-container">
+        <h3>📰 Noticias y Eventos</h3>
+        <div class="news-grid">
+          <div class="news-card">
+            <span class="news-tag evento">Evento</span>
+            <h4>Feria de Ciencias</h4>
+            <p>Participa en la feria anual de ciencias el próximo 15 de mayo. ¡Inscríbete ya!</p>
+            <span class="news-date">📅 15 Mayo 2025</span>
+          </div>
+          <div class="news-card">
+            <span class="news-tag noticia">Noticia</span>
+            <h4>Resultados Período 1</h4>
+            <p>Ya están disponibles las calificaciones del primer período académico.</p>
+            <span class="news-date">📅 20 Abril 2025</span>
+          </div>
+          <div class="news-card">
+            <span class="news-tag evento">Evento</span>
+            <h4>Día de la Familia</h4>
+            <p>Los invitamos al encuentro familiar del próximo 28 de abril en el patio principal.</p>
+            <span class="news-date">📅 28 Abril 2025</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.sidebar-nav li').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.sidebar-nav li').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
