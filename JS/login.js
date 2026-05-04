@@ -106,14 +106,15 @@ async function handleLogin() {
             return;
         }
         
-        if (usuario.rol !== 'admin') {
-            showError('⛔ Solo administradores pueden acceder', errorMsg);
-            resetButton(loginBtn);
-            return;
-        }
+        // ELIMINA ESTA VERIFICACIÓN - PERMITIR TODOS LOS ROLES
+        // if (usuario.rol !== 'admin') {
+        //     showError('⛔ Solo administradores pueden acceder', errorMsg);
+        //     resetButton(loginBtn);
+        //     return;
+        // }
         
         // LOGIN EXITOSO
-        console.log('✅ Login exitoso');
+        console.log('✅ Login exitoso. Rol:', usuario.rol);
         
         localStorage.setItem('user_data', JSON.stringify({
             id: usuario.id,
@@ -125,8 +126,20 @@ async function handleLogin() {
         
         showError('✅ ¡Bienvenido! Redirigiendo...', errorMsg);
         
+        // Redirigir según el rol
         setTimeout(() => {
-            window.location.href = 'HTML/dashboard-admin.html';
+            if (usuario.rol === 'admin') {
+                window.location.href = 'HTML/dashboard-admin.html';
+            } else if (usuario.rol === 'docente') {
+                window.location.href = 'HTML/dashboard-docente.html';
+            } else if (usuario.rol === 'estudiante') {
+                window.location.href = 'HTML/dashboard-estudiante.html';
+            } else if (usuario.rol === 'administrativo') {
+                window.location.href = 'HTML/dashboard-administrativo.html';
+            } else {
+                // Por defecto, redirigir a dashboard estudiante
+                window.location.href = 'HTML/dashboard-estudiante.html';
+            }
         }, 1000);
         
     } catch (error) {

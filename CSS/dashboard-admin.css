@@ -995,3 +995,64 @@ body.dashboard-page {
 .btn-view:hover {
     background: #bfdbfe;
 }
+
+/* Forzar scroll en Edge */
+.section.active {
+    display: block !important;
+    overflow-y: auto !important;
+    max-height: calc(100vh - 150px) !important;
+}
+
+.main-content {
+    overflow-y: auto !important;
+    height: 100vh !important;
+}
+
+.user-list {
+    max-height: 400px !important;
+    overflow-y: auto !important;
+}
+
+/* Asegurar que todos los modales tengan el z-index correcto */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999 !important;
+}
+
+.modal-container {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    animation: modalIn 0.3s ease;
+    z-index: 10000 !important;
+    position: relative;
+}
+
+/* Asegurar que los modales de búsqueda también tengan alto z-index */
+#buscarEstudianteMatriculaModal,
+#buscarEstudianteModal,
+#buscarMateriaModal,
+#buscarDocenteModal,
+#buscarMateriaGrupoModal,
+#buscarDocenteGrupoModal {
+    z-index: 10001 !important;
+}
+
+#buscarEstudianteMatriculaModal .modal-container,
+#buscarEstudianteModal .modal-container,
+#buscarMateriaModal .modal-container,
+#buscarDocenteModal .modal-container,
+#buscarMateriaGrupoModal .modal-container,
+#buscarDocenteGrupoModal .modal-container {
+    z-index: 10002 !important;
+}
