@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduConnect — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <link rel="stylesheet" href="../CSS/dashboard-admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body class="dashboard-page">
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+          </svg>
+        </div>
+        <span class="brand-name">EduConnect</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li data-section="dashboard" class="active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/>
+            </svg>
+            <span>Dashboard</span>
+          </li>
+          <li data-section="usuarios">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Usuarios</span>
+          </li>
+          <li data-section="materias">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span>Materias</span>
+          </li>
+          <li data-section="calificaciones">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span>Calificaciones</span>
+          </li>
+          <li data-section="grupos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/>
+            </svg>
+            <span>Grupos</span>
+          </li>
+        </ul>
+      </nav>
+
+      <button class="sidebar-logout" onclick="logout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+      
+      <!-- HEADER -->
+      <div class="dashboard-header">
+        <div class="header-title">
+          <h1 id="pageTitle">Panel de Administración</h1>
+          <p>Bienvenido, <span id="userNameDisplay">Administrador</span></p>
+        </div>
+        <div class="header-actions">
+          <div class="user-avatar admin-avatar">
+            <span>👨‍💼</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DASHBOARD -->
+      <div id="dashboardSection" class="section active">
+        <!-- STATS CARDS - NUEVOS -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalRoles">0</h3>
+              <p>Roles Registrados</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalDocentes">0</h3>
+              <p>Docentes Registrados</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L15 8.5L22 9.5L17 14L18.5 21L12 17.5L5.5 21L7 14L2 9.5L9 8.5L12 2z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalAdministrativos">0</h3>
+              <p>Administrativos Registrados</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 id="totalMateriasRegistradas">0</h3>
+              <p>Materias Registradas</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRÁFICOS -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>📊 Estudiantes Inscritos</h3>
+              <p>Total de estudiantes por período</p>
+            </div>
+            <canvas id="estudiantesChart" width="400" height="250"></canvas>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>🎓 Estudiantes por Grado</h3>
+              <p>Distribución de estudiantes por nivel académico</p>
+            </div>
+            <canvas id="gradosChart" width="400" height="250"></canvas>
+          </div>
+        </div>
+      </div>
+
+     <!-- SECCIÓN USUARIOS -->
+<div id="usuariosSection" class="section">
+  <div class="admin-panel">
+    <div class="panel-header">
+      <h3>👥 Gestión de Usuarios</h3>
+      <button class="btn-add" id="btnAgregarUsuario">+ Agregar Usuario</button>
+    </div>
+    
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="10" cy="10" r="7"/>
+          <line x1="21" y1="21" x2="15" y2="15"/>
+        </svg>
+        <input type="text" id="searchUsuario" placeholder="Buscar por nombre, email o rol..." class="search-input">
+      </div>
+      <select id="filtroRol" class="filter-select">
+        <option value="todos">Todos los roles</option>
+        <option value="estudiante">Estudiantes</option>
+        <option value="docente">Docentes</option>
+        <option value="administrativo">Administrativos</option>
+        <option value="admin">Administradores</option>
+      </select>
+    </div>
+    
+    <div class="user-list" id="userList">
+      <div class="user-item">Cargando usuarios...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA VER DETALLES DEL USUARIO -->
+<div id="userModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3>👤 Detalles del Usuario</h3>
+      <button class="modal-close-btn" onclick="cerrarModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+      <!-- SECCIÓN MATERIAS -->
+<div id="materiasSection" class="section">
+  <div class="admin-panel">
+    <div class="panel-header">
+      <h3>📚 Gestión de Materias</h3>
+      <button class="btn-add" id="btnAgregarMateria">+ Agregar Materia</button>
+    </div>
+    
+    <!-- BARRA DE BÚSQUEDA DE MATERIAS -->
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="10" cy="10" r="7"/>
+          <line x1="21" y1="21" x2="15" y2="15"/>
+        </svg>
+        <input type="text" id="searchMateria" placeholder="Buscar materia..." class="search-input">
+      </div>
+    </div>
+    
+    <div class="materia-list" id="materiaList">
+      <div class="materia-item">Cargando materias...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA AGREGAR/EDITAR MATERIA -->
+<div id="materiaModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 id="materiaModalTitle">📚 Agregar Materia</h3>
+      <button class="modal-close-btn" onclick="cerrarMateriaModal()">✕</button>
+    </div>
+    <div class="modal-body" id="materiaModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA ASIGNAR DOCENTE -->
+<div id="asignarDocenteModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3>👨‍🏫 Asignar Docente</h3>
+      <button class="modal-close-btn" onclick="cerrarAsignarDocenteModal()">✕</button>
+    </div>
+    <div class="modal-body" id="asignarDocenteModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA MATRICULAR ESTUDIANTES -->
+<div id="matricularEstudianteModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3>📝 Matricular Estudiantes</h3>
+      <button class="modal-close-btn" onclick="cerrarMatricularModal()">✕</button>
+    </div>
+    <div class="modal-body" id="matricularModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA VER ESTUDIANTES MATRICULADOS -->
+<div id="verEstudiantesModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3>👨‍🎓 Estudiantes Matriculados</h3>
+      <button class="modal-close-btn" onclick="cerrarVerEstudiantesModal()">✕</button>
+    </div>
+    <div class="modal-body" id="verEstudiantesModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA BUSCAR DOCENTE (para asignar) -->
+<div id="buscarDocenteModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>🔍 Buscar Docente</h3>
+      <button class="modal-close-btn" onclick="cerrarBuscarDocenteModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="search-bar" style="margin-bottom: 20px;">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="10" cy="10" r="7"/>
+            <line x1="21" y1="21" x2="15" y2="15"/>
+          </svg>
+          <input type="text" id="buscarDocenteInput" placeholder="Buscar por nombre o email..." class="search-input">
+        </div>
+      </div>
+      <div id="listaDocentesBusqueda" style="max-height: 300px; overflow-y: auto;">
+        <div class="user-item">Cargando docentes...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA BUSCAR ESTUDIANTE (para matricular) -->
+<div id="buscarEstudianteMatriculaModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>🔍 Buscar Estudiante</h3>
+      <button class="modal-close-btn" onclick="cerrarBuscarEstudianteMatriculaModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="search-bar" style="margin-bottom: 20px;">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="10" cy="10" r="7"/>
+            <line x1="21" y1="21" x2="15" y2="15"/>
+          </svg>
+          <input type="text" id="buscarEstudianteMatriculaInput" placeholder="Buscar por nombre o email..." class="search-input">
+        </div>
+      </div>
+      <div id="listaEstudiantesMatriculaBusqueda" style="max-height: 300px; overflow-y: auto;">
+        <div class="user-item">Cargando estudiantes...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN CALIFICACIONES -->
+<div id="calificacionesSection" class="section">
+  <div class="admin-panel">
+    <div class="panel-header">
+      <h3>📝 Gestión de Calificaciones</h3>
+      <button class="btn-add" id="btnRegistrarCalificacion">+ Registrar Calificación</button>
+    </div>
+    
+    <!-- BARRA DE BÚSQUEDA Y FILTROS -->
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="10" cy="10" r="7"/>
+          <line x1="21" y1="21" x2="15" y2="15"/>
+        </svg>
+        <input type="text" id="searchCalificacion" placeholder="Buscar por estudiante o materia..." class="search-input">
+      </div>
+      <select id="filtroMateriaCalificacion" class="filter-select">
+        <option value="todos">Todas las materias</option>
+      </select>
+    </div>
+    
+    <div class="calificaciones-list" id="calificacionesList">
+      <div class="calificacion-item">Cargando calificaciones...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA REGISTRAR/EDITAR CALIFICACIÓN -->
+<div id="calificacionModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3 id="calificacionModalTitle">📝 Registrar Calificación</h3>
+      <button class="modal-close-btn" onclick="cerrarCalificacionModal()">✕</button>
+    </div>
+    <div class="modal-body" id="calificacionModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA BUSCAR ESTUDIANTE -->
+<div id="buscarEstudianteModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>🔍 Buscar Estudiante</h3>
+      <button class="modal-close-btn" onclick="cerrarBuscarEstudianteModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="search-bar" style="margin-bottom: 20px;">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="10" cy="10" r="7"/>
+            <line x1="21" y1="21" x2="15" y2="15"/>
+          </svg>
+          <input type="text" id="buscarEstudianteInput" placeholder="Buscar por nombre o email..." class="search-input">
+        </div>
+      </div>
+      <div id="listaEstudiantesBusqueda" style="max-height: 300px; overflow-y: auto;">
+        <div class="user-item">Cargando estudiantes...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA BUSCAR MATERIA -->
+<div id="buscarMateriaModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>🔍 Buscar Materia</h3>
+      <button class="modal-close-btn" onclick="cerrarBuscarMateriaModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="search-bar" style="margin-bottom: 20px;">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="10" cy="10" r="7"/>
+            <line x1="21" y1="21" x2="15" y2="15"/>
+          </svg>
+          <input type="text" id="buscarMateriaInput" placeholder="Buscar por nombre..." class="search-input">
+        </div>
+      </div>
+      <div id="listaMateriasBusqueda" style="max-height: 300px; overflow-y: auto;">
+        <div class="materia-item">Cargando materias...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- SECCIÓN GRUPOS -->
+<div id="gruposSection" class="section">
+  <div class="admin-panel">
+    <div class="panel-header">
+      <h3>👥 Gestión de Grupos</h3>
+      <button class="btn-add" id="btnCrearGrupo">+ Crear Grupo</button>
+    </div>
+    
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="10" cy="10" r="7"/>
+          <line x1="21" y1="21" x2="15" y2="15"/>
+        </svg>
+        <input type="text" id="searchGrupo" placeholder="Buscar grupo..." class="search-input">
+      </div>
+    </div>
+    
+    <div class="grupo-list" id="grupoList">
+      <div class="grupo-item">Cargando grupos...</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA AGREGAR/EDITAR GRUPO -->
+<div id="grupoModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 550px;">
+    <div class="modal-header">
+      <h3 id="grupoModalTitle">👥 Crear Grupo</h3>
+      <button class="modal-close-btn" onclick="cerrarGrupoModal()">✕</button>
+    </div>
+    <div class="modal-body" id="grupoModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA ASIGNAR DOCENTE A GRUPO -->
+<div id="asignarDocenteGrupoModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>👨‍🏫 Asignar Docente a Grupo</h3>
+      <button class="modal-close-btn" onclick="cerrarAsignarDocenteGrupoModal()">✕</button>
+    </div>
+    <div class="modal-body" id="asignarDocenteGrupoModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA ASIGNAR ESTUDIANTES A GRUPO -->
+<div id="asignarEstudianteGrupoModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3>👨‍🎓 Asignar Estudiantes a Grupo</h3>
+      <button class="modal-close-btn" onclick="cerrarAsignarEstudianteGrupoModal()">✕</button>
+    </div>
+    <div class="modal-body" id="asignarEstudianteGrupoModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA VER ESTUDIANTES DEL GRUPO -->
+<div id="verEstudiantesGrupoModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 600px;">
+    <div class="modal-header">
+      <h3>👨‍🎓 Estudiantes del Grupo</h3>
+      <button class="modal-close-btn" onclick="cerrarVerEstudiantesGrupoModal()">✕</button>
+    </div>
+    <div class="modal-body" id="verEstudiantesGrupoModalBody">
+      <!-- Contenido dinámico -->
+    </div>
+  </div>
+</div>
+
+<!-- MODALES DE BÚSQUEDA REUTILIZABLES -->
+<div id="buscarMateriaGrupoModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>🔍 Buscar Materia</h3>
+      <button class="modal-close-btn" onclick="cerrarBuscarMateriaGrupoModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="search-bar" style="margin-bottom: 20px;">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="10" cy="10" r="7"/>
+            <line x1="21" y1="21" x2="15" y2="15"/>
+          </svg>
+          <input type="text" id="buscarMateriaGrupoInput" placeholder="Buscar por nombre..." class="search-input">
+        </div>
+      </div>
+      <div id="listaMateriasGrupoBusqueda" style="max-height: 300px; overflow-y: auto;">
+        <div class="materia-item">Cargando materias...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="buscarDocenteGrupoModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>🔍 Buscar Docente</h3>
+      <button class="modal-close-btn" onclick="cerrarBuscarDocenteGrupoModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="search-bar" style="margin-bottom: 20px;">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="10" cy="10" r="7"/>
+            <line x1="21" y1="21" x2="15" y2="15"/>
+          </svg>
+          <input type="text" id="buscarDocenteGrupoInput" placeholder="Buscar por nombre o email..." class="search-input">
+        </div>
+      </div>
+      <div id="listaDocentesGrupoBusqueda" style="max-height: 300px; overflow-y: auto;">
+        <div class="user-item">Cargando docentes...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../JS/dashboard-admin.js"></script>
+</body>
+</html>
