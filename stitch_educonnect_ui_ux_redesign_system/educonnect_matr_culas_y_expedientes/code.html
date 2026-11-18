@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-surface":"#171c21","error-container":"#ffdad6","primary":"#0045d0","on-tertiary-fixed-variant":"#004395","on-secondary-container":"#535f7d","inverse-primary":"#b6c4ff","primary-fixed":"#dce1ff","on-primary-fixed-variant":"#003ab1","surface-container-highest":"#dfe3ea","tertiary-fixed":"#d8e2ff","on-tertiary-container":"#ebefff","surface":"#f7f9ff","on-secondary-fixed":"#0e1b36","on-surface-variant":"#434656","on-secondary-fixed-variant":"#3b4664","surface-container-low":"#f0f4fb","on-error":"#ffffff","tertiary-fixed-dim":"#adc6ff","inverse-on-surface":"#edf1f8","primary-fixed-dim":"#b6c4ff","secondary-container":"#ced9fe","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","on-primary-container":"#edeeff","tertiary-container":"#0c68db","outline":"#737688","secondary":"#525e7d","on-error-container":"#93000a","inverse-surface":"#2c3136","secondary-fixed":"#d9e2ff","outline-variant":"#c3c5d9","tertiary":"#0050af","surface-bright":"#f7f9ff","on-primary":"#ffffff","surface-variant":"#dfe3ea","on-background":"#171c21","on-tertiary":"#ffffff","on-primary-fixed":"#001550","surface-container":"#eaeef5","surface-tint":"#004ee7","surface-dim":"#d6dae1","on-tertiary-fixed":"#001a42","secondary-fixed-dim":"#bac6e9","surface-container-high":"#e4e8ef","error":"#ba1a1a","background":"#f7f9ff","primary-container":"#175cff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","margin-mobile":"1rem","space-md":"1rem","space-lg":"1.5rem","margin":"2rem","space-xl":"2rem","space-xs":"0.25rem","gutter":"1.5rem","gutter-mobile":"1rem"},"fontFamily":{"metric-display":["Plus Jakarta Sans"],"body-lg":["Inter"],"body-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-xl-mobile":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"label-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-sm":["Inter"]},"fontSize":{"metric-display":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"headline-xl-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"display-lg-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-inverse-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full overflow-hidden"><div class="px-space-lg pt-space-lg pb-space-md flex flex-col gap-space-md"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-headline-sm">school</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-surface tracking-tight leading-none">EduConnect</span><span class="font-label-sm text-label-sm text-outline-variant tracking-wider uppercase mt-1">Campus Central</span></div></div><span class="font-label-sm text-label-sm bg-surface/10 text-tertiary-fixed px-2 py-0.5 rounded-full">v3.4 Enterprise</span></div><div class="bg-surface/5 p-space-sm rounded-lg flex items-center justify-between cursor-pointer hover:bg-surface/10 transition-colors"><div class="flex items-center gap-space-sm overflow-hidden"><div class="w-7 h-7 rounded bg-secondary-container/20 flex items-center justify-center text-secondary-fixed flex-shrink-0"><span class="material-symbols-outlined text-body-sm">admin_panel_settings</span></div><div class="flex flex-col truncate"><span class="font-label-md text-label-md text-surface truncate">Rectoría · Sede Central</span><span class="font-label-sm text-label-sm text-outline-variant">Periodo Lectivo 2025</span></div></div><span class="material-symbols-outlined text-outline-variant text-body-sm">unfold_more</span></div></div><div class="flex-1 overflow-y-auto px-space-md py-space-sm flex flex-col gap-space-lg"><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><div class="px-3 pb-1 pt-2 font-label-sm text-label-sm text-outline-variant tracking-wider uppercase">Gestión Académica</div><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="dashboard-general" href="#"><span class="material-symbols-outlined text-headline-sm">dashboard</span><span>Dashboard General</span></a><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="matriculas-y-expedientes" href="#"><span class="material-symbols-outlined text-headline-sm">folder_shared</span><span>Matrículas &amp; Expedientes</span></a><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="planes-de-estudio" href="#"><span class="material-symbols-outlined text-headline-sm">menu_book</span><span>Planes de Estudio &amp; Currículo</span></a><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="calificaciones-y-evaluaciones" href="#"><span class="material-symbols-outlined text-headline-sm">assignment_turned_in</span><span>Calificaciones &amp; Evaluaciones</span></a></nav><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><div class="px-3 pb-1 pt-2 font-label-sm text-label-sm text-outline-variant tracking-wider uppercase">Comunidad &amp; Roles</div><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="docentes-y-personal" href="#"><span class="material-symbols-outlined text-headline-sm">badge</span><span>Docentes &amp; Personal</span></a><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="estudiantes-y-grupos" href="#"><span class="material-symbols-outlined text-headline-sm">groups</span><span>Estudiantes &amp; Grupos</span></a><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="acudientes-y-familias" href="#"><span class="material-symbols-outlined text-headline-sm">family_restroom</span><span>Acudientes &amp; Familias</span></a></nav><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><div class="px-3 pb-1 pt-2 font-label-sm text-label-sm text-outline-variant tracking-wider uppercase">Administración &amp; Finanzas</div><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="pagos-y-facturacion" href="#"><span class="material-symbols-outlined text-headline-sm">receipt_long</span><span>Pagos &amp; Facturación</span></a><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="auditoria-y-seguridad" href="#"><span class="material-symbols-outlined text-headline-sm">verified_user</span><span>Auditoría &amp; Seguridad</span></a><a class="flex items-center gap-space-sm px-3 py-2 rounded-lg text-inverse-on-surface/70 hover:bg-surface/10 hover:text-surface transition-all font-body-sm text-body-sm" data-path="configuracion-institucional" href="#"><span class="material-symbols-outlined text-headline-sm">settings</span><span>Configuración Institucional</span></a></nav></div></div><div class="p-space-md m-space-md rounded-lg bg-surface/5 flex flex-col gap-space-sm"><div class="flex items-center justify-between text-outline-variant font-label-sm text-label-sm"><span>Almacenamiento Cloud</span><span class="text-surface font-semibold">4.2 GB / 10 GB</span></div><div class="w-full bg-surface/10 h-1.5 rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[42%]"></div></div><div class="flex items-center justify-between pt-1"><span class="flex items-center gap-1.5 font-label-sm text-label-sm text-outline-variant"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>Sistema Operativo</span><span class="font-label-sm text-label-sm text-emerald-400 font-semibold">99.9%</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-xl flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><img alt="EduConnect Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrCZK7dtzWuZZ0hpHbNhvAXWPUlTkPjljsVCWGEc7ifwh2RuKD7ImthPysS0GV36s3Sv-38i1NSzB30Z7sBalta0_NJwYjvKGWxmnTFrVQLdDzwawPHNU6pYm03nXdvWdMyFO7lKaEca8QSmDh0Z3A6YyjX405ABZjag1dmfYAeJ9dv_3chdMhnqhoxrsTFnnxY2kaVMAMDPxIKF4z2GqeS5Pd6ySrhv9wQik3yYfNA"/><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight hidden sm:inline">EduConnect</span></div><div class="hidden md:flex items-center gap-2 text-outline font-body-sm text-body-sm"><span class="hover:text-on-surface cursor-pointer transition-colors">Plataforma Institucional</span><span class="material-symbols-outlined text-body-sm">chevron_right</span><span class="text-primary font-medium">Campus Virtual</span></div></div><div class="flex items-center gap-space-md"><div class="relative hidden lg:flex items-center"><span class="material-symbols-outlined absolute left-3 text-outline text-body-md">search</span><input class="w-96 pl-10 pr-12 py-2 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" placeholder="Buscar alumnos, expedientes, docentes, actas..." type="text"/><kbd class="absolute right-3 px-1.5 py-0.5 rounded bg-surface-container font-label-sm text-label-sm text-outline-variant uppercase">⌘K</kbd></div><div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-tertiary text-body-md">calendar_month</span><span class="font-label-md text-label-md text-on-surface">Ciclo 2025-I</span><span class="material-symbols-outlined text-outline text-body-sm">expand_more</span></div><div class="flex items-center gap-1"><button class="relative p-2 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-headline-sm">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button><button class="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-headline-sm">help_outline</span></button></div><div class="h-8 w-px bg-surface-container-high mx-1 hidden sm:block"></div><div class="flex items-center gap-space-sm pl-1 cursor-pointer"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0FiwxVLliY3yGNDJJy8hX99UjK6bAa1v7yCGVd_ep_AvtJL_IyNQVgCXmKaOb31g9x404ebhV8f6q-3BpIdO5joA5yrFnmaFnug1_ZExGel6zJ6wioj_is07xbvvJyIxUy1Y2kxe4qy_AjomdhVOkWdGcC0nlGVEv2WquXPBdhm5CbF2Hv5XYoloIMnvzKHcdk_aaMMfNQkVvYMPRpW4gWBYY3veY0N29hz_8hQw"/><div class="hidden xl:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Dra. Elena Valenzuela</span><span class="font-label-sm text-label-sm text-outline leading-tight">Rectora Institucional</span></div><span class="material-symbols-outlined text-outline text-body-sm hidden xl:block">arrow_drop_down</span></div></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-space-xl py-space-lg flex flex-col gap-space-lg">
+<!-- Header de Módulo y Métricas Clave -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm mb-1">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm tracking-wide">
+            Admisiones &amp; Ciclo Activo 2025
+          </span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> 99.4% Expedientes Verificados
+          </span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+          Matrículas y Expedientes Estudiantiles
+        </h1>
+<p class="font-body-md text-body-md text-secondary max-w-2xl mt-0.5">
+          Gestione admisiones, historial académico, documentación oficial, firmas biométricas y estados de legalización institucional.
+        </p>
+</div>
+<!-- Acciones Principales -->
+<div class="flex items-center gap-space-sm self-start lg:self-center">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-body-lg">upload_file</span>
+<span>Carga Masiva (CSV / SIS)</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-all shadow-md hover:shadow-lg hover:scale-[1.01]" type="button">
+<span class="material-symbols-outlined text-body-lg">person_add</span>
+<span>Matricular Estudiante</span>
+</button>
+</div>
+</div>
+<!-- Quick Filter Pills con Contadores -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-inverse-surface text-surface font-label-md text-label-md shadow-sm transition-all flex-shrink-0">
+<span>Todos</span>
+<span class="px-2 py-0.2 rounded-full bg-surface/20 text-surface text-label-sm font-label-sm">3,842</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-all flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Matriculados</span>
+<span class="px-2 py-0.2 rounded-full bg-surface-container text-on-surface text-label-sm font-label-sm">3,610</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-all flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>Pendiente Documentación</span>
+<span class="px-2 py-0.2 rounded-full bg-amber-100 text-amber-900 text-label-sm font-label-sm">142</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-all flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>En Proceso de Admisión</span>
+<span class="px-2 py-0.2 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-label-sm font-label-sm">78</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-all flex-shrink-0">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Inactivos / Retirados</span>
+<span class="px-2 py-0.2 rounded-full bg-error-container text-on-error-container text-label-sm font-label-sm">12</span>
+</button>
+</div>
+<!-- Mini Paneles Analíticos Clave del Ciclo 2025 -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Meta Institucional Cupos</span>
+<div class="w-7 h-7 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-body-md">target</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-metric-display text-metric-display text-on-surface">94.0%</span>
+<span class="font-label-sm text-label-sm text-emerald-600 font-semibold">+4.2% vs 2024</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-primary h-full w-[94%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Legalización Financiera</span>
+<div class="w-7 h-7 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-body-md">account_balance_wallet</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-metric-display text-metric-display text-on-surface">3,520</span>
+<span class="font-body-sm text-body-sm text-secondary">/ 3,842 al día</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-emerald-500 h-full w-[91.6%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Expedientes con Alerta</span>
+<div class="w-7 h-7 rounded-lg bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined text-body-md">notification_important</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-metric-display text-metric-display text-error">24</span>
+<span class="font-label-sm text-label-sm text-error font-semibold">Requieren auditoría</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-error h-full w-[12%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Firmas Digitales Pagaré</span>
+<div class="w-7 h-7 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-body-md">draw</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline gap-2">
+<span class="font-metric-display text-metric-display text-on-surface">98.1%</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Validadas OTP</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-2">
+<div class="bg-tertiary-container h-full w-[98.1%]"></div>
+</div>
+</div>
+</div>
+<!-- Barra de Filtros Avanzados y Control de Vista -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Input de búsqueda -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-body-lg">search</span>
+<input class="w-full pl-11 pr-4 py-2.5 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all" id="expedienteSearch" placeholder="Buscar por nombre, documento (TI / CC), código de matrícula o acudiente..." type="text"/>
+</div>
+<!-- Selectores en fila -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-secondary text-body-md">school</span>
+<span class="font-label-md text-label-md text-on-surface">Grado: 11° Bachillerato</span>
+<span class="material-symbols-outlined text-outline text-body-sm">expand_more</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-secondary text-body-md">domain</span>
+<span class="font-label-md text-label-md text-on-surface">Campus Central</span>
+<span class="material-symbols-outlined text-outline text-body-sm">expand_more</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-low rounded-lg cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-secondary text-body-md">verified</span>
+<span class="font-label-md text-label-md text-on-surface">Documentación: Todas</span>
+<span class="material-symbols-outlined text-outline text-body-sm">expand_more</span>
+</div>
+<div class="h-6 w-px bg-surface-container-high mx-1 hidden sm:block"></div>
+<button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" title="Exportar Reporte Oficial" type="button">
+<span class="material-symbols-outlined text-body-lg">sim_card_download</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-colors" title="Filtrar Campos" type="button">
+<span class="material-symbols-outlined text-body-lg">tune</span>
+</button>
+</div>
+</div>
+<!-- Tabla Principal de Expedientes Estudiantiles -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3.5 px-space-md font-semibold">Estudiante &amp; ID</th>
+<th class="py-3.5 px-space-md font-semibold">Grado / Sección</th>
+<th class="py-3.5 px-space-md font-semibold">Acudiente Principal</th>
+<th class="py-3.5 px-space-md font-semibold text-center">Rendimiento (PGA)</th>
+<th class="py-3.5 px-space-md font-semibold">Documentación Oficial</th>
+<th class="py-3.5 px-space-md font-semibold">Estado Matrícula</th>
+<th class="py-3.5 px-space-md font-semibold text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-sm text-body-sm text-on-surface" id="studentsTableBody">
+<!-- Registro 1: Sofía Montoya -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-xs flex-shrink-0" data-alt="Close up portrait photograph of an intelligent Latin high school student girl with dark brown wavy hair, wearing a navy blue school uniform blazer, neutral high-end studio lighting, crisp sharpness" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUin_L6XcXErRnBZ0QawjSzsMJCHre6VqPh9bzybuL_hLEtOBIHzKZ0jCh7VDQeJTT-tBwp8OME5_4l2zBO4ZHLWLPQWHUWVrvp1VWHgKmUuAUcdpcNDEgZx2IXex6gPl_5sLjoErjYDVJoKSWZyoArj5ohHjhh1Wl5WIdfg2NogNod6OpmnOV-DgtbzAQaex0kM2nRnJC0Ampyfl3B2BB5KCtOfJrQhWA6V86Hu4"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight leading-snug truncate">
+                      Sofía Montoya Rivas
+                    </span>
+<span class="font-label-sm text-label-sm text-secondary truncate">
+                      TI: 1.034.892.411 • COD: EDU-2025-0914
+                    </span>
+<span class="font-label-sm text-label-sm text-primary truncate">
+                      sofia.montoya@educonnect.edu
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col items-start gap-1">
+<span class="px-2.5 py-1 rounded bg-secondary-container/40 text-on-secondary-fixed font-label-md text-label-md font-semibold">
+                    11° Grado · Grupo A
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Bachillerato Bilingüe</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Carlos Montoya V.</span>
+<span class="font-label-sm text-label-sm text-secondary">+57 (310) 844-9021 • Padre</span>
+<span class="font-label-sm text-label-sm text-emerald-600 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Pago Matrícula OK
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">4.8 <span class="font-body-sm text-body-sm text-secondary font-normal">/ 5.0</span></span>
+<div class="w-20 bg-surface-container h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-emerald-500 h-full w-[96%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">Top 5% Promoción</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completa (10/10)
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">EPS • Pagaré • Paz y Salvo</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-body-sm text-emerald-600">verified</span>
+                  Oficializada
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" onclick="openStudentDrawer('Sofía Montoya Rivas', 'EDU-2025-0914', '11° Grado · Grupo A', '4.8', 'Oficializada', 'Carlos Montoya V.')" title="Ver Expediente 360°" type="button">
+<span class="material-symbols-outlined text-body-lg">folder_shared</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Carnet Digital QR" type="button">
+<span class="material-symbols-outlined text-body-lg">badge</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Notificar Acudiente" type="button">
+<span class="material-symbols-outlined text-body-lg">mark_email_read</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Registro 2: Mateo Hernández -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-xs flex-shrink-0" data-alt="Professional studio portrait of a young male student in glasses smiling gently, dark short hair, wearing a white collared institutional shirt under deep blue knitwear, clean balanced lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGnSsYnaOtZD4vOyeEX_Kiwsqux_YJDOnu24R6FHR37JF1jKhZ_9EXotTbz1Tgbnk1uY7GDAEcqk3sDZ-gx9awQh1Zgrn_jyw_fMQeDzcbiMyBuTp1fwnaXnnPUhcT1GX3AbXpSE2I8uS76QbxWm-gLGRoU7V2A7gfebh9xkxNeTpGSt4vBFWlQEKkCCZ6rGJynfhhLEXBuKZPyZbWY7nd1AuKQl84JbdUs6g8eww"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight leading-snug truncate">
+                      Mateo Hernández Gil
+                    </span>
+<span class="font-label-sm text-label-sm text-secondary truncate">
+                      TI: 1.042.115.890 • COD: EDU-2025-1102
+                    </span>
+<span class="font-label-sm text-label-sm text-primary truncate">
+                      mateo.hernandez@educonnect.edu
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col items-start gap-1">
+<span class="px-2.5 py-1 rounded bg-secondary-container/40 text-on-secondary-fixed font-label-md text-label-md font-semibold">
+                    10° Grado · Grupo B
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Ciencias Naturales</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Patricia Gil de H.</span>
+<span class="font-label-sm text-label-sm text-secondary">+57 (314) 220-1940 • Madre</span>
+<span class="font-label-sm text-label-sm text-amber-600 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Convenio de Matrícula
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">4.2 <span class="font-body-sm text-body-sm text-secondary font-normal">/ 5.0</span></span>
+<div class="w-20 bg-surface-container h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-primary h-full w-[84%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">Desempeño Alto</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Falta Cert. Médico
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Plazo máx: 15 Feb 2025</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-body-sm text-amber-700">pending_actions</span>
+                  Condicional
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" onclick="openStudentDrawer('Mateo Hernández Gil', 'EDU-2025-1102', '10° Grado · Grupo B', '4.2', 'Condicional', 'Patricia Gil de H.')" title="Ver Expediente 360°" type="button">
+<span class="material-symbols-outlined text-body-lg">folder_shared</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Carnet Digital QR" type="button">
+<span class="material-symbols-outlined text-body-lg">badge</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Notificar Acudiente" type="button">
+<span class="material-symbols-outlined text-body-lg">mark_email_read</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Registro 3: Valentina Duarte -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-xs flex-shrink-0" data-alt="Portrait photography of a focused female teenage student with tied hair, bright brown eyes, sitting in an academic technology laboratory with subtle background blur, high editorial prestige" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsvqFk1-CMiRFMk79tKVpTjz-xXzqG0h_niwlUCrA5rD5g5AB4w3TnFjTsWrql074_qcosPKdKsyeq05jiLglzJrrCkI4yYFuiFbdNleT4NT2DoTzIeqGPc6lneh7f05JJHcj0k93_Spc2-x2vKEehRXOVbz0KfwQ70AdRRpNXp8kdqNFdPdjJvUsrzBt8B0x6Hpr6l3R4V7qkj6fUQy3WX4qDiGHLNK0FZSMe7F4"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight leading-snug truncate">
+                      Valentina Duarte Cañas
+                    </span>
+<span class="font-label-sm text-label-sm text-secondary truncate">
+                      TI: 1.055.789.201 • COD: EDU-2025-1440
+                    </span>
+<span class="font-label-sm text-label-sm text-primary truncate">
+                      valentina.duarte@educonnect.edu
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col items-start gap-1">
+<span class="px-2.5 py-1 rounded bg-secondary-container/40 text-on-secondary-fixed font-label-md text-label-md font-semibold">
+                    11° Grado · Grupo C
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Robótica &amp; Computación</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Ing. Rodrigo Duarte</span>
+<span class="font-label-sm text-label-sm text-secondary">+57 (301) 980-4521 • Padre</span>
+<span class="font-label-sm text-label-sm text-emerald-600 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Matrícula Anual Prepaga
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">4.9 <span class="font-body-sm text-body-sm text-secondary font-normal">/ 5.0</span></span>
+<div class="w-20 bg-surface-container h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-emerald-500 h-full w-[98%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">Matrícula de Honor</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completa (10/10)
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Cert. Internacional TOEFL</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-body-sm text-emerald-600">verified</span>
+                  Oficializada
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" onclick="openStudentDrawer('Valentina Duarte Cañas', 'EDU-2025-1440', '11° Grado · Grupo C', '4.9', 'Oficializada', 'Ing. Rodrigo Duarte')" title="Ver Expediente 360°" type="button">
+<span class="material-symbols-outlined text-body-lg">folder_shared</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Carnet Digital QR" type="button">
+<span class="material-symbols-outlined text-body-lg">badge</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Notificar Acudiente" type="button">
+<span class="material-symbols-outlined text-body-lg">mark_email_read</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Registro 4: Daniel Alejandro Silva (Nuevo Aspirante) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-xs flex-shrink-0" data-alt="Atmospheric documentary portrait of a young Hispanic high school boy looking curiously towards the camera in a modern architectural library corridor, warm ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU7776jf5f_LiGsW5C3m0dRIs3hHa8wid-sXsbi-CaG9XFYdiUwuuqFY2n0KHGHOscues6i4j-XIdKccvfz3NbfiI_L0Hu0tqaNpVB55qLc2TYW7R-xf5OSEWX0z1pjfyoSXzCUI1UiNWdPEbMljQrscZAH14Uwp9U4mXRZkMMzTP15nQxXT2mbgU5SPlUUxpooHo4BxucVaMYe_HeitI_UelJ4rBOmbxU0OolJ_o"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight leading-snug truncate">
+                      Daniel Silva Osorio
+                    </span>
+<span class="font-label-sm text-label-sm text-secondary truncate">
+                      TI: 1.066.302.199 • COD: EDU-ADM-2025-042
+                    </span>
+<span class="font-label-sm text-label-sm text-tertiary truncate">
+                      daniel.silva.aspirante@educonnect.edu
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col items-start gap-1">
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface-variant font-label-md text-label-md font-semibold">
+                    10° Grado · (Asignación Pendiente)
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Aspirante Nuevo</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Mariana Osorio T.</span>
+<span class="font-label-sm text-label-sm text-secondary">+57 (318) 775-6012 • Madre</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Entrevista Aprobada
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">4.4 <span class="font-body-sm text-body-sm text-secondary font-normal">/ 5.0</span></span>
+<div class="w-20 bg-surface-container h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-primary h-full w-[88%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">Colegio Procedencia</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> En Revisión Legal (7/10)
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Paz y Salvo Colegio Anterior</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed/80 text-on-primary-fixed font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-body-sm text-primary">hourglass_top</span>
+                  En Admisión
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" onclick="openStudentDrawer('Daniel Silva Osorio', 'EDU-ADM-2025-042', '10° Grado · Por Asignar', '4.4', 'En Admisión', 'Mariana Osorio T.')" title="Ver Expediente 360°" type="button">
+<span class="material-symbols-outlined text-body-lg">folder_shared</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Carnet Digital QR" type="button">
+<span class="material-symbols-outlined text-body-lg">badge</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Notificar Acudiente" type="button">
+<span class="material-symbols-outlined text-body-lg">mark_email_read</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Registro 5: Lucía Restrepo Méndez -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group">
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-xs flex-shrink-0" data-alt="Editorial portrait photograph of a confident young high school senior girl with curly brown hair, standing near university campus glass windows, sunlight streaming through, sharp clear focal depth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb0PDQzGmeYdfFGGOhLrnaFIA1Uj8kzGhLVsr5Di0p7gySF-5iuURN0vOQy26W8DloejYAUmw8DwYmFXubWBORRLDidOLCKZtSSWeq7ALlwdL7wZ2O0PQ5b5ibXGOMOOZLcNxr6E1kEpOnn1t8Vj3zZntFPjT2WI5g0Qs5s8h7cIvOF1uTEp-909ZsQOi6uNR8uMaLcNC-2gdXFNgsfUudjNoRJRB8KC4231pOdTM"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold tracking-tight leading-snug truncate">
+                      Lucía Restrepo Méndez
+                    </span>
+<span class="font-label-sm text-label-sm text-secondary truncate">
+                      TI: 1.077.452.903 • COD: EDU-2025-1038
+                    </span>
+<span class="font-label-sm text-label-sm text-primary truncate">
+                      lucia.restrepo@educonnect.edu
+                    </span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col items-start gap-1">
+<span class="px-2.5 py-1 rounded bg-secondary-container/40 text-on-secondary-fixed font-label-md text-label-md font-semibold">
+                    11° Grado · Grupo B
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Artes y Humanidades</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Dra. Claudia Méndez</span>
+<span class="font-label-sm text-label-sm text-secondary">+57 (312) 654-1088 • Madre</span>
+<span class="font-label-sm text-label-sm text-emerald-600 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Pago de Matrícula OK
+                  </span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<div class="inline-flex flex-col items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">4.7 <span class="font-body-sm text-body-sm text-secondary font-normal">/ 5.0</span></span>
+<div class="w-20 bg-surface-container h-1.5 rounded-full overflow-hidden mt-1">
+<div class="bg-emerald-500 h-full w-[94%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-secondary mt-0.5">Cuadro de Honor</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completa (10/10)
+                  </span>
+<span class="font-label-sm text-label-sm text-secondary">Firma Electrónica Verificada</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-800 font-label-md text-label-md font-semibold">
+<span class="material-symbols-outlined text-body-sm text-emerald-600">verified</span>
+                  Oficializada
+                </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" onclick="openStudentDrawer('Lucía Restrepo Méndez', 'EDU-2025-1038', '11° Grado · Grupo B', '4.7', 'Oficializada', 'Dra. Claudia Méndez')" title="Ver Expediente 360°" type="button">
+<span class="material-symbols-outlined text-body-lg">folder_shared</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Carnet Digital QR" type="button">
+<span class="material-symbols-outlined text-body-lg">badge</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" title="Notificar Acudiente" type="button">
+<span class="material-symbols-outlined text-body-lg">mark_email_read</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Paginación y Estado de Registros -->
+<div class="px-space-md py-3.5 bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm text-secondary font-label-md text-label-md">
+<div class="flex items-center gap-2">
+<span>Mostrando <span class="font-semibold text-on-surface">1 - 5</span> de <span class="font-semibold text-on-surface">3,842</span> expedientes</span>
+<span class="text-outline">•</span>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span>Filas por página:</span>
+<select class="bg-surface-container px-2 py-0.5 rounded text-on-surface font-semibold focus:outline-none">
+<option>10</option>
+<option selected="">25</option>
+<option>50</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-surface-container text-secondary disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-body-md">first_page</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined text-body-md">chevron_left</span>
+</button>
+<span class="px-3 py-1 rounded bg-primary text-on-primary font-bold text-label-sm">1</span>
+<button class="px-3 py-1 rounded hover:bg-surface-container text-on-surface text-label-sm font-semibold">2</button>
+<button class="px-3 py-1 rounded hover:bg-surface-container text-on-surface text-label-sm font-semibold">3</button>
+<span class="text-outline px-1">...</span>
+<button class="px-3 py-1 rounded hover:bg-surface-container text-on-surface text-label-sm font-semibold">154</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary">
+<span class="material-symbols-outlined text-body-md">chevron_right</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container text-secondary">
+<span class="material-symbols-outlined text-body-md">last_page</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Módulo Inferior: Protocolo de Legalización y Auditoría Rápida -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg mb-space-lg">
+<!-- Panel de Verificación de Cupos por Sedes -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Capacidad por Sede 2025</h3>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Tiempo Real</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">
+            Monitoreo de disponibilidad de infraestructura y ratios de matrícula por aula física.
+          </p>
+<div class="flex flex-col gap-space-sm">
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1">
+<span class="text-on-surface">Campus Central • Secundaria</span>
+<span class="font-semibold text-on-surface">1,420 / 1,450 (98%)</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[98%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1">
+<span class="text-on-surface">Campus Norte • Primaria</span>
+<span class="font-semibold text-on-surface">1,180 / 1,200 (98.3%)</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full w-[98.3%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-1">
+<span class="text-on-surface">Sede Tecnológica • Bachillerato Técnico</span>
+<span class="font-semibold text-on-surface">1,010 / 1,200 (84%)</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[84%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between border-t border-surface-container mt-space-md">
+<span class="font-label-sm text-label-sm text-secondary">Cupos totales disponibles: <span class="font-bold text-on-surface">240</span></span>
+<button class="font-label-md text-label-md text-primary hover:underline font-semibold flex items-center gap-0.5">
+<span>Gestionar cupos</span>
+<span class="material-symbols-outlined text-body-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Validador Biométrico & Firma Electrónica Segura -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Firma Digital &amp; Biometría</h3>
+<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold">Auditado ISO 27001</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">
+            Pagarés financieros y contratos de matrícula validados mediante firma criptográfica y reconocimiento facial.
+          </p>
+<div class="p-space-sm bg-surface-container-low rounded-lg flex items-center gap-space-sm mb-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary flex-shrink-0">
+<span class="material-symbols-outlined text-headline-sm">fingerprint</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">3,769 Contratos Legalizados</span>
+<span class="font-label-sm text-label-sm text-secondary">Token OTP y Estampa Cronológica Certificada</span>
+</div>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-800 flex-shrink-0">
+<span class="material-symbols-outlined text-headline-sm">draw</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-semibold truncate">73 Pendientes por Firma de Acudiente</span>
+<span class="font-label-sm text-label-sm text-secondary">Recordatorio por WhatsApp/Email activo</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md">
+<button class="w-full py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-body-md">send</span>
+<span>Reenviar Notificaciones Masivas</span>
+</button>
+</div>
+</div>
+<!-- Centro de Descarga de Documentación Oficial -->
+<div class="bg-gradient-to-br from-surface-container-lowest to-surface-container-low rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Actas &amp; Libro de Matrículas</h3>
+<span class="material-symbols-outlined text-primary">auto_stories</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-space-md">
+            Generación y foliado automático para radicación ante el Ministerio de Educación e inspección y vigilancia.
+          </p>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-body-lg">description</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Libro General de Matrículas 2025</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary cursor-pointer hover:underline">PDF Oficial</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-body-lg">badge</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Lote de Carnets Estudiantiles NFC</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary cursor-pointer hover:underline">ZIP (3,610)</span>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest shadow-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-body-lg">verified_user</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Certificados de Matrícula en Bloque</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary cursor-pointer hover:underline">Generar</span>
+</div>
+</div>
+</div>
+<div class="pt-space-md mt-space-md">
+<button class="w-full py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-md text-label-md font-semibold transition-all shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-body-md">assignment_turned_in</span>
+<span>Cierre &amp; Foliado Folio Central</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Deslizante Lateral de Vista Rápida del Expediente 360° -->
+<div class="fixed inset-y-0 right-0 w-full max-w-lg bg-surface-container-lowest shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between overflow-y-auto" id="studentPreviewDrawer">
+<div class="p-space-lg flex flex-col gap-space-lg">
+<!-- Drawer Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-body-lg">folder_shared</span>
+</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Expediente Integral 360°</h2>
+<span class="font-label-sm text-label-sm text-secondary">Registro Académico Institucional</span>
+</div>
+</div>
+<button class="p-2 rounded-lg hover:bg-surface-container text-secondary hover:text-on-surface transition-colors" onclick="closeStudentDrawer()" type="button">
+<span class="material-symbols-outlined text-body-lg">close</span>
+</button>
+</div>
+<!-- Perfil Rápido -->
+<div class="p-space-md bg-surface-container-low rounded-xl flex items-center gap-space-md">
+<img class="w-16 h-16 rounded-xl object-cover shadow-sm" data-alt="Close up photograph portrait of an outstanding female high school student in pristine uniform, smart ambient study hall lighting, confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXURxwyfXlbjTnSJ8ipHXqCbEVlTDxpqeEdAoBUdowAaIXNvXaeNfLhRMu_KurkEHHS_pzxRq9FyLN-_vMB91i7fcMKO2_3A2QfuU03RR_Qgr6lpRtYG0R6AuELaEgDZkz4820wtkbQzLSZYZfXVkEry4eL1kQPJOXpbh_MLhiOzkMhhKfQjeMZq7zaMkFCsuJQxCpvG1Lq-r1rcZ2HUZKHbfDn195iCsDMxUWDK8"/>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold" id="drawerStudentName">Sofía Montoya Rivas</h3>
+<span class="font-label-sm text-label-sm text-secondary" id="drawerStudentCode">COD: EDU-2025-0914</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded bg-secondary-container/50 text-on-secondary-fixed font-label-sm text-label-sm font-semibold" id="drawerStudentGrade">11° Grado · Grupo A</span>
+<span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-semibold" id="drawerStudentStatus">Oficializada</span>
+</div>
+</div>
+</div>
+<!-- Resumen de Métricas del Alumno -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-sm bg-surface-container rounded-lg">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Promedio General</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-metric-display text-metric-display text-on-surface" id="drawerStudentPGA">4.8</span>
+<span class="font-label-sm text-label-sm text-emerald-600 font-semibold">Excelente</span>
+</div>
+</div>
+<div class="p-space-sm bg-surface-container rounded-lg">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Asistencia Ciclo</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-metric-display text-metric-display text-on-surface">99.2%</span>
+<span class="font-label-sm text-label-sm text-secondary">0 Inasistencias</span>
+</div>
+</div>
+</div>
+<!-- Acudiente y Contactos -->
+<div class="flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold tracking-wider">Acudiente Legal Designado</span>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold" id="drawerGuardianName">Carlos Montoya V.</span>
+<span class="font-label-sm text-label-sm text-secondary">Padre de Familia • Residencia: Calle 127 #45-10</span>
+</div>
+<button class="p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary">
+<span class="material-symbols-outlined text-body-md">call</span>
+</button>
+</div>
+</div>
+<!-- Checklist de Documentación Digitalizada -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold tracking-wider">Documentación de Expediente (10/10)</span>
+<span class="font-label-sm text-label-sm text-emerald-600 font-semibold">Verificado</span>
+</div>
+<div class="space-y-1.5 font-label-md text-label-md">
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+<span class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-body-md">check_circle</span>
+              Documento de Identidad (TI al 150%)
+            </span>
+<span class="font-label-sm text-label-sm text-secondary">PDF (1.2 MB)</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+<span class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-body-md">check_circle</span>
+              Certificado de Afiliación EPS Vigente
+            </span>
+<span class="font-label-sm text-label-sm text-secondary">PDF (840 KB)</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+<span class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-body-md">check_circle</span>
+              Contrato de Matrícula &amp; Pagaré Firmado
+            </span>
+<span class="font-label-sm text-label-sm text-emerald-600 font-semibold">Validado OTP</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+<span class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-emerald-600 text-body-md">check_circle</span>
+              Certificado Médico &amp; Tipo Sanguíneo
+            </span>
+<span class="font-label-sm text-label-sm text-secondary">PDF (2.1 MB)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Actions Bottom -->
+<div class="p-space-lg bg-surface-container-low flex items-center gap-space-sm border-t border-surface-container">
+<button class="flex-1 py-2.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-body-md">print</span>
+<span>Imprimir Carnet</span>
+</button>
+<button class="flex-1 py-2.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm" type="button">
+<span class="material-symbols-outlined text-body-md">open_in_new</span>
+<span>Editar Expediente</span>
+</button>
+</div>
+</div>
+<!-- Backdrop para el Drawer -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-xs z-40 hidden transition-opacity" id="drawerBackdrop" onclick="closeStudentDrawer()"></div>
+</div>
+<script>
+  function openStudentDrawer(name, code, grade, pga, status, guardian) {
+    document.getElementById('drawerStudentName').innerText = name;
+    document.getElementById('drawerStudentCode').innerText = 'COD: ' + code;
+    document.getElementById('drawerStudentGrade').innerText = grade;
+    document.getElementById('drawerStudentPGA').innerText = pga;
+    document.getElementById('drawerStudentStatus').innerText = status;
+    document.getElementById('drawerGuardianName').innerText = guardian;
+
+    const drawer = document.getElementById('studentPreviewDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    
+    drawer.classList.remove('translate-x-full');
+    backdrop.classList.remove('hidden');
+  }
+
+  function closeStudentDrawer() {
+    const drawer = document.getElementById('studentPreviewDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    
+    drawer.classList.add('translate-x-full');
+    backdrop.classList.add('hidden');
+  }
+
+  // Filtrado instantáneo en vivo sobre la tabla
+  document.getElementById('expedienteSearch').addEventListener('input', function(e) {
+    const query = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('#studentsTableBody tr');
+    
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      if(text.includes(query)) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+</script></main></div></body></html>

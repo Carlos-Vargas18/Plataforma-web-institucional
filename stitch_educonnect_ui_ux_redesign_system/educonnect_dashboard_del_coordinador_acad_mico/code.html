@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container-highest":"#dfe3ea","surface-container":"#eaeef5","outline-variant":"#c3c5d9","on-background":"#171c21","on-error-container":"#93000a","surface-container-lowest":"#ffffff","on-error":"#ffffff","primary":"#0045d0","on-surface-variant":"#434656","primary-fixed":"#dce1ff","on-tertiary-fixed":"#001a42","secondary-fixed-dim":"#bac6e9","secondary":"#525e7d","secondary-fixed":"#d9e2ff","on-tertiary-fixed-variant":"#004395","surface-variant":"#dfe3ea","primary-container":"#175cff","on-secondary-fixed":"#0e1b36","inverse-surface":"#2c3136","surface":"#f7f9ff","surface-container-low":"#f0f4fb","on-primary-fixed-variant":"#003ab1","on-primary-container":"#edeeff","outline":"#737688","surface-container-high":"#e4e8ef","on-primary":"#ffffff","inverse-primary":"#b6c4ff","on-tertiary":"#ffffff","tertiary-container":"#0c68db","on-secondary-container":"#535f7d","tertiary-fixed":"#d8e2ff","tertiary-fixed-dim":"#adc6ff","error":"#ba1a1a","primary-fixed-dim":"#b6c4ff","on-tertiary-container":"#ebefff","on-secondary-fixed-variant":"#3b4664","on-secondary":"#ffffff","on-primary-fixed":"#001550","inverse-on-surface":"#edf1f8","on-surface":"#171c21","surface-tint":"#004ee7","background":"#f7f9ff","surface-dim":"#d6dae1","error-container":"#ffdad6","tertiary":"#0050af","secondary-container":"#ced9fe","surface-bright":"#f7f9ff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter-mobile":"1rem","space-lg":"1.5rem","space-xs":"0.25rem","space-md":"1rem","margin-mobile":"1rem","margin":"2rem","space-sm":"0.5rem","space-xl":"2rem","gutter":"1.5rem"},"fontFamily":{"headline-sm":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"label-sm":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-lg":["Inter"],"body-md":["Inter"],"label-md":["Inter"],"metric-display":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"body-sm":["Inter"],"display-lg-mobile":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"]},"fontSize":{"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"metric-display":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"display-lg-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-[#F1F5FC] font-body-md text-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-screen w-72 bg-[#0F1F42] z-50 flex flex-col justify-between select-none shadow-[2px_0_12px_rgba(7,20,47,0.15)]"><div class="flex flex-col h-full overflow-hidden"><div class="h-20 px-6 flex items-center justify-between bg-[#07142F]/60 flex-shrink-0"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[22px]">school</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-surface-container-lowest tracking-tight">EduConnect</span><span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider">Elite Academic</span></div></div><div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div></div><div class="flex-1 overflow-y-auto px-4 py-4 space-y-6"><div class="space-y-1"><div class="px-3 pb-1 font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">General</div><nav class="space-y-1" data-active-classes="bg-primary-container/20 text-surface-container-lowest font-semibold border-l-4 border-primary-container pl-2"><a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group bg-primary-container/20 text-surface-container-lowest font-semibold border-l-4 border-primary-container pl-2" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">grid_view</span><span class="font-body-md text-body-md">Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="resumen-de-coordinacion" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">insights</span><span class="font-body-md text-body-md">Resumen de coordinación</span></a></nav></div><div class="space-y-1"><div class="px-3 pb-1 font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Convivencia</div><nav class="space-y-1" data-active-classes="bg-primary-container/20 text-surface-container-lowest font-semibold border-l-4 border-primary-container pl-2"><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="observador-estudiantil" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">visibility</span><span class="font-body-md text-body-md">Observador estudiantil</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="casos-de-convivencia" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">gavel</span><span class="font-body-md text-body-md">Casos de convivencia</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="seguimiento-disciplinario" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">rule</span><span class="font-body-md text-body-md">Seguimiento disciplinario</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="citaciones-a-padres" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">mail</span><span class="font-body-md text-body-md">Citaciones a padres</span></div><span class="w-5 h-5 rounded-full bg-primary-container text-on-primary font-label-sm text-[10px] flex items-center justify-center font-bold">4</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="compromisos-y-acuerdos" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">handshake</span><span class="font-body-md text-body-md">Compromisos y acuerdos</span></a></nav></div><div class="space-y-1"><div class="px-3 pb-1 font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Académico</div><nav class="space-y-1" data-active-classes="bg-primary-container/20 text-surface-container-lowest font-semibold border-l-4 border-primary-container pl-2"><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="auditoria-de-planillas" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">fact_check</span><span class="font-body-md text-body-md">Auditoría de planillas</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="calificaciones" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">grade</span><span class="font-body-md text-body-md">Calificaciones</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="asistencia" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">event_available</span><span class="font-body-md text-body-md">Asistencia</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="horarios-y-aulas" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">schedule</span><span class="font-body-md text-body-md">Horarios y aulas</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="cursos-y-grupos" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">groups</span><span class="font-body-md text-body-md">Cursos y grupos</span></a></nav></div><div class="space-y-1"><div class="px-3 pb-1 font-label-sm text-label-sm text-[#94A3B8] uppercase tracking-wider">Gestión</div><nav class="space-y-1" data-active-classes="bg-primary-container/20 text-surface-container-lowest font-semibold border-l-4 border-primary-container pl-2"><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="comisiones-de-evaluacion" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">balance</span><span class="font-body-md text-body-md">Comisiones de evaluación</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="alertas-mipa" href="#"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">warning</span><span class="font-body-md text-body-md">Alertas MIPA</span></div><span class="px-1.5 py-0.5 rounded-full bg-error text-on-error font-label-sm text-[10px] font-bold">Urgent</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="telemetria" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">analytics</span><span class="font-body-md text-body-md">Telemetría</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-secondary-fixed-dim hover:bg-white/5 hover:text-surface-container-lowest transition-all group" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px] text-secondary-fixed-dim group-hover:text-surface-container-lowest transition-colors">description</span><span class="font-body-md text-body-md">Reportes</span></a></nav></div></div><div class="p-4 bg-[#07142F]/80 flex flex-col gap-3 flex-shrink-0"><div class="flex items-center justify-between px-2"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-400"></div><span class="font-label-sm text-label-sm text-secondary-fixed-dim">Red Institucional OK</span></div><span class="font-label-sm text-[10px] text-secondary-fixed-dim/60">v4.8.2</span></div><div class="flex items-center gap-2"><button class="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 text-secondary-fixed-dim hover:text-surface-container-lowest transition-all font-label-md text-label-md" type="button"><span class="material-symbols-outlined text-[16px]">support_agent</span>Soporte</button><button class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-secondary-fixed-dim hover:text-surface-container-lowest transition-all" title="Cerrar sesión" type="button"><span class="material-symbols-outlined text-[18px]">logout</span></button></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-20 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(7,20,47,0.04)] z-40 px-gutter flex items-center justify-between gap-4"><div class="flex items-center gap-4 min-w-0"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface truncate">Coordinación Académica &amp; Convivencia</span><div class="flex items-center gap-2 mt-0.5"><div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#ECFDF5] text-[#065F46] font-label-sm text-label-sm"><div class="w-1.5 h-1.5 rounded-full bg-[#10B981]"></div><span>Centro de Control Activo</span></div><span class="text-outline-variant font-label-sm">•</span><span class="font-label-md text-label-md text-secondary">Ciclo 2025-I | Sede Central</span></div></div></div><div class="flex items-center gap-3 flex-shrink-0"><div class="relative hidden xl:block w-72"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full h-10 pl-9 pr-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm outline-none placeholder:text-outline-variant focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" placeholder="Buscar estudiante, caso, planilla... (⌘K)" type="text"/></div><button class="flex items-center gap-2 h-10 px-4 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-headline-sm text-headline-sm shadow-sm transition-all" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span class="hidden md:inline font-body-md text-body-md font-semibold">Nueva Citación / Caso</span></button><button class="relative w-10 h-10 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute -top-1 -right-1 min-w-[18px] h-[18px] rounded-full bg-error text-on-error font-label-sm text-[10px] font-bold flex items-center justify-center px-1">7</span></button><div class="h-8 w-px bg-surface-container-high mx-1 hidden sm:block"></div><div class="flex items-center gap-3 pl-1"><div class="text-right hidden sm:flex flex-col"><span class="font-headline-sm text-body-md font-semibold text-on-surface">Prof. Marcos Restrepo</span><span class="font-label-sm text-label-sm text-secondary truncate max-w-[170px]">Coord. General &amp; Convivencia</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 pt-20 w-full px-gutter pb-space-xl bg-[#F1F5FC]"><div class="flex flex-col w-full">
+<!-- BANNER HERO DE COORDINACIÓN -->
+<section class="relative w-full rounded-2xl bg-surface-container-lowest p-space-lg shadow-sm overflow-hidden mb-space-xl">
+<div class="absolute -right-20 -bottom-20 w-96 h-96 rounded-full bg-gradient-to-br from-primary/10 via-primary-container/5 to-transparent blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-space-lg">
+<div class="flex flex-col max-w-3xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-fixed/30 text-primary w-fit mb-3">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Supervisión Ejecutiva • Ciclo 2025-I</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+          Panel de Coordinación Académica &amp; Convivencia
+        </h1>
+<p class="font-body-md text-body-md text-secondary mt-1 max-w-2xl">
+          Monitoreo en tiempo real de faltas de convivencia, cumplimiento de planillas docentes, citaciones activas y alertas tempranas en la Sede Central.
+        </p>
+<!-- Barra de estado rápido -->
+<div class="flex flex-wrap items-center gap-3 mt-4 pt-3 border-t border-surface-container-high/60">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary-container text-[18px]">calendar_month</span>
+<span>Semana Lectiva 11</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-tertiary text-[18px]">groups</span>
+<span>Comité de Convivencia: <strong class="font-semibold text-primary">Viernes 10:00 AM</strong></span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-error-container/40 text-on-error-container font-label-md text-label-md">
+<span class="material-symbols-outlined text-error text-[18px]">alarm</span>
+<span>Cierre Corte 1: <strong class="font-bold">Faltan 4 días</strong></span>
+</div>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<div class="flex flex-col sm:flex-row items-stretch xl:items-center gap-3 flex-shrink-0">
+<button class="flex items-center justify-center gap-2 h-11 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-primary text-[20px]">security</span>
+<span>+ Radicar Caso Convivencial</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-11 px-4 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[20px]">event</span>
+<span>+ Programar Citación</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-11 px-3.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-low text-secondary hover:text-on-surface font-label-md text-label-md transition-all shadow-sm" title="Notificación masiva a docentes" type="button">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+<span class="hidden 2xl:inline">Emitir Notificación</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 6 KPIS DE IMPACTO PRIORITARIO -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-space-md mb-space-xl">
+<!-- Card 1: Casos Convivencia -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="w-10 h-10 rounded-lg bg-error-container/40 text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span> 3 Tipo II
+        </span>
+</div>
+<div class="mt-4">
+<span class="font-metric-display text-metric-display text-on-surface">18</span>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Casos Convivencia</h3>
+<p class="font-body-sm text-body-sm text-secondary truncate mt-0.5">3 Tipo II • 15 Tipo I</p>
+</div>
+<div class="mt-3 pt-2 border-t border-surface-container-high/60 flex items-center justify-between text-error font-label-sm text-label-sm">
+<span>Resolución prioritaria</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+<!-- Card 2: Citaciones -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">contacts</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-[10px] font-semibold">
+          85% Confirmadas
+        </span>
+</div>
+<div class="mt-4">
+<span class="font-metric-display text-metric-display text-on-surface">12</span>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Citaciones Padres</h3>
+<p class="font-body-sm text-body-sm text-secondary truncate mt-0.5">4 hoy • 8 esta semana</p>
+</div>
+<div class="mt-3 pt-2 border-t border-surface-container-high/60 flex items-center justify-between text-primary font-label-sm text-label-sm">
+<span>Gestionar agenda</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+<!-- Card 3: Estudiantes Seguimiento -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="w-10 h-10 rounded-lg bg-surface-container text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">record_voice_over</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-secondary font-label-sm text-[10px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Activo
+        </span>
+</div>
+<div class="mt-4">
+<span class="font-metric-display text-metric-display text-on-surface">34</span>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">En Seguimiento</h3>
+<p class="font-body-sm text-body-sm text-secondary truncate mt-0.5">19 Acad. • 15 Disciplinario</p>
+</div>
+<div class="mt-3 pt-2 border-t border-surface-container-high/60 flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Ver expedientes</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+<!-- Card 4: Asistencia Hoy -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low text-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">how_to_reg</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-label-sm text-[10px] font-bold">
+          Meta 95%
+        </span>
+</div>
+<div class="mt-4">
+<span class="font-metric-display text-metric-display text-on-surface">96.4%</span>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Asistencia Hoy</h3>
+<p class="font-body-sm text-body-sm text-secondary truncate mt-0.5">3,704 presentes • 14 sin just.</p>
+</div>
+<div class="mt-3 pt-2 border-t border-surface-container-high/60 flex items-center justify-between text-emerald-700 font-label-sm text-label-sm">
+<span>Control biométrico OK</span>
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+</div>
+<!-- Card 5: Planillas Pendientes -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">assignment_late</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-label-sm text-[10px] font-bold">
+          72h Límite
+        </span>
+</div>
+<div class="mt-4">
+<span class="font-metric-display text-metric-display text-on-surface">9 <span class="font-body-sm text-body-sm text-secondary font-normal">profes</span></span>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Planillas en Mora</h3>
+<p class="font-body-sm text-body-sm text-secondary truncate mt-0.5">14 grupos pendientes</p>
+</div>
+<div class="mt-3 pt-2 border-t border-surface-container-high/60 flex items-center justify-between text-amber-800 font-label-sm text-label-sm">
+<span>Emitir requerimiento</span>
+<span class="material-symbols-outlined text-[16px]">send</span>
+</div>
+</div>
+<!-- Card 6: Alertas MIPA -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between transition-all hover:shadow-md">
+<div class="flex items-start justify-between gap-2">
+<div class="w-10 h-10 rounded-lg bg-error-container/30 text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">crisis_alert</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error text-on-error font-label-sm text-[10px] font-bold">
+          Crítico
+        </span>
+</div>
+<div class="mt-4">
+<span class="font-metric-display text-metric-display text-error">7</span>
+<h3 class="font-label-md text-label-md text-on-surface font-semibold">Alertas MIPA</h3>
+<p class="font-body-sm text-body-sm text-secondary truncate mt-0.5">Riesgo ≥ 3 asignaturas</p>
+</div>
+<div class="mt-3 pt-2 border-t border-surface-container-high/60 flex items-center justify-between text-error font-label-sm text-label-sm">
+<span>Comité de apoyo</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+</section>
+<!-- SECCIÓN PRINCIPAL: 2 COLUMNAS (8 / 4) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg">
+<!-- COLUMNA IZQUIERDA (8 COLS) -->
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- SUBSECCIÓN A: CASOS RECIENTES DE CONVIVENCIA & SEGUIMIENTO -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Bitácora Disciplinaria y Casos Recientes</h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Protocolos de Ley 1620 y observador digital centralizado</p>
+</div>
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-primary-container self-start sm:self-auto" type="button">
+<span>Ver todos los 18 casos</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<!-- Filtros Rápidos -->
+<div class="flex items-center gap-2 overflow-x-auto pb-2 mb-space-md">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex-shrink-0" type="button">
+            Todos (18)
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary font-label-md text-label-md flex-shrink-0 flex items-center gap-1.5" type="button">
+<span class="w-2 h-2 rounded-full bg-error"></span> Tipo II (3)
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary font-label-md text-label-md flex-shrink-0" type="button">
+            Tipo I (15)
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary font-label-md text-label-md flex-shrink-0" type="button">
+            Con Compromiso (7)
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary font-label-md text-label-md flex-shrink-0" type="button">
+            Por Firmar (4)
+          </button>
+</div>
+<!-- Tabla Estructurada -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/70 text-secondary font-label-sm text-label-sm uppercase">
+<th class="py-3 px-4 rounded-l-lg">Estudiante &amp; Curso</th>
+<th class="py-3 px-4">Falta Tipificada</th>
+<th class="py-3 px-4">Remitente &amp; Hora</th>
+<th class="py-3 px-4">Estado Protocolo</th>
+<th class="py-3 px-4 text-right rounded-r-lg">Acción</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40 font-body-sm text-body-sm text-on-surface">
+<!-- Fila 1: Santiago Morales -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed text-primary font-headline-sm text-headline-sm flex items-center justify-center flex-shrink-0">
+                      SM
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">Santiago Morales</span>
+<span class="font-label-sm text-label-sm text-secondary">Grado 11°-A</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center gap-1 font-semibold text-error text-label-md">
+<span class="material-symbols-outlined text-[16px]">priority_high</span> Tipo II
+                    </span>
+<span class="text-on-surface-variant truncate max-w-xs">Alteración de orden y desacato a docente</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Prof. C. Restrepo</span>
+<span class="text-secondary text-label-sm">Hoy • 08:30 AM</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-error-container/60 text-on-error-container font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Citación Emitida
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Ver Observador" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Remitir a Psicología" type="button">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Generar Acta" type="button">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 2: Sofía Vargas -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-surface-container text-secondary font-headline-sm text-headline-sm flex items-center justify-center flex-shrink-0">
+                      SV
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">Sofía Vargas</span>
+<span class="font-label-sm text-label-sm text-secondary">Grado 9°-B</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center gap-1 font-semibold text-secondary text-label-md">
+                      Tipo I
+                    </span>
+<span class="text-on-surface-variant truncate max-w-xs">Uso no pedagógico de móvil en clase</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Lic. M. Gómez</span>
+<span class="text-secondary text-label-sm">Hoy • 07:45 AM</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Compromiso Firmado
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Ver Observador" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Generar Acta" type="button">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 3: David León -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-error-container/40 text-error font-headline-sm text-headline-sm flex items-center justify-center flex-shrink-0">
+                      DL
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">David León</span>
+<span class="font-label-sm text-label-sm text-secondary">Grado 8°-C</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center gap-1 font-semibold text-error text-label-md">
+<span class="material-symbols-outlined text-[16px]">priority_high</span> Tipo II
+                    </span>
+<span class="text-on-surface-variant truncate max-w-xs">Agresión verbal reiterada a compañero</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Lic. R. Peñaloza</span>
+<span class="text-secondary text-label-sm">Ayer • 02:15 PM</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> En Investigación
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Ver Observador" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Remitir a Psicología" type="button">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Generar Acta" type="button">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Fila 4: Valentina Ospina -->
+<tr class="hover:bg-surface-container-low/40 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-surface-container text-secondary font-headline-sm text-headline-sm flex items-center justify-center flex-shrink-0">
+                      VO
+                    </div>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface truncate">Valentina Ospina</span>
+<span class="font-label-sm text-label-sm text-secondary">Grado 10°-B</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="inline-flex items-center gap-1 font-semibold text-secondary text-label-md">
+                      Tipo I
+                    </span>
+<span class="text-on-surface-variant truncate max-w-xs">Retardo reiterado a primera hora (x4)</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Coord. Asistencia</span>
+<span class="text-secondary text-label-sm">Ayer • 07:15 AM</span>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Pendiente Descargos
+                  </span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Ver Observador" type="button">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container text-secondary hover:text-primary transition-colors" title="Generar Acta" type="button">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- SUBSECCIÓN B: AUDITORÍA DE PLANILLAS Y ACTIVIDAD DOCENTE -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-space-md">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface">Auditoría y Cumplimiento de Planillas</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Seguimiento al ingreso de notas del 1er Corte Académico</p>
+</div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>231 de 240 Docentes al día (96.2%)</span>
+</div>
+</div>
+<!-- Indicador de Departamentos (Barras compuestas) -->
+<div class="p-space-md rounded-xl bg-surface-container-low mb-space-md">
+<div class="flex items-center justify-between text-label-sm font-label-sm text-secondary mb-2">
+<span>Progreso global de digitación institucional</span>
+<span class="font-bold text-on-surface">96.2% completado</span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container-highest overflow-hidden flex">
+<div class="bg-primary-container h-full" style="width: 82%" title="Notas definitivas validadas"></div>
+<div class="bg-amber-400 h-full" style="width: 14.2%" title="En borrador por docentes"></div>
+<div class="bg-error h-full" style="width: 3.8%" title="Sin iniciar"></div>
+</div>
+<div class="flex items-center gap-4 mt-3 text-label-sm font-label-sm text-secondary">
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span><span>Validadas (82%)</span></div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span><span>Borradores (14.2%)</span></div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-error"></span><span>En Mora (3.8%)</span></div>
+</div>
+</div>
+<!-- Lista de Docentes con Planillas Pendientes -->
+<div class="flex flex-col gap-3">
+<!-- Item 1: Lic. Andrés Romero -->
+<div class="p-3.5 rounded-xl bg-surface-container-lowest border border-surface-container-high/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-surface-container-low/30 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-headline-sm">
+                AR
+              </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Lic. Andrés Romero</span>
+<span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-label-sm text-[10px] font-bold">Demora 48 hrs</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Humanidades &amp; Filosofía • Cursos: 10°-A, 10°-B (2 planillas)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-auto">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-sm text-label-sm flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">notifications_active</span>
+<span>Notificación Push</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Dra. Beatriz Soler -->
+<div class="p-3.5 rounded-xl bg-surface-container-lowest border border-surface-container-high/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-surface-container-low/30 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container text-secondary flex items-center justify-center font-bold text-headline-sm">
+                BS
+              </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Dra. Beatriz Soler</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-[10px] font-medium">Reemplazo Suplente</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Ciencias Naturales &amp; Química • Grado 11°-A (1 planilla)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-auto">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">rule</span>
+<span>Revisar Borrador</span>
+</button>
+</div>
+</div>
+<!-- Item 3: Prof. Julián Cárdenas -->
+<div class="p-3.5 rounded-xl bg-surface-container-lowest border border-surface-container-high/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-surface-container-low/30 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-error-container/40 text-error flex items-center justify-center font-bold text-headline-sm">
+                JC
+              </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Prof. Julián Cárdenas</span>
+<span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-sm text-[10px] font-bold">Inconsistencia de Notas</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Educación Física • Grados 6° a 9° (3 planillas)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-auto">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-secondary hover:text-on-surface font-label-sm text-label-sm flex items-center gap-1.5 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">sync_problem</span>
+<span>Auditar Fallas</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- SUBSECCIÓN C: GRÁFICA DE MONITOREO DE ASISTENCIA Y PUNTUALIDAD -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-space-md">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface">Monitoreo Semanal de Asistencia y Puntualidad</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">Control de ingresos 07:00 AM • Primaria vs. Bachillerato</p>
+</div>
+<div class="flex items-center gap-3 text-label-sm font-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-primary-container"></span>
+<span class="text-secondary">Bachillerato</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-secondary-fixed-dim"></span>
+<span class="text-secondary">Primaria</span>
+</div>
+</div>
+</div>
+<!-- Inline SVG Visualization Chart -->
+<div class="w-full bg-surface-container-low rounded-xl p-4">
+<svg class="w-full h-44 overflow-visible" preserveaspectratio="none" viewbox="0 0 700 160">
+<!-- Grid Lines -->
+<line stroke="#DFE3EA" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="20" y2="20"></line>
+<line stroke="#DFE3EA" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="60" y2="60"></line>
+<line stroke="#DFE3EA" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="100" y2="100"></line>
+<line stroke="#DFE3EA" stroke-width="1" x1="0" x2="700" y1="140" y2="140"></line>
+<!-- Bachillerato Area & Line -->
+<path d="M 50 45 Q 180 20 330 35 T 500 25 T 650 30 L 650 140 L 50 140 Z" fill="rgba(23, 92, 255, 0.08)"></path>
+<path d="M 50 45 Q 180 20 330 35 T 500 25 T 650 30" fill="none" stroke="#175CFF" stroke-linecap="round" stroke-width="3"></path>
+<!-- Primaria Line -->
+<path d="M 50 70 Q 180 50 330 65 T 500 55 T 650 40" fill="none" stroke="#8EA4D2" stroke-dasharray="6 4" stroke-linecap="round" stroke-width="2.5"></path>
+<!-- Points on Bachillerato -->
+<circle class="hover:r-6 transition-all" cx="50" cy="45" fill="#175CFF" r="4.5"></circle>
+<circle cx="200" cy="24" fill="#175CFF" r="4.5"></circle>
+<circle cx="350" cy="36" fill="#175CFF" r="4.5"></circle>
+<circle cx="500" cy="25" fill="#175CFF" r="4.5"></circle>
+<circle cx="650" cy="30" fill="#175CFF" r="4.5"></circle>
+</svg>
+<div class="flex justify-between items-center px-4 mt-2 font-label-sm text-label-sm text-secondary">
+<span>Lun 10 (97.1%)</span>
+<span>Mar 11 (98.4% Pico)</span>
+<span>Mié 12 (96.8%)</span>
+<span>Jue 13 (98.1%)</span>
+<span>Hoy Vie 14 (96.4%)</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-secondary">Puntualidad en Ingreso</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">98.2%</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-secondary">Excusas Médicas Aprobadas</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">124</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-secondary">Evasiones Reportadas</span>
+<span class="font-headline-sm text-headline-sm text-error font-bold">0</span>
+</div>
+</div>
+</section>
+</div>
+<!-- COLUMNA DERECHA (4 COLS) -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<!-- SUBSECCIÓN D: AGENDA DE CITACIONES A PADRES Y ACUDIENTES -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface">Citaciones a Padres</h2>
+<p class="font-body-sm text-body-sm text-secondary">Compromisos hoy y mañana</p>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary transition-all" title="Agendar Citación" type="button">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+<!-- Timeline Cards -->
+<div class="flex flex-col gap-3">
+<!-- Cita 1 -->
+<div class="p-3.5 rounded-xl bg-surface-container-low/60 hover:bg-surface-container-low transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 font-label-md text-label-md font-bold text-primary">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 09:00 AM
+              </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-[10px] font-bold">
+                Confirmada
+              </span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Sra. Claudia Peña</span>
+<span class="font-body-sm text-body-sm text-secondary">Madre de Valeria Ramos (10°-A)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-lowest p-2 rounded-lg">
+              Motivo: Revisión de plan de apoyo académico Matemáticas
+            </p>
+<div class="flex items-center justify-between pt-1 text-label-sm font-label-sm text-secondary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">meeting_room</span> Sala Coord. A
+              </span>
+<button class="text-primary hover:underline font-semibold" type="button">Iniciar Acta</button>
+</div>
+</div>
+<!-- Cita 2 -->
+<div class="p-3.5 rounded-xl bg-surface-container-low/60 hover:bg-surface-container-low transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 font-label-md text-label-md font-bold text-on-surface">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 11:30 AM
+              </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-[10px] font-bold">
+                Confirmada
+              </span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Sr. Roberto Gómez</span>
+<span class="font-body-sm text-body-sm text-secondary">Padre de Mateo Gómez (11°-B)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-lowest p-2 rounded-lg">
+              Motivo: Compromiso de convivencia y porte de uniforme
+            </p>
+<div class="flex items-center justify-between pt-1 text-label-sm font-label-sm text-secondary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">location_on</span> Despacho Coord.
+              </span>
+<button class="text-primary hover:underline font-semibold" type="button">Ver Historial</button>
+</div>
+</div>
+<!-- Cita 3 -->
+<div class="p-3.5 rounded-xl bg-surface-container-low/60 hover:bg-surface-container-low transition-colors flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 font-label-md text-label-md font-bold text-secondary">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 03:00 PM
+              </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-label-sm text-[10px] font-bold">
+                Notificación Abierta
+              </span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Dra. Sonia Beltrán</span>
+<span class="font-body-sm text-body-sm text-secondary">Madre de Nicolás Beltrán (10°-C)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-lowest p-2 rounded-lg">
+              Motivo: Seguimiento psicológico y alertas tempranas
+            </p>
+<div class="flex items-center justify-between pt-1 text-label-sm font-label-sm text-secondary">
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[15px]">video_call</span> Google Meet
+              </span>
+<button class="text-primary hover:underline font-semibold" type="button">Reenviar SMS</button>
+</div>
+</div>
+<!-- Cita 4 (Mañana) -->
+<div class="p-3 rounded-xl border border-surface-container-high/70 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Mañana • 08:00 AM</span>
+<span class="font-headline-sm text-body-sm font-semibold text-on-surface">Ing. Álvaro Cárdenas (9°-A)</span>
+<span class="font-body-sm text-[12px] text-secondary">Comisión extraordinaria de becas</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[18px]">calendar_today</span>
+</div>
+</div>
+</section>
+<!-- SUBSECCIÓN E: ALERTAS ACADÉMICAS TEMPRANAS (RADAR MIPA TECH) -->
+<section class="rounded-xl bg-[#0F1F42] text-surface-container-lowest p-space-lg shadow-md flex flex-col relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-primary-container/20 blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-3 relative z-10">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">radar</span>
+</div>
+<h3 class="font-headline-md text-headline-sm text-surface-container-lowest font-bold">Radar MIPA</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-error text-on-error font-label-sm text-[10px] font-bold uppercase tracking-wider animate-pulse">
+            7 Críticos
+          </span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary-fixed-dim mb-4 relative z-10">
+          Detección predictiva de pérdida inminente de ciclo académico según valoraciones del Corte 1.
+        </p>
+<!-- Casos Críticos List -->
+<div class="space-y-2 relative z-10 mb-4">
+<div class="p-2.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-surface-container-lowest font-semibold">Camilo Sotomayor</span>
+<span class="font-label-sm text-[11px] text-secondary-fixed-dim">Grado 10°-B • Reprobando 4 materias (STEM)</span>
+</div>
+<span class="font-metric-display text-headline-sm text-error font-bold">1.8</span>
+</div>
+<div class="p-2.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-surface-container-lowest font-semibold">Mariana Henao</span>
+<span class="font-label-sm text-[11px] text-secondary-fixed-dim">Grado 8°-A • Reprobando 3 materias</span>
+</div>
+<span class="font-metric-display text-headline-sm text-error font-bold">2.1</span>
+</div>
+<div class="p-2.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-surface-container-lowest font-semibold">Felipe Zuluaga</span>
+<span class="font-label-sm text-[11px] text-secondary-fixed-dim">Grado 11°-C • Riesgo pérdida de grado</span>
+</div>
+<span class="font-metric-display text-headline-sm text-error font-bold">2.4</span>
+</div>
+</div>
+<button class="w-full py-2.5 px-3 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-all flex items-center justify-center gap-2 shadow-sm relative z-10" type="button">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+<span>Convocatoria a Tutoría Especial</span>
+</button>
+</section>
+<!-- SUBSECCIÓN F: ACCESOS RÁPIDOS DEL COORDINADOR -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">Herramientas Operativas Rápidas</h3>
+<div class="grid grid-cols-2 gap-2.5">
+<button class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex flex-col justify-between h-24 group" type="button">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform text-[24px]">post_add</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Generar Acta Convivencia</span>
+</button>
+<button class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex flex-col justify-between h-24 group" type="button">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform text-[24px]">forward_to_inbox</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Plantillas Notificación</span>
+</button>
+<button class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex flex-col justify-between h-24 group" type="button">
+<span class="material-symbols-outlined text-emerald-600 group-hover:scale-110 transition-transform text-[24px]">fact_check</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Paz y Salvo Académico</span>
+</button>
+<button class="p-3 rounded-xl bg-surface-container-low hover:bg-surface-container text-left transition-all flex flex-col justify-between h-24 group" type="button">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform text-[24px]">published_with_changes</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface leading-tight">Horarios y Suplencias</span>
+</button>
+</div>
+</section>
+</div>
+</div>
+</div></main></div></body></html>

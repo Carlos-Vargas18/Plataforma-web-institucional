@@ -3,27 +3,26 @@ package com.educonnect.dto;
 import com.educonnect.model.Rol;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class RegisterRequest {
 
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Email inválido")
+    private String tipoDocumento = "CC";
+
+    @NotBlank(message = "El número de documento es obligatorio")
+    private String documento;
+
+    @NotBlank(message = "El correo electrónico es obligatorio")
+    @Email(message = "Debe proporcionar un correo válido")
     private String email;
 
-    @NotBlank(message = "La contraseña es requerida")
+    @NotBlank(message = "La contraseña es obligatoria")
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     private String password;
 
-    @NotNull(message = "El rol es obligatorio")
-    private Rol rol;
+    private Rol rol = Rol.ESTUDIANTE;
 
     @NotBlank(message = "El primer nombre es obligatorio")
     private String primerNombre;
@@ -35,11 +34,6 @@ public class RegisterRequest {
 
     private String segundoApellido;
 
-    // Campos condicionales según el rol (Docente o Estudiante)
-    private String tipoDocumento;
-    private String numeroDocumento;
     private String telefono;
-    private String codigoEstudiantil;
-    private Long gradoId;
-    private Long grupoId;
+    private String direccion;
 }

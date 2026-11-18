@@ -1,16 +1,18 @@
 package com.educonnect.controller;
 
 import com.educonnect.dto.CalificacionRequest;
-import com.educonnect.model.Calificacion;
 import com.educonnect.service.CalificacionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/calificaciones")
@@ -19,23 +21,45 @@ public class CalificacionController {
 
     private final CalificacionService calificacionService;
 
+    @GetMapping
+    public ResponseEntity<List<Map<String, Object>>> consultarCalificaciones(
+            @RequestParam(required = false) Long cargaAcademicaId,
+            @RequestParam(required = false) Long periodoId,
+            @RequestParam(required = false) Long estudianteId,
+            @RequestParam(required = false) Long grupoId,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return ResponseEntity.ok(calificacionService.consultarCalificaciones(
+                cargaAcademicaId,
+                periodoId,
+                estudianteId,
+                grupoId,
+                userDetails.getUsername()
+        ));
+    }
+
     @PostMapping
-    public ResponseEntity<Calificacion> guardarCalificacion(
+    @PreAuthorize("hasAnyRole('DOCENTE', 'DIRECTOR_GRUPO', 'COORDINADOR', 'RECTOR', 'ADMIN')")
+    public ResponseEntity<Map<String, Object>> guardarCalificacion(
             @Valid @RequestBody CalificacionRequest request,
-            @AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails != null ? userDetails.getUsername() : "prof.silva@educonnect.edu.co";
-        return ResponseEntity.ok(calificacionService.registrarOActualizarCalificacion(request, email));
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return ResponseEntity.ok(calificacionService.registrarOActualizarNota(request, userDetails.getUsername()));
     }
 
-    @GetMapping("/matricula/{matriculaId}")
-    public ResponseEntity<List<Calificacion>> getCalificacionesPorMatricula(@PathVariable Long matriculaId) {
-        return ResponseEntity.ok(calificacionService.obtenerCalificacionesPorMatricula(matriculaId));
+    @GetMapping("/solicitudes")
+    @PreAuthorize("hasAnyRole('DOCENTE', 'DIRECTOR_GRUPO', 'COORDINADOR', 'RECTOR', 'ADMIN')")
+    public ResponseEntity<List<Map<String, Object>>> listarSolicitudes() {
+        return ResponseEntity.ok(calificacionService.listarSolicitudesModificacion());
     }
 
-    @GetMapping("/carga/{cargaId}/periodo/{periodoId}")
-    public ResponseEntity<List<Calificacion>> getCalificacionesPorCargaYPeriodo(
-            @PathVariable Long cargaId,
-            @PathVariable Long periodoId) {
-        return ResponseEntity.ok(calificacionService.obtenerCalificacionesPorCargaYPeriodo(cargaId, periodoId));
+    @PostMapping("/solicitudes")
+    @PreAuthorize("hasAnyRole('DOCENTE', 'DIRECTOR_GRUPO', 'COORDINADOR', 'ADMIN')")
+    public ResponseEntity<Map<String, Object>> crearSolicitud(
+            @RequestBody Map<String, Object> payload,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(calificacionService.crearSolicitudModificacion(payload, userDetails.getUsername()));
     }
 }

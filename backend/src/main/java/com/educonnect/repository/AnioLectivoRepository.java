@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface AnioLectivoRepository extends JpaRepository<AnioLectivo, Long> {
-    Optional<AnioLectivo> findByEsActualTrue();
+    Optional<AnioLectivo> findByActivoTrue();
+    Optional<AnioLectivo> findByAnio(Integer anio);
 }

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#535f7d", "tertiary-container": "#0c68db", "surface": "#f7f9ff", "on-primary-fixed": "#001550", "surface-tint": "#004ee7", "on-secondary-fixed-variant": "#3b4664", "primary-container": "#175cff", "on-primary-fixed-variant": "#003ab1", "surface-dim": "#d6dae1", "secondary-container": "#ced9fe", "on-surface": "#171c21", "secondary-fixed": "#d9e2ff", "surface-container-low": "#f0f4fb", "surface-container-lowest": "#ffffff", "on-primary-container": "#edeeff", "on-surface-variant": "#434656", "error-container": "#ffdad6", "secondary-fixed-dim": "#bac6e9", "inverse-surface": "#2c3136", "on-tertiary-fixed": "#001a42", "on-tertiary": "#ffffff", "surface-container": "#eaeef5", "tertiary-fixed": "#d8e2ff", "outline": "#737688", "on-background": "#171c21", "surface-variant": "#dfe3ea", "surface-container-highest": "#dfe3ea", "tertiary-fixed-dim": "#adc6ff", "surface-container-high": "#e4e8ef", "error": "#ba1a1a", "inverse-primary": "#b6c4ff", "primary-fixed": "#dce1ff", "background": "#f7f9ff", "on-tertiary-container": "#ebefff", "primary": "#0045d0", "on-tertiary-fixed-variant": "#004395", "on-secondary-fixed": "#0e1b36", "secondary": "#525e7d", "primary-fixed-dim": "#b6c4ff", "inverse-on-surface": "#edf1f8", "surface-bright": "#f7f9ff", "on-error-container": "#93000a", "on-secondary": "#ffffff", "on-error": "#ffffff", "on-primary": "#ffffff", "outline-variant": "#c3c5d9", "tertiary": "#0050af" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-mobile": "1rem", "space-xs": "0.25rem", "gutter-mobile": "1rem", "margin": "2rem", "gutter": "1.5rem", "space-md": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xl": "2rem" }, "fontFamily": { "label-md": ["Inter"], "body-lg": ["Inter"], "display-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "label-sm": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "body-md": ["Inter"], "metric-display": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "metric-display": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(7,20,47,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-sm font-bold shadow-[0_4px_14px_0_rgba(23,92,255,0.35)] shrink-0"><span class="material-symbols-outlined text-[20px]">school</span></div><div class="flex flex-col truncate"><span class="font-headline-sm text-headline-sm text-on-surface truncate">EduConnect</span><button class="flex items-center gap-0.5 text-on-surface-variant font-label-sm text-label-sm text-left truncate -mt-0.5"><span class="truncate">2025-A · Sede Central</span><span class="material-symbols-outlined text-[14px]">expand_more</span></button></div></div><div class="flex items-center gap-space-xs shrink-0"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface relative transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span></button><button class="w-11 h-11 flex items-center justify-center rounded-full transition-transform active:scale-95"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></button></div></div></header><main class="flex-1 flex flex-col w-full px-margin-mobile pt-16 pb-24 bg-surface max-w-lg mx-auto"><div class="flex flex-col w-full space-y-space-lg">
+<!-- Encabezado de Bienvenida & Contexto -->
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-semibold">Familia Gómez Valenzuela</span>
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface font-bold">Hola, Sr. Roberto</h1>
+</div>
+<div class="h-10 w-10 rounded-full bg-secondary-container/60 flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined text-[22px]">family_restroom</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+      Tutor Principal • Año Lectivo 2025
+    </p>
+</div>
+<!-- Selector Deslizable de Hijos (Estilo Chips Dinámicos) -->
+<div class="flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Estudiante en Seguimiento</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">2 Registrados</span>
+</div>
+<div class="flex gap-space-sm overflow-x-auto pb-1.5 scrollbar-none -mx-margin-mobile px-margin-mobile">
+<!-- Hijo 1 (Activo) -->
+<button class="flex items-center gap-space-sm bg-primary text-on-primary p-2.5 rounded-xl shadow-md min-w-[230px] shrink-0 text-left transition-transform active:scale-98">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-primary-container shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="Portrait photography of a teenage high school boy named Mateo, smiling warmly wearing a navy blue school uniform blazer, bright institutional lighting, crisp photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXA2tL6evr6UGyzejIjvHqmt07EFQpPb3_mhg0h_lbMrj8TBlS6gZo_HVk_iBN37dmTqJzUmFygHGLpXEdqEK0PqXiZDvdVfHOmSrLFAS566JR3IBvTkc-4KvIswA9hDAhouZcQWGjQCdKCEOt-ihys1XlWl7ZCIAR7uuXxpoN7jgMHUjkICl6M_gXEmISQCoWe5IdxR4Mr3bahUaZ-RFdXjDZhbYbSn7MiscA_yo"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-secondary-fixed rounded-full"></span>
+</div>
+<div class="flex flex-col min-w-0 pr-1">
+<div class="flex items-center gap-1">
+<span class="font-headline-sm text-headline-sm truncate text-on-primary">Mateo Gómez</span>
+<span class="material-symbols-outlined text-[16px] text-on-primary">check_circle</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-primary-container truncate">Grado 11°B • Prom: 4.10</span>
+</div>
+</button>
+<!-- Hija 2 (Inactiva / Conmutable) -->
+<button class="flex items-center gap-space-sm bg-surface-container-lowest text-on-surface p-2.5 rounded-xl shadow-sm min-w-[230px] shrink-0 text-left transition-transform active:scale-98">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container shrink-0">
+<img class="w-full h-full object-cover" data-alt="Portrait photography of a pre-teen girl named Sofia with braided dark hair smiling pleasantly in an academic setting, natural clean lighting, authentic educational portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAO5YsPx8Eo_W06nNO5sTYT468icuJU3NU5aDCwwwqkOBidsDjMOl7DrwvXP3PHLZYYMDp0dwVTplWIsKJp6RQTnoIRZ_v1hgVChIajrUm4in1W4vIGxWg_QprrHXMctOjJfcUzaodoOSbkPO7TL2UuGn641kDJfBM9DrpMchdAqTJfatgkpwWH956EoEAOcqDzOApYKCJROaLQQxEstDrF2C4A9u7HPl255f4sDzg"/>
+</div>
+<div class="flex flex-col min-w-0 pr-1">
+<span class="font-headline-sm text-headline-sm truncate text-on-surface">Sofía Gómez</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Grado 7°A • Prom: 4.65</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Estado de Asistencia en Tiempo Real (Seguridad y Tranquilidad) -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-start gap-space-sm relative overflow-hidden">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/70 flex items-center justify-center shrink-0 text-primary-container">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between mb-0.5">
+<span class="font-label-md text-label-md text-primary font-bold flex items-center gap-1">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          Ingreso Verificado
+        </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded-full">Hoy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-tight">
+        Mateo ingresó al campus a las <span class="font-bold text-primary">06:48 AM</span>
+</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-[12px] mt-0.5">
+        Torniquete Principal • Control biométrico facial validado
+      </p>
+</div>
+</div>
+<!-- Resumen Académico del Periodo (Bento Métricas) -->
+<div class="flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Métricas de Mateo · Periodo 1</h2>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Corte a la fecha</span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm">
+<!-- Métrica 1: Promedio -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm flex flex-col justify-between items-start">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-primary mb-1">
+<span class="material-symbols-outlined text-[16px]">grade</span>
+</div>
+<span class="font-metric-display text-metric-display text-primary leading-none">4.10</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Nivel Alto</span>
+</div>
+<!-- Métrica 2: Puesto -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm flex flex-col justify-between items-start">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-secondary mb-1">
+<span class="material-symbols-outlined text-[16px]">leaderboard</span>
+</div>
+<div class="flex items-baseline gap-0.5 leading-none">
+<span class="font-metric-display text-metric-display text-on-surface leading-none">#9</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/36</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Puesto Grupo</span>
+</div>
+<!-- Métrica 3: Asistencia -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm flex flex-col justify-between items-start">
+<div class="w-7 h-7 rounded-lg bg-surface-container-low flex items-center justify-center text-tertiary mb-1">
+<span class="material-symbols-outlined text-[16px]">event_available</span>
+</div>
+<span class="font-metric-display text-metric-display text-on-surface leading-none">96%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Cumplimiento</span>
+</div>
+</div>
+</div>
+<!-- Alerta Preventiva Escolar (Oportunidad de Refuerzo) -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col space-y-space-sm relative">
+<div class="flex items-start gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">notification_important</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-error font-bold uppercase tracking-wider">Atención Temprana</span>
+<span class="bg-error-container text-on-error-container text-[11px] font-bold px-2 py-0.2 rounded-full">Nota 2.8</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Foco de Refuerzo: Física Mecánica</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+          El estudiante presentó dificultad en la última evaluación de Dinámica y Leyes de Newton.
+        </p>
+</div>
+</div>
+<!-- Botón de acción para el padre -->
+<div class="pt-1">
+<button class="w-full h-11 bg-primary text-on-primary rounded-lg font-label-md text-label-md flex items-center justify-center gap-space-xs transition-transform active:scale-98 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">calendar_add_on</span>
+        Agendar Tutoría con Prof. Garzón
+      </button>
+</div>
+</div>
+<!-- Próximas Citaciones & Comunicación Oficial -->
+<div class="flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Citaciones &amp; Reuniones</h2>
+<button class="font-label-sm text-label-sm text-primary font-semibold flex items-center">
+        Ver Historial
+        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+</div>
+<!-- Card de Citación Oficial -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col space-y-space-sm">
+<div class="flex items-start justify-between">
+<div class="flex gap-space-sm items-center">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0">
+<span class="material-symbols-outlined text-[20px]">person_pin</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Revisión de Avance Académico</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Prof. Hernán Restrepo · Director de Curso</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-2.5 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-primary">schedule</span>
+<span>Jueves, 27 Mar • 11:30 AM</span>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container-highest px-2 py-0.5 rounded text-on-surface">Google Meet</span>
+</div>
+<div class="flex gap-space-sm pt-0.5">
+<button class="flex-1 h-10 bg-primary-container text-on-primary rounded-lg font-label-md text-label-md flex items-center justify-center gap-1.5 shadow-sm active:scale-98 transition-transform">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+          Unirse a la Reunión
+        </button>
+<button class="w-11 h-10 bg-surface-container-high text-on-surface-variant rounded-lg flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Paz y Salvo Financiero & Pensiones Escolar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-tertiary">account_balance_wallet</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">Estado Financiero Institucional</span>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        Al Día
+      </span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pensión Escolar: Periodo Marzo 2025</p>
+<p class="font-headline-sm text-headline-sm text-on-surface font-semibold">$ 485.000 COP · Pagado</p>
+</div>
+<button class="h-9 px-3 bg-surface-container-low hover:bg-surface-container text-primary font-label-md text-label-md rounded-lg flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">receipt_long</span>
+        Recibo
+      </button>
+</div>
+</div>
+<!-- Accesos Rápidos Táctiles (Touch Bar de Emergencia y Gestión) -->
+<div class="grid grid-cols-2 gap-space-sm pt-1">
+<button class="bg-surface-container-lowest p-3 rounded-xl shadow-sm flex flex-col items-center justify-center text-center space-y-1 active:bg-surface-container transition-colors">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[22px]">departure_board</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Solicitar Permiso</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Salida o inasistencia</span>
+</button>
+<button class="bg-surface-container-lowest p-3 rounded-xl shadow-sm flex flex-col items-center justify-center text-center space-y-1 active:bg-surface-container transition-colors">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[22px]">forum</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Contactar Director</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant text-[11px]">Chat institucional</span>
+</button>
+</div>
+<!-- Micro-interacción: Pequeña nota de contacto de soporte -->
+<div class="pb-2 text-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant/80 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+      Línea de Convivencia Escolar 24/7 disponible en portería
+    </p>
+</div>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_-4px_20px_rgba(7,20,47,0.05)]" data-active-classes="text-primary-container font-semibold"><div class="h-16 max-w-lg mx-auto px-margin-mobile flex items-center justify-around"><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-label-sm mt-0.5">Inicio</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="academico" href="#"><span class="material-symbols-outlined text-[22px]">auto_stories</span><span class="font-label-sm text-label-sm mt-0.5">Módulos</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[22px]">calendar_month</span><span class="font-label-sm text-label-sm mt-0.5">Agenda</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="perfil" href="#"><span class="material-symbols-outlined text-[22px]">tune</span><span class="font-label-sm text-label-sm mt-0.5">Ajustes</span></a></div></nav></body></html>

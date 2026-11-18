@@ -1,117 +1,40 @@
-// ==============================================================================
-// SERVICIO DE ENVÍO DE CORREOS INSTITUCIONALES - EDUCONNECT
-// Despacho real con Gmail SMTP (antoniaguilarvelandia1@gmail.com)
-// ==============================================================================
+import { httpClient } from './api/httpClient';
 
-export interface EnviarCodigoParams {
-  email: string;
-  nombre?: string;
-  codigo: string;
-}
-
-export interface EnviarBienvenidaParams {
-  email: string;
-  nombre?: string;
-  rol: string;
-  password?: string;
-}
-
-export interface EmailResult {
+export interface RecuperacionResult {
   success: boolean;
-  message: string;
-  provider: 'gmail-smtp' | 'resend' | 'backend' | 'sandbox';
-  devCode?: string;
+  mensaje: string;
 }
 
 export const emailService = {
-  /**
-   * Envía el código de recuperación de contraseña a través del servicio SMTP de Gmail.
-   */
-  async enviarCodigoRecuperacion(params: EnviarCodigoParams): Promise<EmailResult> {
-    const { email, nombre = 'Usuario Institucional', codigo } = params;
-
-    // 1. MÉTODO PRIMARIO: GMAIL SMTP VÍA API INTERNA
-    try {
-      const response = await fetch('/api-mail/send-recuperacion', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, nombre, codigo }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return {
-          success: true,
-          provider: 'gmail-smtp',
-          message: data.message || `Correo con código de seguridad enviado a ${email}.`,
-          devCode: codigo,
-        };
-      } else {
-        const err = await response.json();
-        console.warn('Fallo en endpoint Gmail SMTP:', err);
-      }
-    } catch (err: any) {
-      console.warn('Error llamando /api-mail/send-recuperacion:', err.message);
-    }
-
-    // 2. RESPALDO SECUNDARIO: BACKEND SPRING BOOT (Si estuviera en ejecución)
-    try {
-      const backendUrl = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:8080';
-      const resp = await fetch(`${backendUrl}/api/v1/auth/olvide-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, codigo, nombre }),
-      });
-      if (resp.ok) {
-        return {
-          success: true,
-          provider: 'backend',
-          message: `Correo de recuperación enviado desde servidor central a ${email}.`,
-          devCode: codigo,
-        };
-      }
-    } catch {
-      // Ignorar fallback
-    }
-
-    // 3. MODO SANDBOX (Permite continuar sin bloqueo)
+  async solicitarCodigoRecuperacion(email: string): Promise<RecuperacionResult> {
+    const res = await httpClient.post<{ success: boolean; mensaje: string }>('/auth/olvide-password', {
+      email: email.trim().toLowerCase(),
+    });
     return {
-      success: true,
-      provider: 'sandbox',
-      devCode: codigo,
-      message: `Código generado para ${email}.`,
+      success: Boolean(res.success ?? true),
+      mensaje:
+        res.mensaje ||
+        'Si el correo pertenece a una cuenta institucional activa, se ha enviado un código de verificación con validez de 15 minutos.',
     };
   },
 
-  /**
-   * Envía correo de bienvenida cuando se registra o crea un nuevo usuario.
-   */
-  async enviarCorreoBienvenida(params: EnviarBienvenidaParams): Promise<EmailResult> {
-    const { email, nombre = 'Usuario', rol, password = '' } = params;
+  async verificarCodigoRecuperacion(email: string, codigo: string): Promise<boolean> {
+    const res = await httpClient.post<{ valido: boolean }>('/auth/verificar-codigo', {
+      email: email.trim().toLowerCase(),
+      codigo: codigo.trim(),
+    });
+    return Boolean(res.valido);
+  },
 
-    try {
-      const response = await fetch('/api-mail/send-bienvenida', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, nombre, rol, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return {
-          success: true,
-          provider: 'gmail-smtp',
-          message: data.message || `Correo de bienvenida enviado exitosamente a ${email}.`,
-        };
-      }
-    } catch (err: any) {
-      console.warn('Error llamando /api-mail/send-bienvenida:', err.message);
-    }
-
+  async restablecerPassword(email: string, codigo: string, nuevaPassword: string): Promise<RecuperacionResult> {
+    const res = await httpClient.post<{ success: boolean; mensaje: string }>('/auth/restablecer-password', {
+      email: email.trim().toLowerCase(),
+      codigo: codigo.trim(),
+      nuevaPassword,
+    });
     return {
-      success: false,
-      provider: 'sandbox',
-      message: 'No se pudo enviar el correo de bienvenida.',
+      success: Boolean(res.success ?? true),
+      mensaje: res.mensaje || 'Contraseña institucional actualizada correctamente.',
     };
   },
 };

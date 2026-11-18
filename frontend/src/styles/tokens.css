@@ -1,0 +1,112 @@
+/* ==========================================================================
+   EDUCONNECT — STITCH DESIGN SYSTEM TOKENS
+   Centralización única de colores, tipografía, espaciados, radios y sombras.
+   ========================================================================== */
+
+:root {
+  /* --- Tipografía --- */
+  --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Grotesk', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- Colores de Marca (Stitch Electric Blue & Institutional Navy) --- */
+  --ec-primary: #175cff;
+  --ec-primary-dark: #0045d0;
+  --ec-primary-hover: #0c44ea;
+  --ec-primary-soft: #eef4ff;
+  --ec-primary-tint: rgba(23, 92, 255, 0.12);
+  --ec-primary-border: rgba(23, 92, 255, 0.28);
+  --ec-primary-gradient: linear-gradient(135deg, #175cff 0%, #0045d0 100%);
+
+  /* --- Superficies Claras (Dashboards & Ventanas Internas Stitch) --- */
+  --ec-bg: #f7f9ff;
+  --ec-surface-low: #f0f4fb;
+  --ec-surface-card: #ffffff;
+  --ec-surface-container: #eaeef5;
+  --ec-surface-high: #e4e8ef;
+  --ec-border: #dce3f0;
+  --ec-border-strong: #c3c5d9;
+
+  /* --- Textos sobre Superficie Clara --- */
+  --ec-text: #171c21;
+  --ec-text-secondary: #434656;
+  --ec-text-muted: #64748b;
+  --ec-text-subtle: #94a3b8;
+
+  /* --- Sidebar Oscura Institucional --- */
+  --ec-sidebar-bg: #0f172a;
+  --ec-sidebar-surface: #16223b;
+  --ec-sidebar-border: rgba(255, 255, 255, 0.08);
+  --ec-sidebar-text: #cbd5e1;
+  --ec-sidebar-muted: #94a3b8;
+  --ec-sidebar-hover: rgba(255, 255, 255, 0.07);
+
+  /* --- Deep Midnight Navy (Landing Page & Cards Destacadas) --- */
+  --ec-deep-base: #050d21;
+  --ec-deep-navy: #07142f;
+  --ec-deep-surface: #0a1c40;
+  --ec-deep-card: rgba(11, 28, 68, 0.72);
+  --ec-deep-border: rgba(59, 130, 246, 0.18);
+
+  /* --- Semántica de Estado --- */
+  --ec-success: #059669;
+  --ec-success-bg: #ecfdf5;
+  --ec-success-border: #a7f3d0;
+  --ec-warning: #d97706;
+  --ec-warning-bg: #fffbeb;
+  --ec-warning-border: #fde68a;
+  --ec-danger: #dc2626;
+  --ec-danger-bg: #fef2f2;
+  --ec-danger-border: #fecaca;
+  --ec-info: #0284c7;
+  --ec-info-bg: #f0f9ff;
+  --ec-info-border: #bae6fd;
+
+  /* --- Espaciados --- */
+  --ec-space-xs: 0.25rem;
+  --ec-space-sm: 0.5rem;
+  --ec-space-md: 1rem;
+  --ec-space-lg: 1.5rem;
+  --ec-space-xl: 2rem;
+
+  /* --- Radios --- */
+  --ec-radius-xs: 0.375rem;
+  --ec-radius-sm: 0.5rem;
+  --ec-radius-md: 0.75rem;
+  --ec-radius-lg: 1rem;
+  --ec-radius-xl: 1.25rem;
+  --ec-radius-2xl: 1.5rem;
+  --ec-radius-pill: 9999px;
+
+  /* --- Sombras --- */
+  --ec-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --ec-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+  --ec-shadow-md: 0 8px 24px rgba(15, 23, 42, 0.07);
+  --ec-shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.12);
+  --ec-shadow-primary: 0 8px 20px -4px rgba(23, 92, 255, 0.35);
+  --ec-shadow-electric: 0 0 35px -5px rgba(23, 92, 255, 0.45);
+
+  /* --- Aliases de compatibilidad --- */
+  --primary: var(--ec-primary);
+  --primary-gradient: var(--ec-primary-gradient);
+  --primary-dark: var(--ec-primary-dark);
+  --primary-light: var(--ec-primary-soft);
+  --bg-dark-deep: var(--ec-deep-base);
+  --bg-dark-surface: var(--ec-deep-navy);
+  --bg-dark-card: var(--ec-deep-surface);
+  --border-dark: rgba(255, 255, 255, 0.1);
+  --bg-light: var(--ec-bg);
+  --bg-light-surface: var(--ec-surface-card);
+  --border-light: var(--ec-border);
+  --text-dark: var(--ec-text);
+  --text-muted: var(--ec-text-muted);
+  --text-light: #f8fafc;
+  --text-light-muted: #94a3b8;
+  --accent-gold: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --radius-card: var(--ec-radius-lg);
+  --radius-pill: var(--ec-radius-pill);
+  --radius-sm: var(--ec-radius-md);
+  --font-main: var(--font-body);
+}

@@ -1,188 +1,297 @@
 package com.educonnect.service;
 
-import com.educonnect.dto.AuthRequest;
-import com.educonnect.dto.AuthResponse;
-import com.educonnect.dto.RegisterRequest;
+import com.educonnect.dto.*;
+import com.educonnect.exception.BusinessException;
+import com.educonnect.exception.ResourceNotFoundException;
 import com.educonnect.model.*;
 import com.educonnect.repository.*;
 import com.educonnect.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
-    private final EstudianteRepository estudianteRepository;
     private final DocenteRepository docenteRepository;
+    private final EstudianteRepository estudianteRepository;
     private final TutorRepository tutorRepository;
+    private final GrupoRepository grupoRepository;
+    private final MatriculaRepository matriculaRepository;
+    private final CodigoRecuperacionRepository codigoRecuperacionRepository;
+    private final TelemetriaIngresoRepository telemetriaIngresoRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider tokenProvider;
+    private final EmailService emailService;
 
-    @Transactional
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
+    @Transactional(noRollbackFor = BadCredentialsException.class)
     public AuthResponse login(AuthRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
+        String identifier = request.getEmail().trim().toLowerCase();
+        Usuario usuario = usuarioRepository.findByEmail(identifier)
+                .or(() -> usuarioRepository.findByDocumento(request.getEmail().trim()))
+                .orElseThrow(() -> new BadCredentialsException("Credenciales inválidas. Verifique su correo y contraseña."));
 
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        if (!Boolean.TRUE.equals(usuario.getEstado())) {
+            throw new BadCredentialsException("Esta cuenta institucional se encuentra deshabilitada o bloqueada por seguridad.");
+        }
 
+        if (usuario.getIntentosFallidos() != null && usuario.getIntentosFallidos() >= 5) {
+            usuario.setEstado(false);
+            usuarioRepository.save(usuario);
+            throw new BadCredentialsException("Cuenta bloqueada por superar los 5 intentos fallidos. Utilice la recuperación de contraseña o contacte al Administrador.");
+        }
+
+        boolean passwordMatches = verifyAndUpgradePasswordIfNeeded(usuario, request.getPassword());
+
+        if (!passwordMatches) {
+            int fallos = (usuario.getIntentosFallidos() == null ? 0 : usuario.getIntentosFallidos()) + 1;
+            usuario.setIntentosFallidos(fallos);
+            if (fallos >= 5) {
+                usuario.setEstado(false);
+            }
+            usuarioRepository.save(usuario);
+            throw new BadCredentialsException("Credenciales inválidas. Intento " + fallos + " de 5.");
+        }
+
+        usuario.setIntentosFallidos(0);
         usuario.setUltimoAcceso(LocalDateTime.now());
         usuarioRepository.save(usuario);
 
-        String token = jwtTokenProvider.generarToken(usuario);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                usuario.getEmail(),
+                null,
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Long perfilId = null;
-        if (usuario.getRol() == Rol.ESTUDIANTE) {
-            perfilId = estudianteRepository.findByUsuarioId(usuario.getId())
-                    .map(Estudiante::getId).orElse(null);
-        } else if (usuario.getRol() == Rol.DOCENTE) {
-            perfilId = docenteRepository.findByUsuarioId(usuario.getId())
-                    .map(Docente::getId).orElse(null);
-        } else if (usuario.getRol() == Rol.TUTOR) {
-            perfilId = tutorRepository.findByUsuarioId(usuario.getId())
-                    .map(Tutor::getId).orElse(null);
+        String jwt = tokenProvider.generateToken(authentication);
+
+        // Registrar evento real en tabla telemetria_ingresos
+        telemetriaIngresoRepository.save(TelemetriaIngreso.builder()
+                .usuario(usuario)
+                .rolAcceso(usuario.getRol().name())
+                .moduloVisitado("PORTAL_AUTENTICACION")
+                .direccionIp("127.0.0.1")
+                .dispositivo("Cliente Web EduConnect")
+                .fechaEvento(LocalDateTime.now())
+                .build());
+
+        return buildAuthResponse(usuario, jwt);
+    }
+
+    private boolean verifyAndUpgradePasswordIfNeeded(Usuario usuario, String rawPassword) {
+        String storedHash = usuario.getPasswordHash();
+        if (storedHash == null || rawPassword == null) {
+            return false;
+        }
+        if (storedHash.startsWith("$2a$") || storedHash.startsWith("$2b$") || storedHash.startsWith("$2y$")) {
+            return passwordEncoder.matches(rawPassword, storedHash);
+        }
+        // Migración transparente si algún registro antiguo fue guardado sin BCrypt
+        if (storedHash.equals(rawPassword)) {
+            usuario.setPasswordHash(passwordEncoder.encode(rawPassword));
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional(readOnly = true)
+    public AuthResponse obtenerSesionActual(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario autenticado no encontrado."));
+        return buildAuthResponse(usuario, null);
+    }
+
+    private AuthResponse buildAuthResponse(Usuario usuario, String jwt) {
+        String grupoAsignado = null;
+        Long grupoAsignadoId = null;
+        boolean esDirectorGrupo = usuario.getRol() == Rol.DIRECTOR_GRUPO;
+        Long docenteId = null;
+        Long estudianteId = null;
+        Long tutorId = null;
+
+        Optional<Docente> docOpt = docenteRepository.findByUsuario_Id(usuario.getId());
+        if (docOpt.isPresent()) {
+            docenteId = docOpt.get().getId();
+            Optional<Grupo> dirGrupo = grupoRepository.findByDirectorGrupo_Id(docenteId);
+            if (dirGrupo.isPresent()) {
+                esDirectorGrupo = true;
+                grupoAsignado = dirGrupo.get().getCodigoGrupo();
+                grupoAsignadoId = dirGrupo.get().getId();
+            }
+        }
+
+        Optional<Estudiante> estOpt = estudianteRepository.findByUsuario_Id(usuario.getId());
+        if (estOpt.isPresent()) {
+            estudianteId = estOpt.get().getId();
+            List<Matricula> mats = matriculaRepository.findByEstudiante_Id(estudianteId);
+            if (!mats.isEmpty()) {
+                grupoAsignado = mats.get(0).getGrupo().getCodigoGrupo();
+                grupoAsignadoId = mats.get(0).getGrupo().getId();
+            }
+        }
+
+        Optional<Tutor> tutOpt = tutorRepository.findByUsuario_Id(usuario.getId());
+        if (tutOpt.isPresent()) {
+            tutorId = tutOpt.get().getId();
         }
 
         return AuthResponse.builder()
-                .token(token)
-                .tipo("Bearer")
                 .id(usuario.getId())
+                .token(jwt)
                 .email(usuario.getEmail())
-                .rol(usuario.getRol())
+                .documento(usuario.getDocumento())
                 .nombreCompleto(usuario.getNombreCompleto())
-                .avatarUrl(usuario.getAvatarUrl())
-                .perfilId(perfilId)
+                .primerNombre(usuario.getPrimerNombre())
+                .primerApellido(usuario.getPrimerApellido())
+                .rol(usuario.getRol())
+                .grupoAsignado(grupoAsignado)
+                .grupoAsignadoId(grupoAsignadoId)
+                .esDirectorGrupo(esDirectorGrupo)
+                .docenteId(docenteId)
+                .estudianteId(estudianteId)
+                .tutorId(tutorId)
                 .build();
     }
 
     @Transactional
-    public AuthResponse registrar(RegisterRequest request) {
-        if (usuarioRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("El correo ya se encuentra registrado");
+    public AuthResponse register(RegisterRequest request) {
+        String emailClean = request.getEmail().trim().toLowerCase();
+        if (usuarioRepository.existsByEmail(emailClean)) {
+            throw new BusinessException("El correo electrónico ya está registrado en el sistema.");
+        }
+        if (usuarioRepository.existsByDocumento(request.getDocumento().trim())) {
+            throw new BusinessException("El número de documento ya se encuentra registrado.");
         }
 
-        Usuario usuario = Usuario.builder()
-                .email(request.getEmail())
+        Rol rolAsignado = request.getRol() != null ? request.getRol() : Rol.ESTUDIANTE;
+
+        Usuario nuevoUsuario = Usuario.builder()
+                .tipoDocumento(request.getTipoDocumento() != null ? request.getTipoDocumento().toUpperCase() : "CC")
+                .documento(request.getDocumento().trim())
+                .email(emailClean)
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
-                .rol(request.getRol())
-                .primerNombre(request.getPrimerNombre())
+                .rol(rolAsignado)
+                .primerNombre(request.getPrimerNombre().trim())
                 .segundoNombre(request.getSegundoNombre())
-                .primerApellido(request.getPrimerApellido())
+                .primerApellido(request.getPrimerApellido().trim())
                 .segundoApellido(request.getSegundoApellido())
-                .activo(true)
+                .telefono(request.getTelefono())
+                .direccion(request.getDireccion())
+                .estado(true)
+                .intentosFallidos(0)
                 .build();
 
-        usuario = usuarioRepository.save(usuario);
+        Usuario guardado = usuarioRepository.save(nuevoUsuario);
+        emailService.enviarNotificacionBienvenida(guardado.getEmail(), guardado.getNombreCompleto(), guardado.getRol().name());
 
-        Long perfilId = null;
-
-        // Creación transaccional de perfiles según el rol para evitar datos huérfanos
-        if (request.getRol() == Rol.DOCENTE && request.getNumeroDocumento() != null) {
-            Docente docente = Docente.builder()
-                    .usuario(usuario)
-                    .tipoDocumento(request.getTipoDocumento() != null ? request.getTipoDocumento() : "CC")
-                    .numeroDocumento(request.getNumeroDocumento())
-                    .nombres(usuario.getPrimerNombre() + (usuario.getSegundoNombre() != null ? " " + usuario.getSegundoNombre() : ""))
-                    .apellidos(usuario.getPrimerApellido() + (usuario.getSegundoApellido() != null ? " " + usuario.getSegundoApellido() : ""))
-                    .telefono(request.getTelefono() != null ? request.getTelefono() : "Sin teléfono")
-                    .tituloAcademico("Docente Institucional")
-                    .fechaContratacion(LocalDate.now())
-                    .estado("ACTIVO")
-                    .build();
-            docente = docenteRepository.save(docente);
-            perfilId = docente.getId();
-        } else if (request.getRol() == Rol.ESTUDIANTE && request.getNumeroDocumento() != null) {
-            String codigo = request.getCodigoEstudiantil() != null 
-                    ? request.getCodigoEstudiantil() 
-                    : "EST-" + LocalDate.now().getYear() + "-" + usuario.getId();
-
-            Estudiante estudiante = Estudiante.builder()
-                    .usuario(usuario)
-                    .codigoEstudiantil(codigo)
-                    .tipoDocumento(request.getTipoDocumento() != null ? request.getTipoDocumento() : "TI")
-                    .numeroDocumento(request.getNumeroDocumento())
-                    .nombres(usuario.getPrimerNombre() + (usuario.getSegundoNombre() != null ? " " + usuario.getSegundoNombre() : ""))
-                    .apellidos(usuario.getPrimerApellido() + (usuario.getSegundoApellido() != null ? " " + usuario.getSegundoApellido() : ""))
-                    .fechaNacimiento(LocalDate.of(2015, 1, 1))
-                    .genero("MASCULINO")
-                    .tipoSangreRh("O+")
-                    .epsSeguroMedico("No especificada")
-                    .direccionResidencia("Institución Educativa")
-                    .estado("ACTIVO")
-                    .build();
-            estudiante = estudianteRepository.save(estudiante);
-            perfilId = estudiante.getId();
-        }
-
-        String token = jwtTokenProvider.generarToken(usuario);
-
-        return AuthResponse.builder()
-                .token(token)
-                .tipo("Bearer")
-                .id(usuario.getId())
-                .email(usuario.getEmail())
-                .rol(usuario.getRol())
-                .nombreCompleto(usuario.getNombreCompleto())
-                .avatarUrl(usuario.getAvatarUrl())
-                .perfilId(perfilId)
-                .build();
+        return buildAuthResponse(guardado, null);
     }
 
-    private final java.util.concurrent.ConcurrentHashMap<String, RecoveryEntry> codigosRecuperacion = new java.util.concurrent.ConcurrentHashMap<>();
-
-    private record RecoveryEntry(String codigo, LocalDateTime expiracion) {}
-
     @Transactional
-    public java.util.Map<String, Object> solicitarRecuperacion(com.educonnect.dto.OlvidePasswordRequest request) {
-        String email = request.getEmail().trim().toLowerCase();
-        usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("El correo ingresado no se encuentra registrado en la institución"));
+    public Map<String, Object> solicitarRecuperacionPassword(OlvidePasswordRequest request) {
+        String emailClean = request.getEmail().trim().toLowerCase();
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(emailClean);
 
-        String codigo = (request.getCodigo() != null && !request.getCodigo().isBlank())
-                ? request.getCodigo()
-                : String.valueOf((int) (100000 + Math.random() * 900000));
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            // Invalidar códigos previos sin usar
+            List<CodigoRecuperacion> previos = codigoRecuperacionRepository.findByEmailAndUsadoFalseOrderByFechaCreacionDesc(emailClean);
+            for (CodigoRecuperacion previo : previos) {
+                previo.setUsado(true);
+            }
+            codigoRecuperacionRepository.saveAll(previos);
 
-        codigosRecuperacion.put(email, new RecoveryEntry(codigo, LocalDateTime.now().plusMinutes(15)));
+            // Generar código OTP criptográficamente seguro de 6 dígitos
+            String otp = String.format("%06d", SECURE_RANDOM.nextInt(1_000_000));
 
-        return java.util.Map.of(
+            CodigoRecuperacion nuevoCodigo = CodigoRecuperacion.builder()
+                    .email(emailClean)
+                    .codigo(passwordEncoder.encode(otp))
+                    .usado(false)
+                    .expiraEn(LocalDateTime.now().plusMinutes(15))
+                    .fechaCreacion(LocalDateTime.now())
+                    .build();
+            codigoRecuperacionRepository.save(nuevoCodigo);
+
+            emailService.enviarCodigoRecuperacion(emailClean, usuario.getNombreCompleto(), otp);
+        }
+
+        // Respuesta uniforme que impide enumeración de usuarios y jamás expone el código OTP
+        return Map.of(
                 "success", true,
-                "message", "Código de recuperación generado y registrado exitosamente",
-                "email", email,
-                "codigo", codigo
+                "mensaje", "Si el correo electrónico corresponde a una cuenta institucional registrada, se ha enviado un código de verificación con validez de 15 minutos."
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> verificarCodigo(VerificarCodigoRequest request) {
+        String emailClean = request.getEmail().trim().toLowerCase();
+        CodigoRecuperacion registro = validarCodigoInterno(emailClean, request.getCodigo().trim());
+        return Map.of(
+                "valido", registro != null,
+                "mensaje", "Código de verificación validado correctamente."
         );
     }
 
     @Transactional
-    public java.util.Map<String, Object> restablecerPassword(com.educonnect.dto.RestablecerPasswordRequest request) {
-        String email = request.getEmail().trim().toLowerCase();
-        RecoveryEntry entry = codigosRecuperacion.get(email);
+    public Map<String, Object> restablecerPassword(RestablecerPasswordRequest request) {
+        String emailClean = request.getEmail().trim().toLowerCase();
+        CodigoRecuperacion registro = validarCodigoInterno(emailClean, request.getCodigo().trim());
 
-        if (entry == null || LocalDateTime.now().isAfter(entry.expiracion()) || !entry.codigo().equals(request.getCodigo().trim())) {
-            throw new IllegalArgumentException("Código de verificación inválido o expirado");
-        }
+        Usuario usuario = usuarioRepository.findByEmail(emailClean)
+                .orElseThrow(() -> new BusinessException("No fue posible procesar el restablecimiento para la cuenta indicada."));
 
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+        registro.setUsado(true);
+        codigoRecuperacionRepository.save(registro);
 
         usuario.setPasswordHash(passwordEncoder.encode(request.getNuevaPassword()));
+        usuario.setIntentosFallidos(0);
+        usuario.setEstado(true);
         usuarioRepository.save(usuario);
 
-        codigosRecuperacion.remove(email);
-
-        return java.util.Map.of(
+        return Map.of(
                 "success", true,
-                "message", "Contraseña restablecida exitosamente. Ya puedes iniciar sesión con tu nueva clave."
+                "mensaje", "Tu contraseña institucional ha sido actualizada exitosamente con cifrado BCrypt."
         );
+    }
+
+    private CodigoRecuperacion validarCodigoInterno(String email, String codigoIngresado) {
+        List<CodigoRecuperacion> vigentes = codigoRecuperacionRepository.findByEmailAndUsadoFalseOrderByFechaCreacionDesc(email);
+        if (vigentes.isEmpty()) {
+            throw new BusinessException("El código de verificación es inválido o no existe una solicitud activa.");
+        }
+
+        LocalDateTime ahora = LocalDateTime.now();
+        for (CodigoRecuperacion reg : vigentes) {
+            if (reg.getExpiraEn().isBefore(ahora)) {
+                continue;
+            }
+            String almacenado = reg.getCodigo();
+            boolean coincide = (almacenado.startsWith("$2a$") || almacenado.startsWith("$2b$"))
+                    ? passwordEncoder.matches(codigoIngresado, almacenado)
+                    : almacenado.equals(codigoIngresado);
+            if (coincide) {
+                return reg;
+            }
+        }
+        throw new BusinessException("El código de verificación es incorrecto o ha expirado.");
     }
 }

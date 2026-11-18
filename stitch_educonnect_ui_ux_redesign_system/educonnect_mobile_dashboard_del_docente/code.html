@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#535f7d", "tertiary-container": "#0c68db", "surface": "#f7f9ff", "on-primary-fixed": "#001550", "surface-tint": "#004ee7", "on-secondary-fixed-variant": "#3b4664", "primary-container": "#175cff", "on-primary-fixed-variant": "#003ab1", "surface-dim": "#d6dae1", "secondary-container": "#ced9fe", "on-surface": "#171c21", "secondary-fixed": "#d9e2ff", "surface-container-low": "#f0f4fb", "surface-container-lowest": "#ffffff", "on-primary-container": "#edeeff", "on-surface-variant": "#434656", "error-container": "#ffdad6", "secondary-fixed-dim": "#bac6e9", "inverse-surface": "#2c3136", "on-tertiary-fixed": "#001a42", "on-tertiary": "#ffffff", "surface-container": "#eaeef5", "tertiary-fixed": "#d8e2ff", "outline": "#737688", "on-background": "#171c21", "surface-variant": "#dfe3ea", "surface-container-highest": "#dfe3ea", "tertiary-fixed-dim": "#adc6ff", "surface-container-high": "#e4e8ef", "error": "#ba1a1a", "inverse-primary": "#b6c4ff", "primary-fixed": "#dce1ff", "background": "#f7f9ff", "on-tertiary-container": "#ebefff", "primary": "#0045d0", "on-tertiary-fixed-variant": "#004395", "on-secondary-fixed": "#0e1b36", "secondary": "#525e7d", "primary-fixed-dim": "#b6c4ff", "inverse-on-surface": "#edf1f8", "surface-bright": "#f7f9ff", "on-error-container": "#93000a", "on-secondary": "#ffffff", "on-error": "#ffffff", "on-primary": "#ffffff", "outline-variant": "#c3c5d9", "tertiary": "#0050af" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-mobile": "1rem", "space-xs": "0.25rem", "gutter-mobile": "1rem", "margin": "2rem", "gutter": "1.5rem", "space-md": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xl": "2rem" }, "fontFamily": { "label-md": ["Inter"], "body-lg": ["Inter"], "display-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "label-sm": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "body-md": ["Inter"], "metric-display": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "metric-display": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(7,20,47,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-sm font-bold shadow-[0_4px_14px_0_rgba(23,92,255,0.35)] shrink-0"><span class="material-symbols-outlined text-[20px]">school</span></div><div class="flex flex-col truncate"><span class="font-headline-sm text-headline-sm text-on-surface truncate">EduConnect</span><button class="flex items-center gap-0.5 text-on-surface-variant font-label-sm text-label-sm text-left truncate -mt-0.5"><span class="truncate">2025-A · Sede Central</span><span class="material-symbols-outlined text-[14px]">expand_more</span></button></div></div><div class="flex items-center gap-space-xs shrink-0"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface relative transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span></button><button class="w-11 h-11 flex items-center justify-center rounded-full transition-transform active:scale-95"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></button></div></div></header><main class="flex-1 flex flex-col w-full px-margin-mobile pt-16 pb-24 bg-surface max-w-lg mx-auto"><div class="flex flex-col w-full gap-space-lg">
+<!-- Perfil & Estado en Vivo del Docente -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] flex flex-col gap-space-sm relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center gap-space-md">
+<div class="relative shrink-0">
+<img class="w-14 h-14 rounded-xl object-cover shadow-sm" data-alt="Close up portrait photograph of teacher Andres Romero, friendly expression, mid thirties, soft studio lighting, wearing a navy academic cardigan over crisp white shirt, clean corporate pedagogical background in light tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnxGNup75DMezTQUvTR028-gbPNXLfyp83if60dOJeItReNfwcFvuCFP3qq7cFNbA979JIUjH-y9nEpd-kSn6wjE_Csi-8gQ8SKnNt7tpjocy9oDWdeza0tAiGZIc_2EnayinluDprVdJKl4h8asp2MLD7OxZ3myLs1bu05ZVir1shQmYzvP-nQgwWrEzsLOuarV0dN1aMdH1aZGEGJ-_lAGws-eS59qFKM8FJVu8"/>
+<span class="absolute -bottom-1 -right-1 flex h-4 w-4">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 ring-2 ring-surface-container-lowest"></span>
+</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<div class="flex items-center justify-between gap-1">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate">Lic. Andrés Romero</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed shrink-0">Titular</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Depto. de Humanidades · Sede Central</p>
+</div>
+</div>
+<!-- Píldora de Estado en Vivo -->
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></div>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface block truncate">En clase: Filosofía 11°A</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant block truncate">Aula 102 · Edificio Humanidades</span>
+</div>
+</div>
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-label-md text-label-md shrink-0 active:scale-95 shadow-sm transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">qr_code_scanner</span>
+<span>Código</span>
+</button>
+</div>
+</div>
+<!-- Próxima Clase & Quick Tap de Asistencia -->
+<div class="bg-gradient-to-br from-primary-container to-tertiary-container rounded-xl p-space-md text-on-primary-container shadow-md flex flex-col gap-space-md relative overflow-hidden">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-primary-container/80 uppercase tracking-wider">Módulo en Curso</span>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-primary font-bold mt-0.5">Filosofía &amp; Ensayo</h3>
+<p class="font-body-sm text-body-sm text-on-primary-container/90">Grado 11°A · 32 estudiantes matriculados</p>
+</div>
+<div class="bg-on-primary/15 backdrop-blur-md rounded-lg px-2.5 py-1.5 flex flex-col items-center shrink-0">
+<span class="font-label-sm text-label-sm text-on-primary-container/80">Tiempo restante</span>
+<span class="font-metric-display text-metric-display text-on-primary font-bold leading-none mt-0.5">42<span class="font-label-md text-label-md font-normal">m</span></span>
+</div>
+</div>
+<!-- Barra de progreso de la clase -->
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between items-center font-label-sm text-label-sm text-on-primary-container/90">
+<span>08:45 AM</span>
+<span>Bloque 2 de 3</span>
+<span>10:15 AM</span>
+</div>
+<div class="w-full bg-black/20 rounded-full h-2 overflow-hidden">
+<div class="bg-on-primary h-2 rounded-full w-3/5 transition-all duration-500"></div>
+</div>
+</div>
+<!-- Botón Touch 1-Tap Asistencia Rápida -->
+<button class="w-full py-3.5 px-space-md bg-surface-container-lowest text-primary rounded-lg font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-[0_4px_14px_0_rgba(7,20,47,0.12)] active:scale-98 transition-all" id="quick-attendance-btn" onclick="openAttendanceModal()">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">how_to_reg</span>
+<span>Tomar Asistencia Rápida (1-Tap)</span>
+</button>
+</div>
+<!-- Agenda de Clases de Hoy -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Horario de Hoy</h3>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed">Miércoles, 24 Oct</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<!-- Clase 1: Pasada/Completada -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] flex items-center justify-between gap-space-sm opacity-85">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="flex flex-col items-center justify-center w-12 py-1.5 rounded-lg bg-surface-container-low shrink-0 text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">07:00</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 leading-none mt-1">08:30</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Ética y Valores</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">9°B</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Aula 204 · Cívica y Derechos</p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+            34/34 Asistieron
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Completada</span>
+</div>
+</div>
+<!-- Clase 2: En curso -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_4px_12px_0_rgba(23,92,255,0.08)] flex items-center justify-between gap-space-sm bg-primary/5">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="flex flex-col items-center justify-center w-12 py-1.5 rounded-lg bg-primary-container text-on-primary shrink-0 text-center shadow-sm">
+<span class="font-label-sm text-label-sm font-semibold leading-none">08:45</span>
+<span class="font-label-sm text-label-sm text-on-primary/80 leading-none mt-1">10:15</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h4 class="font-headline-sm text-headline-sm text-primary truncate">Filosofía</h4>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded bg-primary-fixed text-on-primary-fixed font-bold">11°A</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Aula 102 · Dialéctica Clásica</p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary-container text-on-primary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-primary animate-pulse"></span>
+            En Curso
+          </span>
+<span class="font-label-sm text-label-sm text-primary mt-1 font-semibold">Activa</span>
+</div>
+</div>
+<!-- Clase 3: Próxima -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="flex flex-col items-center justify-center w-12 py-1.5 rounded-lg bg-surface-container-low shrink-0 text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">10:45</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 leading-none mt-1">12:15</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Ciencias Sociales</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">10°A</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Lab de Ciencias · Geopolítica</p>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            Siguiente
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">En 30 min</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Herramienta Rápida: Anotación al Observador en 2 toques -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Observador del Alumno</h3>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Registro 2-Tap</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Registra incidencias, felicitaciones o seguimiento formativo al instante.</p>
+<!-- Tap 1: Selector de Estudiante (Scroll Horizontal Táctil) -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">1. Seleccionar estudiante (11°A):</span>
+<div class="flex gap-2 overflow-x-auto pb-1 -mx-space-md px-space-md no-scrollbar">
+<button class="student-pill px-3 py-2 rounded-lg bg-surface-container-low text-on-surface flex items-center gap-2 shrink-0 active:scale-95 transition-all text-left" onclick="selectStudent(this, 'Valeria Méndez')">
+<div class="w-6 h-6 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm flex items-center justify-center font-bold">VM</div>
+<span class="font-label-md text-label-md whitespace-nowrap">Valeria Méndez</span>
+</button>
+<button class="student-pill px-3 py-2 rounded-lg bg-surface-container-low text-on-surface flex items-center gap-2 shrink-0 active:scale-95 transition-all text-left" onclick="selectStudent(this, 'Mateo Gómez')">
+<div class="w-6 h-6 rounded-full bg-secondary/20 text-secondary font-label-sm text-label-sm flex items-center justify-center font-bold">MG</div>
+<span class="font-label-md text-label-md whitespace-nowrap">Mateo Gómez</span>
+</button>
+<button class="student-pill px-3 py-2 rounded-lg bg-surface-container-low text-on-surface flex items-center gap-2 shrink-0 active:scale-95 transition-all text-left" onclick="selectStudent(this, 'Sofía Caicedo')">
+<div class="w-6 h-6 rounded-full bg-tertiary/20 text-tertiary font-label-sm text-label-sm flex items-center justify-center font-bold">SC</div>
+<span class="font-label-md text-label-md whitespace-nowrap">Sofía Caicedo</span>
+</button>
+<button class="student-pill px-3 py-2 rounded-lg bg-surface-container-low text-on-surface flex items-center gap-2 shrink-0 active:scale-95 transition-all text-left" onclick="selectStudent(this, 'Lucas Rivas')">
+<div class="w-6 h-6 rounded-full bg-primary-container/20 text-primary-container font-label-sm text-label-sm flex items-center justify-center font-bold">LR</div>
+<span class="font-label-md text-label-md whitespace-nowrap">Lucas Rivas</span>
+</button>
+</div>
+</div>
+<!-- Tap 2: Categorías de Impacto Rápido -->
+<div class="flex flex-col gap-1.5 mt-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">2. Tipo de observación:</span>
+<div class="grid grid-cols-3 gap-2">
+<button class="p-2.5 rounded-lg bg-emerald-50 text-emerald-800 flex flex-col items-center justify-center gap-1 active:scale-95 transition-all text-center" onclick="logObservation('Felicitación Académica')">
+<span class="material-symbols-outlined text-[20px] text-emerald-600">military_tech</span>
+<span class="font-label-sm text-label-sm font-semibold">Mérito</span>
+</button>
+<button class="p-2.5 rounded-lg bg-blue-50 text-blue-800 flex flex-col items-center justify-center gap-1 active:scale-95 transition-all text-center" onclick="logObservation('Participación Destacada')">
+<span class="material-symbols-outlined text-[20px] text-primary">record_voice_over</span>
+<span class="font-label-sm text-label-sm font-semibold">Aporte Oral</span>
+</button>
+<button class="p-2.5 rounded-lg bg-amber-50 text-amber-900 flex flex-col items-center justify-center gap-1 active:scale-95 transition-all text-center" onclick="logObservation('Llamado de Atención Leve')">
+<span class="material-symbols-outlined text-[20px] text-amber-600">warning</span>
+<span class="font-label-sm text-label-sm font-semibold">Atención</span>
+</button>
+</div>
+</div>
+<!-- Feedback Toast flotante de confirmación rápida -->
+<div class="hidden mt-2 p-2.5 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-between gap-2" id="observation-toast">
+<div class="flex items-center gap-2 truncate">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span class="font-label-sm text-label-sm truncate" id="observation-toast-msg">Anotación guardada en el folio.</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Justo ahora</span>
+</div>
+</div>
+<!-- Tareas y Calificaciones Pendientes -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Calificaciones Pendientes</h3>
+</div>
+<span class="font-label-sm text-label-sm font-semibold text-primary">58 entregas</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Item 1: Ensayo Monográfico -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-primary font-semibold uppercase">Filosofía · Grado 11°A</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate mt-0.5">Ensayo Monográfico IB</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Límite rúbrica: Hoy, 23:59</p>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold shrink-0">
+            28 / 32
+          </span>
+</div>
+<div class="w-full bg-surface-container-low rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-1.5 rounded-full w-[87%]"></div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center -space-x-1.5">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold ring-2 ring-surface-container-lowest">A</div>
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm flex items-center justify-center font-bold ring-2 ring-surface-container-lowest">C</div>
+<div class="w-6 h-6 rounded-full bg-tertiary text-on-tertiary font-label-sm text-label-sm flex items-center justify-center font-bold ring-2 ring-surface-container-lowest">+26</div>
+</div>
+<button class="px-4 py-2 bg-primary-container text-on-primary rounded-lg font-label-md text-label-md flex items-center gap-1.5 active:scale-95 transition-all shadow-[0_2px_8px_0_rgba(23,92,255,0.25)]">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+<span>Calificar (Móvil)</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Taller de Ética -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] flex items-center justify-between gap-space-sm">
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ética y Valores · 9°B</span>
+<h4 class="font-label-md text-label-md text-on-surface truncate">Taller de Ética Contemporánea</h4>
+<span class="font-body-sm text-body-sm text-error mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span> 30 entregas sin evaluar
+          </span>
+</div>
+<button class="p-2.5 rounded-lg bg-surface-container-low text-on-surface hover:text-primary active:scale-95 transition-all shrink-0">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Resumen Docente Semanal (SaaS Fintech Style) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">insights</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Métricas Semanales</h3>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Semana 14 · Ciclo A</span>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<!-- Métrica 1 -->
+<div class="bg-surface-container-low rounded-lg p-2.5 flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Horas Aula</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-metric-display text-metric-display text-on-surface font-bold">22</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">/24</span>
+</div>
+<span class="font-label-sm text-label-sm text-emerald-700 mt-1 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> 91%
+        </span>
+</div>
+<!-- Métrica 2 -->
+<div class="bg-surface-container-low rounded-lg p-2.5 flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Planillas</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-metric-display text-metric-display text-on-surface font-bold">98</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">%</span>
+</div>
+<span class="font-label-sm text-label-sm text-emerald-700 mt-1 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">check</span> Al día
+        </span>
+</div>
+<!-- Métrica 3 -->
+<div class="bg-surface-container-low rounded-lg p-2.5 flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Evaluación</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-metric-display text-metric-display text-primary font-bold">4.8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">/5</span>
+</div>
+<span class="font-label-sm text-label-sm text-amber-700 mt-1 flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">star</span> Excelente
+        </span>
+</div>
+</div>
+</div>
+<!-- Bottom Sheet / Modal Táctil de Asistencia Rápida (1-Tap Experience) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex-col justify-end" id="attendance-sheet">
+<div class="bg-surface-container-lowest rounded-t-2xl p-space-lg flex flex-col gap-space-md max-h-[751px] overflow-y-auto max-w-lg mx-auto w-full">
+<!-- Drag handle & Header -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-12 h-1.5 rounded-full bg-outline-variant"></div>
+<div class="w-full flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Asistencia: Filosofía 11°A</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Toca para alternar estado: Presente, Retardo, Ausente</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant active:scale-95" onclick="closeAttendanceModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Quick Action Controls -->
+<div class="flex items-center justify-between gap-2">
+<button class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 font-label-md text-label-md flex items-center gap-1 active:scale-95" onclick="markAllPresent()">
+<span class="material-symbols-outlined text-[16px]">done_all</span> Marcar Todos Presentes
+        </button>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="attendance-counter">32 Estudiantes</span>
+</div>
+<!-- Lista Táctil de Alumnos -->
+<div class="flex flex-col gap-2">
+<!-- Alumno 1 -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary font-headline-sm flex items-center justify-center font-bold shrink-0">1</div>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface block truncate">Álvarez Soto, Camilo</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ID: 2025-1101</span>
+</div>
+</div>
+<button class="status-btn px-3 py-1.5 rounded-lg bg-emerald-500 text-on-primary font-label-md text-label-md flex items-center gap-1 active:scale-95 transition-all" onclick="toggleAttendanceStatus(this)">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span class="label">Presente</span>
+</button>
+</div>
+<!-- Alumno 2 -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary font-headline-sm flex items-center justify-center font-bold shrink-0">2</div>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface block truncate">Bermúdez, Isabella</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ID: 2025-1102</span>
+</div>
+</div>
+<button class="status-btn px-3 py-1.5 rounded-lg bg-emerald-500 text-on-primary font-label-md text-label-md flex items-center gap-1 active:scale-95 transition-all" onclick="toggleAttendanceStatus(this)">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span class="label">Presente</span>
+</button>
+</div>
+<!-- Alumno 3 -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary font-headline-sm flex items-center justify-center font-bold shrink-0">3</div>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface block truncate">Caicedo Mora, Sofía</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ID: 2025-1103</span>
+</div>
+</div>
+<button class="status-btn px-3 py-1.5 rounded-lg bg-amber-500 text-on-primary font-label-md text-label-md flex items-center gap-1 active:scale-95 transition-all" onclick="toggleAttendanceStatus(this)">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span class="label">Retardo</span>
+</button>
+</div>
+<!-- Alumno 4 -->
+<div class="flex items-center justify-between p-space-sm bg-surface-container-low rounded-xl">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary font-headline-sm flex items-center justify-center font-bold shrink-0">4</div>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface block truncate">Gómez Duarte, Mateo</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">ID: 2025-1104</span>
+</div>
+</div>
+<button class="status-btn px-3 py-1.5 rounded-lg bg-emerald-500 text-on-primary font-label-md text-label-md flex items-center gap-1 active:scale-95 transition-all" onclick="toggleAttendanceStatus(this)">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span class="label">Presente</span>
+</button>
+</div>
+</div>
+<!-- Botón de Envío Instantáneo -->
+<div class="pt-2">
+<button class="w-full py-3.5 bg-primary-container text-on-primary rounded-lg font-headline-sm text-headline-sm flex items-center justify-center gap-2 active:scale-98 transition-all shadow-[0_4px_14px_0_rgba(23,92,255,0.35)]" onclick="saveAttendance()">
+<span class="material-symbols-outlined text-[20px]">save</span>
+<span>Sincronizar Planilla de Asistencia</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  let selectedStudentName = 'Valeria Méndez';
+
+  function selectStudent(button, name) {
+    selectedStudentName = name;
+    document.querySelectorAll('.student-pill').forEach(btn => {
+      btn.classList.remove('bg-primary-container', 'text-on-primary');
+      btn.classList.add('bg-surface-container-low', 'text-on-surface');
+    });
+    button.classList.remove('bg-surface-container-low', 'text-on-surface');
+    button.classList.add('bg-primary-container', 'text-on-primary');
+  }
+
+  function logObservation(type) {
+    const toast = document.getElementById('observation-toast');
+    const msg = document.getElementById('observation-toast-msg');
+    msg.textContent = `${type} registrada para ${selectedStudentName}.`;
+    toast.classList.remove('hidden');
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 3800);
+  }
+
+  function openAttendanceModal() {
+    const sheet = document.getElementById('attendance-sheet');
+    sheet.classList.remove('hidden');
+    sheet.classList.add('flex');
+  }
+
+  function closeAttendanceModal() {
+    const sheet = document.getElementById('attendance-sheet');
+    sheet.classList.add('hidden');
+    sheet.classList.remove('flex');
+  }
+
+  function toggleAttendanceStatus(btn) {
+    const label = btn.querySelector('.label');
+    const icon = btn.querySelector('.material-symbols-outlined');
+
+    if (btn.classList.contains('bg-emerald-500')) {
+      // De presente a retardo
+      btn.classList.remove('bg-emerald-500');
+      btn.classList.add('bg-amber-500');
+      label.textContent = 'Retardo';
+      icon.textContent = 'schedule';
+    } else if (btn.classList.contains('bg-amber-500')) {
+      // De retardo a ausente
+      btn.classList.remove('bg-amber-500');
+      btn.classList.add('bg-rose-500');
+      label.textContent = 'Ausente';
+      icon.textContent = 'cancel';
+    } else {
+      // De ausente a presente
+      btn.classList.remove('bg-rose-500');
+      btn.classList.add('bg-emerald-500');
+      label.textContent = 'Presente';
+      icon.textContent = 'check';
+    }
+  }
+
+  function markAllPresent() {
+    document.querySelectorAll('.status-btn').forEach(btn => {
+      btn.className = 'status-btn px-3 py-1.5 rounded-lg bg-emerald-500 text-on-primary font-label-md text-label-md flex items-center gap-1 active:scale-95 transition-all';
+      btn.querySelector('.label').textContent = 'Presente';
+      btn.querySelector('.material-symbols-outlined').textContent = 'check';
+    });
+  }
+
+  function saveAttendance() {
+    const mainBtn = document.getElementById('quick-attendance-btn');
+    mainBtn.innerHTML = `<span class="material-symbols-outlined text-[20px] text-emerald-600">check_circle</span> <span class="text-emerald-700">¡Asistencia Guardada (32 Alumnos)!</span>`;
+    mainBtn.classList.remove('bg-surface-container-lowest', 'text-primary');
+    mainBtn.classList.add('bg-emerald-100');
+    closeAttendanceModal();
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_-4px_20px_rgba(7,20,47,0.05)]" data-active-classes="text-primary-container font-semibold"><div class="h-16 max-w-lg mx-auto px-margin-mobile flex items-center justify-around"><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-label-sm mt-0.5">Inicio</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="academico" href="#"><span class="material-symbols-outlined text-[22px]">auto_stories</span><span class="font-label-sm text-label-sm mt-0.5">Módulos</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[22px]">calendar_month</span><span class="font-label-sm text-label-sm mt-0.5">Agenda</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="perfil" href="#"><span class="material-symbols-outlined text-[22px]">tune</span><span class="font-label-sm text-label-sm mt-0.5">Ajustes</span></a></div></nav></body></html>

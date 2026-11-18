@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>EduConnect - Ecosistema SaaS Educativo Inteligente</title>
+<!-- Tailwind CSS CDN with forms & container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- FontAwesome Icons for clean SaaS UI symbols -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#050D1E',
+              navy: '#07142F',
+              card: '#0D1E40',
+              cardAlt: '#122550',
+              blue: '#175CFF',
+              blueHover: '#1248CC',
+              cyan: '#38BDF8',
+              emerald: '#10B981',
+              violet: '#8B5CF6'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            mono: ['ui-monospace', 'monospace']
+          },
+          boxShadow: {
+            'glow-blue': '0 0 25px -4px rgba(23, 92, 255, 0.45)',
+            'glow-cyan': '0 0 20px -3px rgba(56, 189, 248, 0.35)',
+            'card-glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+          }
+        }
+      }
+    };
+  </script>
+<!-- BEGIN: Custom Global Styles -->
+<style data-purpose="custom-styling">
+    body {
+      background-color: #050D1E;
+      color: #E2E8F0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .glass-nav {
+      background: rgba(7, 20, 47, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: linear-gradient(135deg, rgba(13, 30, 64, 0.75) 0%, rgba(9, 22, 50, 0.85) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card-interactive {
+      background: linear-gradient(145deg, rgba(16, 36, 76, 0.6) 0%, rgba(9, 21, 48, 0.8) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.12);
+      transition: all 0.25s ease-in-out;
+    }
+    .glass-card-interactive:active {
+      transform: scale(0.985);
+      border-color: rgba(23, 92, 255, 0.5);
+    }
+
+    .radial-bg-top {
+      background: radial-gradient(circle at 50% 0%, rgba(23, 92, 255, 0.25) 0%, rgba(5, 13, 30, 0) 70%);
+    }
+
+    .radial-bg-bottom {
+      background: radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.15) 0%, rgba(5, 13, 30, 0) 65%);
+    }
+
+    /* Hide scrollbars on modern touch screens while allowing swipe */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<!-- END: Custom Global Styles -->
+</head>
+<body class="w-full max-w-[420px] mx-auto min-h-screen bg-[#050D1E] text-slate-100 flex flex-col relative overflow-x-hidden selection:bg-brand-blue selection:text-white">
+<!-- BEGIN: Ambient Background Glows -->
+<div class="fixed top-0 left-0 right-0 h-96 radial-bg-top pointer-events-none z-0"></div>
+<div class="fixed bottom-0 left-0 right-0 h-80 radial-bg-bottom pointer-events-none z-0"></div>
+<!-- END: Ambient Background Glows -->
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 glass-nav px-4 py-3 flex items-center justify-between" data-purpose="app-header">
+<!-- Brand Logo -->
+<a class="flex items-center gap-2.5" href="#">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-cyan-400 p-[1.5px] shadow-glow-blue">
+<div class="w-full h-full bg-brand-navy rounded-[10px] flex items-center justify-center">
+<i class="fa-solid fa-graduation-cap text-cyan-400 text-base"></i>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-base font-bold tracking-tight text-white flex items-center gap-1">
+          EduConnect
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
+</span>
+<span class="text-[10px] uppercase font-semibold tracking-wider text-slate-400 -mt-1">SaaS Campus OS</span>
+</div>
+</a>
+<!-- Action Buttons -->
+<div class="flex items-center gap-2.5">
+<a class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-brand-blue text-white shadow-glow-blue hover:bg-brand-blueHover active:scale-95 transition-all" href="#demo">
+        Ingresar
+      </a>
+<button aria-label="Abrir menú" class="w-8 h-8 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-white active:bg-slate-700" type="button">
+<i class="fa-solid fa-bars-staggered text-sm"></i>
+</button>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-grow z-10">
+<!-- BEGIN: HeroSection -->
+<section class="px-4 pt-7 pb-8 text-center relative" data-purpose="hero-section">
+<!-- Micro Announcement Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/80 border border-blue-500/30 text-cyan-300 text-xs font-medium mb-5 shadow-inner">
+<span class="flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+</span>
+<span>Ecosistema SaaS Educativo 2025</span>
+</div>
+<!-- Main Headline -->
+<h1 class="text-3xl font-extrabold tracking-tight text-white leading-[1.2] mb-3">
+        Educación conectada. <br/>
+<span class="bg-gradient-to-r from-blue-400 via-brand-cyan to-indigo-300 bg-clip-text text-transparent">Gestión inteligente.</span> <br/>
+        Futuro sin límites.
+      </h1>
+<!-- Subtitle -->
+<p class="text-sm text-slate-300 font-normal leading-relaxed mb-6 max-w-sm mx-auto">
+        Centralice la gestión académica, administrativa y de convivencia escolar en una sola plataforma inteligente en la nube.
+      </p>
+<!-- CTA Stack -->
+<div class="flex flex-col gap-3 w-full max-w-xs mx-auto mb-8">
+<a class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-blue to-blue-600 text-white font-bold text-sm shadow-glow-blue flex items-center justify-center gap-2 active:scale-98 transition-transform" href="#demo">
+<span>Explorar plataforma</span>
+<i class="fa-solid fa-arrow-right text-xs"></i>
+</a>
+<a class="w-full py-3 px-6 rounded-xl glass-card text-slate-300 hover:text-white font-semibold text-sm border border-slate-700/60 flex items-center justify-center gap-2 active:bg-slate-800/50 transition" href="#servicios">
+<span>Conocer servicios</span>
+<i class="fa-regular fa-compass text-xs text-brand-cyan"></i>
+</a>
+</div>
+<!-- Floating Compact Live UI Dashboard Card Preview -->
+<div class="glass-card rounded-2xl p-4 text-left shadow-2xl relative border border-blue-500/20 max-w-sm mx-auto overflow-hidden" data-purpose="hero-dashboard-preview">
+<!-- Background light refraction -->
+<div class="absolute -right-10 -top-10 w-36 h-36 bg-brand-blue/20 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Dashboard Mini Header -->
+<div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-blue-600/30 flex items-center justify-center border border-blue-500/40">
+<i class="fa-solid fa-shield-halved text-cyan-400 text-xs"></i>
+</div>
+<div>
+<div class="text-[11px] font-bold text-white leading-tight">Rectoría Institucional</div>
+<div class="text-[9px] text-emerald-400 flex items-center gap-1 font-mono">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span> Sistema en línea
+              </div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">Periodo 2025-I</span>
+</div>
+<!-- Quick 2-Column Stats -->
+<div class="grid grid-cols-2 gap-2 mb-3">
+<div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+<span class="text-[10px] text-slate-400 block font-medium">Estudiantes Activos</span>
+<div class="text-lg font-bold text-white tracking-tight flex items-baseline gap-1">
+              3,842 <span class="text-[10px] text-emerald-400 font-semibold font-mono"><i class="fa-solid fa-arrow-trend-up"></i> +8.4%</span>
+</div>
+<div class="w-full bg-slate-800 h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-brand-blue h-full w-[85%] rounded-full"></div>
+</div>
+</div>
+<div class="bg-slate-900/60 p-2.5 rounded-xl border border-slate-800/80">
+<span class="text-[10px] text-slate-400 block font-medium">Tasa Retención</span>
+<div class="text-lg font-bold text-white tracking-tight flex items-baseline gap-1">
+              97.2% <span class="text-[10px] text-cyan-400 font-semibold">Meta &gt;95%</span>
+</div>
+<div class="w-full bg-slate-800 h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-cyan-400 h-full w-[97%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Micro Radar Alert Box -->
+<div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center text-[11px]">
+<i class="fa-solid fa-bell"></i>
+</div>
+<span class="text-xs font-semibold text-slate-200">Radar Alertas Tempranas</span>
+</div>
+<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">3 Urgentes</span>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: KeyStatisticsGrid -->
+<section class="px-4 py-6" data-purpose="metrics-grid">
+<div class="text-center mb-4">
+<p class="text-[11px] uppercase tracking-widest text-cyan-400 font-bold">Capacidad Institucional</p>
+<h2 class="text-xl font-bold text-white">Métricas de alto impacto</h2>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- Metric 1 -->
+<div class="glass-card-interactive p-3.5 rounded-xl text-left relative overflow-hidden">
+<div class="text-brand-blue text-base mb-1.5"><i class="fa-solid fa-users-rectangle"></i></div>
+<div class="text-2xl font-black text-white tracking-tight">3,842+</div>
+<div class="text-xs font-medium text-slate-400">Estudiantes Matriculados</div>
+<div class="mt-2 text-[10px] text-slate-500 font-mono">Sede Central y Norte</div>
+</div>
+<!-- Metric 2 -->
+<div class="glass-card-interactive p-3.5 rounded-xl text-left relative overflow-hidden">
+<div class="text-cyan-400 text-base mb-1.5"><i class="fa-solid fa-chalkboard-user"></i></div>
+<div class="text-2xl font-black text-white tracking-tight">240+</div>
+<div class="text-xs font-medium text-slate-400">Docentes y Líderes</div>
+<div class="mt-2 text-[10px] text-emerald-400 font-medium">99.1% Asistencia</div>
+</div>
+<!-- Metric 3 -->
+<div class="glass-card-interactive p-3.5 rounded-xl text-left relative overflow-hidden">
+<div class="text-violet-400 text-base mb-1.5"><i class="fa-solid fa-layer-group"></i></div>
+<div class="text-2xl font-black text-white tracking-tight">154</div>
+<div class="text-xs font-medium text-slate-400">Grupos &amp; Cursos</div>
+<div class="mt-2 text-[10px] text-slate-500 font-mono">Primaria y Bachillerato</div>
+</div>
+<!-- Metric 4 -->
+<div class="glass-card-interactive p-3.5 rounded-xl text-left relative overflow-hidden">
+<div class="text-emerald-400 text-base mb-1.5"><i class="fa-solid fa-cloud-bolt"></i></div>
+<div class="text-2xl font-black text-white tracking-tight">100%</div>
+<div class="text-xs font-medium text-slate-400">Cloud &amp; Alta Disp.</div>
+<div class="mt-2 text-[10px] text-cyan-400 font-mono">Uptime 99.9%</div>
+</div>
+</div>
+</section>
+<!-- END: KeyStatisticsGrid -->
+<!-- BEGIN: CoreServicesSection -->
+<section class="px-4 py-8" data-purpose="services-showcase" id="servicios">
+<div class="flex items-center justify-between mb-4">
+<div>
+<span class="text-[11px] font-bold text-brand-cyan tracking-wider uppercase">Módulos Especializados</span>
+<h2 class="text-xl font-bold text-white">Servicios del Ecosistema</h2>
+</div>
+<span class="text-xs text-brand-blue font-semibold">7 Módulos</span>
+</div>
+<!-- Vertical Stack of Modular Services -->
+<div class="space-y-3">
+<!-- Module 1 -->
+<div class="glass-card p-4 rounded-2xl flex items-start gap-3.5 border-l-4 border-l-brand-blue">
+<div class="w-10 h-10 rounded-xl bg-blue-500/10 text-brand-blue flex items-center justify-center text-lg flex-shrink-0">
+<i class="fa-solid fa-graduation-cap"></i>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white mb-1">Gestión Académica Integral</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+              Mallas curriculares flexibles, expedientes estudiantiles centralizados y asignación de materias por ciclos o semestres.
+            </p>
+</div>
+</div>
+<!-- Module 2 -->
+<div class="glass-card p-4 rounded-2xl flex items-start gap-3.5 border-l-4 border-l-cyan-400">
+<div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg flex-shrink-0">
+<i class="fa-solid fa-file-signature"></i>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white mb-1">Calificaciones y Boletines</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+              Emisión de actas oficiales con firma digital, promedios ponderados automáticos y boletines homologados por MEN / IBO.
+            </p>
+</div>
+</div>
+<!-- Module 3 -->
+<div class="glass-card p-4 rounded-2xl flex items-start gap-3.5 border-l-4 border-l-violet-400">
+<div class="w-10 h-10 rounded-xl bg-violet-500/10 text-violet-400 flex items-center justify-center text-lg flex-shrink-0">
+<i class="fa-solid fa-calendar-days"></i>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white mb-1">Horarios y Gestión de Aulas</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+              Planificación inteligente sin cruces de horarios docentes, ocupación de laboratorios y reservas en tiempo real.
+            </p>
+</div>
+</div>
+<!-- Module 4 -->
+<div class="glass-card p-4 rounded-2xl flex items-start gap-3.5 border-l-4 border-l-emerald-400">
+<div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0">
+<i class="fa-solid fa-user-check"></i>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white mb-1">Asistencia y Control Biométrico</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+              Monitoreo diario de fallas con aviso instantáneo al acudiente vía WhatsApp institucional y correo oficial.
+            </p>
+</div>
+</div>
+<!-- Module 5 -->
+<div class="glass-card p-4 rounded-2xl flex items-start gap-3.5 border-l-4 border-l-amber-400">
+<div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg flex-shrink-0">
+<i class="fa-solid fa-heart-pulse"></i>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white mb-1">Convivencia Escolar y Tutoría</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+              Seguimiento a compromisos disciplinarios, casos psicoorientación confidenciales y plan preventivo antibullying.
+            </p>
+</div>
+</div>
+<!-- Module 6 -->
+<div class="glass-card p-4 rounded-2xl flex items-start gap-3.5 border-l-4 border-l-indigo-400">
+<div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg flex-shrink-0">
+<i class="fa-solid fa-shield-cat"></i>
+</div>
+<div>
+<h3 class="text-sm font-bold text-white mb-1">Custodia y Portal Acudientes</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+              Canal unificado para padres con estado de cuenta, citaciones a reuniones y autorización digital de salidas de campo.
+            </p>
+</div>
+</div>
+<!-- Module 7 (AI highlight) -->
+<div class="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-r from-blue-900/60 to-purple-900/50 border border-blue-400/40">
+<div class="flex items-start gap-3.5">
+<div class="w-10 h-10 rounded-xl bg-white/10 text-cyan-300 flex items-center justify-center text-lg flex-shrink-0 shadow-glow-cyan">
+<i class="fa-solid fa-brain"></i>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<h3 class="text-sm font-bold text-white">IA Institucional Predictiva</h3>
+<span class="text-[9px] bg-cyan-400/20 text-cyan-300 font-extrabold px-1.5 py-0.5 rounded">NUEVO</span>
+</div>
+<p class="text-xs text-slate-200 mt-1 leading-relaxed">
+                Predicción de deserción escolar, alertas anticipadas de reprobación y recomendaciones automáticas de nivelación.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: CoreServicesSection -->
+<!-- BEGIN: DashboardPreviewSection -->
+<section class="px-4 py-8 bg-slate-950/40 border-y border-slate-800/80" data-purpose="mockup-preview">
+<div class="text-center mb-5">
+<span class="text-[11px] font-bold text-brand-blue tracking-wider uppercase">Experiencia de Usuario</span>
+<h2 class="text-xl font-bold text-white">Panel Directivo Intuitivo</h2>
+<p class="text-xs text-slate-400 mt-1">Diseñado para rectores, coordinadores y equipos directivos.</p>
+</div>
+<!-- Smartphone-optimized perspective dashboard container -->
+<div class="glass-card rounded-2xl p-4 border border-blue-500/30 shadow-2xl space-y-4">
+<!-- Live Alert Item -->
+<div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-2.5 h-2.5 rounded-full bg-red-400 animate-ping"></div>
+<div>
+<p class="text-xs font-semibold text-white">Alerta de Inasistencia 11°B</p>
+<p class="text-[10px] text-slate-400">Superó el umbral del 15% bimestral</p>
+</div>
+</div>
+<button class="text-[11px] bg-red-500/20 text-red-200 px-2 py-1 rounded font-medium border border-red-500/40">
+            Revisar
+          </button>
+</div>
+<!-- Grade Distribution Chart Mock -->
+<div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-semibold text-slate-200">Rendimiento por Nivel</span>
+<span class="text-[10px] font-mono text-cyan-400">PGA: 4.62 / 5.0</span>
+</div>
+<div class="space-y-2">
+<div>
+<div class="flex justify-between text-[10px] text-slate-400 mb-0.5">
+<span>Primaria Central</span>
+<span>88% Aprobado</span>
+</div>
+<div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 w-[88%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] text-slate-400 mb-0.5">
+<span>Bachillerato / IB</span>
+<span>94% Aprobado</span>
+</div>
+<div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 w-[94%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Validations Stream -->
+<div class="space-y-2">
+<div class="text-[11px] font-semibold text-slate-400 flex items-center justify-between">
+<span>Últimas Actas Validadas</span>
+<a class="text-brand-blue text-[10px]" href="#">Ver todas</a>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-slate-800/80 text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-[10px] font-bold">CR</span>
+<span class="text-slate-200 font-medium">Prof. Restrepo • Cálculo</span>
+</div>
+<span class="text-[10px] text-emerald-400 font-medium bg-emerald-500/10 px-2 py-0.5 rounded">Firmada</span>
+</div>
+<div class="flex items-center justify-between py-2 text-xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center text-lo font-bold">MG</span>
+<span class="text-slate-200 font-medium">Lic. Gómez • Literatura</span>
+</div>
+<span class="text-[10px] text-amber-300 font-medium bg-amber-500/10 px-2 py-0.5 rounded">En revisión</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: DashboardPreviewSection -->
+<!-- BEGIN: BentoBenefitsSection -->
+<section class="px-4 py-8" data-purpose="bento-benefits">
+<div class="text-center mb-6">
+<span class="text-[11px] font-bold text-cyan-400 tracking-wider uppercase">Ventajas Clave</span>
+<h2 class="text-xl font-bold text-white">Por qué elegir EduConnect</h2>
+</div>
+<div class="space-y-3">
+<!-- Bento 1 -->
+<div class="glass-card p-4 rounded-2xl">
+<div class="w-9 h-9 rounded-xl bg-blue-500/20 text-brand-blue flex items-center justify-center mb-2.5">
+<i class="fa-solid fa-server"></i>
+</div>
+<h3 class="text-sm font-bold text-white mb-1">Gestión Centralizada</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+            Consolide matrículas, cobros, calificaciones y certificados oficiales en un solo repositorio sin duplicidad de datos.
+          </p>
+</div>
+<!-- Bento 2 -->
+<div class="glass-card p-4 rounded-2xl">
+<div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center mb-2.5">
+<i class="fa-solid fa-bolt-lightning"></i>
+</div>
+<h3 class="text-sm font-bold text-white mb-1">Seguimiento en Tiempo Real</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+            Monitoree la asistencia en aula, alertas de reprobación y solicitudes institucionales minuto a minuto.
+          </p>
+</div>
+<!-- Bento 3 -->
+<div class="glass-card p-4 rounded-2xl">
+<div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-2.5">
+<i class="fa-solid fa-comments"></i>
+</div>
+<h3 class="text-sm font-bold text-white mb-1">Comunicación Oficial Segura</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+            Notificaciones directas con acudientes por canales cifrados, evitando canales informales y garantizando trazabilidad legal.
+          </p>
+</div>
+<!-- Bento 4 -->
+<div class="glass-card p-4 rounded-2xl">
+<div class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-2.5">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+</div>
+<h3 class="text-sm font-bold text-white mb-1">Automatización Institucional</h3>
+<p class="text-xs text-slate-300 leading-relaxed">
+            Cálculo de puestos de honor, actas de grado y generación masiva de boletines en PDF en menos de 10 segundos.
+          </p>
+</div>
+</div>
+</section>
+<!-- END: BentoBenefitsSection -->
+<!-- BEGIN: FinalCTASection -->
+<section class="px-4 py-8 mb-4" data-purpose="final-call-to-action" id="demo">
+<div class="rounded-3xl p-6 bg-gradient-to-b from-brand-card to-brand-navy border border-blue-500/40 text-center shadow-glow-blue relative overflow-hidden">
+<!-- Glow highlight circle -->
+<div class="absolute -top-12 -left-12 w-32 h-32 bg-cyan-400/20 rounded-full blur-xl pointer-events-none"></div>
+<span class="px-3 py-1 rounded-full bg-blue-500/20 text-cyan-300 text-[11px] font-bold inline-block mb-3 border border-blue-400/30">
+          Transformación Digital 2025
+        </span>
+<h2 class="text-2xl font-black text-white leading-snug mb-2">
+          Modernice su institución educativa hoy
+        </h2>
+<p class="text-xs text-slate-300 mb-6 leading-relaxed">
+          Agende una demostración personalizada con un especialista pedagógico para su equipo directivo y docente.
+        </p>
+<!-- Lead Form -->
+<form class="space-y-3" onsubmit="event.preventDefault(); alert('Solicitud de demostración recibida con éxito.');">
+<div>
+<input class="w-full text-xs px-3.5 py-3 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue" placeholder="Nombre y cargo directivo" required="" type="text"/>
+</div>
+<div>
+<input class="w-full text-xs px-3.5 py-3 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue" placeholder="Correo institucional" required="" type="email"/>
+</div>
+<div>
+<input class="w-full text-xs px-3.5 py-3 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 focus:border-brand-blue focus:ring-1 focus:ring-brand-blue" placeholder="Número de contacto WhatsApp" required="" type="tel"/>
+</div>
+<button class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-blue to-cyan-500 text-white font-bold text-sm shadow-lg active:scale-95 transition-all" type="submit">
+            Solicitar Demostración Guiada
+          </button>
+</form>
+<p class="text-[10px] text-slate-400 mt-3">
+<i class="fa-solid fa-lock text-slate-500 mr-1"></i> Datos protegidos bajo normativa Habeas Data institucional.
+        </p>
+</div>
+</section>
+<!-- END: FinalCTASection -->
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: MainFooter -->
+<footer class="glass-nav border-t border-slate-800/80 px-4 py-8 text-center text-slate-400 z-10" data-purpose="app-footer">
+<!-- Brand Info -->
+<div class="flex items-center justify-center gap-2 mb-3">
+<div class="w-7 h-7 rounded-lg bg-brand-blue flex items-center justify-center text-white text-xs">
+<i class="fa-solid fa-graduation-cap"></i>
+</div>
+<span class="font-bold text-base text-white">EduConnect OS</span>
+</div>
+<p class="text-xs text-slate-400 mb-5 max-w-xs mx-auto">
+      Plataforma SaaS para la gobernanza académica, directiva y estudiantil moderna.
+    </p>
+<!-- Quick Links Grid -->
+<div class="grid grid-cols-2 gap-3 text-xs mb-6 text-slate-300 font-medium">
+<a class="hover:text-cyan-400 transition" href="#">Portal Docentes</a>
+<a class="hover:text-cyan-400 transition" href="#">Portal Rectoría</a>
+<a class="hover:text-cyan-400 transition" href="#">Soporte Técnico</a>
+<a class="hover:text-cyan-400 transition" href="#">Términos del Servicio</a>
+</div>
+<!-- Status indicator badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] mb-6">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span class="text-slate-300">Infraestructura AWS Operativa (99.9%)</span>
+</div>
+<!-- Copyright -->
+<p class="text-[11px] text-slate-500">
+      © 2025 EduConnect Enterprise Ltd. Todos los derechos reservados.
+    </p>
+</footer>
+<!-- END: MainFooter -->
+</body></html>

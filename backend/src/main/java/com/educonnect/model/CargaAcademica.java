@@ -2,18 +2,13 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "cargas_academicas", uniqueConstraints = {
+@Table(name = "carga_academica", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"grupo_id", "materia_id"})
 })
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class CargaAcademica {
 
@@ -21,22 +16,19 @@ public class CargaAcademica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "grupo_id", nullable = false)
     private Grupo grupo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "materia_id", nullable = false)
     private Materia materia;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "docente_id", nullable = false)
     private Docente docente;
 
-    @Column(name = "horario_descripcion", columnDefinition = "TEXT")
-    private String horarioDescripcion;
-
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Builder.Default
+    @Column(name = "intensidad_horaria", nullable = false)
+    private Integer intensidadHoraria = 4;
 }

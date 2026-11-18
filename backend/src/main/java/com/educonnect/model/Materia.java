@@ -2,16 +2,11 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "materias")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Materia {
 
@@ -19,14 +14,11 @@ public class Materia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 30)
-    private String codigo;
+    @Column(name = "codigo_oficial", nullable = false, unique = true, length = 20)
+    private String codigoOficial;
 
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 100)
     private String nombre;
-
-    @Column(columnDefinition = "TEXT")
-    private String descripcion;
 
     @Column(name = "area_conocimiento", nullable = false, length = 100)
     private String areaConocimiento;
@@ -35,7 +27,10 @@ public class Materia {
     @Column(name = "horas_semanales", nullable = false)
     private Integer horasSemanales = 4;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Column(columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean activa = true;
 }

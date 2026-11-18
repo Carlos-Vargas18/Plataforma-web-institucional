@@ -2,19 +2,14 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "asistencias", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"matricula_id", "carga_academica_id", "fecha"})
+    @UniqueConstraint(columnNames = {"matricula_id", "carga_academica_id", "fecha_clase"})
 })
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Asistencia {
 
@@ -22,28 +17,36 @@ public class Asistencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "matricula_id", nullable = false)
     private Matricula matricula;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "carga_academica_id", nullable = false)
     private CargaAcademica cargaAcademica;
 
-    @Column(nullable = false)
-    private LocalDate fecha;
-
-    @Column(nullable = false, length = 25)
-    private String estado; // PRESENTE, AUSENTE_JUSTIFICADO, AUSENTE_INJUSTIFICADO, TARDE
-
-    @Column(name = "motivo_justificacion", columnDefinition = "TEXT")
-    private String motivoJustificacion;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "periodo_id", nullable = false)
+    private PeriodoAcademico periodo;
 
     @Builder.Default
-    @Column(name = "notificado_a_tutor")
-    private boolean notificadoATutor = false;
+    @Column(name = "fecha_clase", nullable = false)
+    private LocalDate fechaClase = LocalDate.now();
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "estado_asistencia", nullable = false, length = 20)
+    private String estadoAsistencia;
+
+    @Builder.Default
+    @Column(name = "minutos_retraso")
+    private Integer minutosRetraso = 0;
+
+    @Column(length = 255)
+    private String observacion;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean justificada = false;
+
+    @Column(name = "soporte_excusa_url", length = 255)
+    private String soporteExcusaUrl;
 }

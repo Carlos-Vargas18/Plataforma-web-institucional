@@ -2,17 +2,12 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "docentes")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Docente {
 
@@ -20,47 +15,32 @@ public class Docente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", nullable = false, unique = true)
     private Usuario usuario;
 
-    @Column(name = "tipo_documento", nullable = false, length = 20)
-    private String tipoDocumento;
+    @Column(name = "codigo_empleado", nullable = false, unique = true, length = 30)
+    private String codigoEmpleado;
 
-    @Column(name = "numero_documento", nullable = false, unique = true, length = 50)
-    private String numeroDocumento;
-
-    @Column(nullable = false, length = 150)
-    private String nombres;
-
-    @Column(nullable = false, length = 150)
-    private String apellidos;
-
-    @Column(nullable = false, length = 30)
-    private String telefono;
-
-    @Column(name = "titulo_academico", nullable = false, length = 150)
-    private String tituloAcademico;
-
-    @Column(length = 150)
+    @Column(nullable = false, length = 100)
     private String especialidad;
 
-    @Column(name = "escalafon_categoria", length = 50)
-    private String escalafonCategoria;
+    @Column(name = "titulo_profesional", nullable = false, length = 150)
+    private String tituloProfesional;
 
     @Builder.Default
-    @Column(name = "fecha_contratacion", nullable = false)
-    private LocalDate fechaContratacion = LocalDate.now();
+    @Column(length = 30)
+    private String escalafon = "Grado 2A";
 
     @Builder.Default
-    @Column(length = 20)
-    private String estado = "ACTIVO";
+    @Column(name = "fecha_vinculacion", nullable = false)
+    private LocalDate fechaVinculacion = LocalDate.now();
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Builder.Default
+    @Column(name = "tipo_contrato", nullable = false, length = 40)
+    private String tipoContrato = "TERMINO_INDEFINIDO";
 
-    public String getNombreCompleto() {
-        return nombres + " " + apellidos;
-    }
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean activo = true;
 }

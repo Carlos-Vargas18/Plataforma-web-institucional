@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface TutorRepository extends JpaRepository<Tutor, Long> {
-    Optional<Tutor> findByNumeroDocumento(String numeroDocumento);
     Optional<Tutor> findByUsuarioId(Long usuarioId);
+    Optional<Tutor> findByUsuario_Id(Long usuarioId);
 }

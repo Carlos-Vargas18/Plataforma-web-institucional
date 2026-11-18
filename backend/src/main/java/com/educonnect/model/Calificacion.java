@@ -2,20 +2,15 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "calificaciones", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"matricula_id", "carga_academica_id", "periodo_id"})
 })
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Calificacion {
 
@@ -23,60 +18,53 @@ public class Calificacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "matricula_id", nullable = false)
     private Matricula matricula;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "carga_academica_id", nullable = false)
     private CargaAcademica cargaAcademica;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "periodo_id", nullable = false)
     private PeriodoAcademico periodo;
 
-    @Column(name = "nota_cognitiva", precision = 4, scale = 2)
-    private BigDecimal notaCognitiva; // 40%
+    @Builder.Default
+    @Column(name = "nota_cognitiva", nullable = false, precision = 3, scale = 1)
+    private BigDecimal notaCognitiva = new BigDecimal("1.0");
 
-    @Column(name = "nota_procedimental", precision = 4, scale = 2)
-    private BigDecimal notaProcedimental; // 40%
+    @Builder.Default
+    @Column(name = "nota_procedimental", nullable = false, precision = 3, scale = 1)
+    private BigDecimal notaProcedimental = new BigDecimal("1.0");
 
-    @Column(name = "nota_actitudinal", precision = 4, scale = 2)
-    private BigDecimal notaActitudinal; // 20%
+    @Builder.Default
+    @Column(name = "nota_actitudinal", nullable = false, precision = 3, scale = 1)
+    private BigDecimal notaActitudinal = new BigDecimal("1.0");
 
-    @Column(name = "nota_definitiva_periodo", precision = 4, scale = 2)
-    private BigDecimal notaDefinitivaPeriodo;
+    @Builder.Default
+    @Column(name = "nota_definitiva_periodo", nullable = false, precision = 3, scale = 1)
+    private BigDecimal notaDefinitivaPeriodo = new BigDecimal("1.0");
 
-    @Column(length = 20)
-    private String desempeno; // SUPERIOR, ALTO, BASICO, BAJO
+    @Builder.Default
+    @Column(name = "escala_desempeno", nullable = false, length = 20)
+    private String escalaDesempeno = "BAJO";
 
-    @Column(columnDefinition = "TEXT")
-    private String observaciones;
+    @Column(name = "juicio_valorativo", columnDefinition = "TEXT")
+    private String juicioValorativo;
 
-    @CreationTimestamp
-    @Column(name = "fecha_calificacion", updatable = false)
-    private LocalDateTime fechaCalificacion;
+    @Column(name = "plan_mejoramiento", columnDefinition = "TEXT")
+    private String planMejoramiento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "actualizado_por_docente_id")
-    private Docente actualizadoPorDocente;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "modificado_por_id")
+    private Usuario modificadoPor;
 
-    public void calcularNotaDefinitiva() {
-        if (notaCognitiva != null && notaProcedimental != null && notaActitudinal != null) {
-            BigDecimal cog = notaCognitiva.multiply(new BigDecimal("0.40"));
-            BigDecimal proc = notaProcedimental.multiply(new BigDecimal("0.40"));
-            BigDecimal act = notaActitudinal.multiply(new BigDecimal("0.20"));
-            this.notaDefinitivaPeriodo = cog.add(proc).add(act).setScale(2, RoundingMode.HALF_UP);
+    @Builder.Default
+    @Column(name = "fecha_registro", nullable = false, updatable = false)
+    private LocalDateTime fechaRegistro = LocalDateTime.now();
 
-            if (this.notaDefinitivaPeriodo.compareTo(new BigDecimal("4.60")) >= 0) {
-                this.desempeno = "SUPERIOR";
-            } else if (this.notaDefinitivaPeriodo.compareTo(new BigDecimal("4.00")) >= 0) {
-                this.desempeno = "ALTO";
-            } else if (this.notaDefinitivaPeriodo.compareTo(new BigDecimal("3.00")) >= 0) {
-                this.desempeno = "BASICO";
-            } else {
-                this.desempeno = "BAJO";
-            }
-        }
-    }
+    @Builder.Default
+    @Column(name = "fecha_ultima_modificacion", nullable = false)
+    private LocalDateTime fechaUltimaModificacion = LocalDateTime.now();
 }

@@ -9,8 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface MatriculaRepository extends JpaRepository<Matricula, Long> {
-    Optional<Matricula> findByEstudianteIdAndAnioLectivoEsActualTrue(Long estudianteId);
-    List<Matricula> findByGrupoId(Long grupoId);
-    List<Matricula> findByEstudianteId(Long estudianteId);
-    long countByGrupoId(Long grupoId);
+    List<Matricula> findByGrupo_Id(Long grupoId);
+    List<Matricula> findByEstudiante_Id(Long estudianteId);
+    List<Matricula> findByEstudiante_Usuario_Id(Long usuarioId);
+    Optional<Matricula> findByEstudiante_IdAndAnioLectivo_ActivoTrue(Long estudianteId);
+    Optional<Matricula> findByFolioMatricula(String folioMatricula);
 }

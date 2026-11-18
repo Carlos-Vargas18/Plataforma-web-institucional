@@ -3,37 +3,37 @@ package com.educonnect.dto;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Data
 public class CalificacionRequest {
 
-    @NotNull(message = "El id de matrícula es obligatorio")
     private Long matriculaId;
+    private Long estudianteId;
 
-    @NotNull(message = "El id de carga académica es obligatorio")
+    @NotNull(message = "El ID de la carga académica es obligatorio")
     private Long cargaAcademicaId;
 
-    @NotNull(message = "El id de periodo es obligatorio")
+    @NotNull(message = "El ID del periodo académico es obligatorio")
     private Long periodoId;
 
-    @DecimalMin(value = "0.00", message = "La nota cognitiva no puede ser menor a 0.0")
-    @DecimalMax(value = "5.00", message = "La nota cognitiva no puede ser mayor a 5.0")
+    @NotNull(message = "La nota cognitiva (Saber 40%) es obligatoria")
+    @DecimalMin(value = "1.0", message = "La nota mínima en la escala nacional es 1.0")
+    @DecimalMax(value = "5.0", message = "La nota máxima en la escala nacional es 5.0")
     private BigDecimal notaCognitiva;
 
-    @DecimalMin(value = "0.00", message = "La nota procedimental no puede ser menor a 0.0")
-    @DecimalMax(value = "5.00", message = "La nota procedimental no puede ser mayor a 5.0")
+    @NotNull(message = "La nota procedimental (Hacer 30%) es obligatoria")
+    @DecimalMin(value = "1.0", message = "La nota mínima es 1.0")
+    @DecimalMax(value = "5.0", message = "La nota máxima es 5.0")
     private BigDecimal notaProcedimental;
 
-    @DecimalMin(value = "0.00", message = "La nota actitudinal no puede ser menor a 0.0")
-    @DecimalMax(value = "5.00", message = "La nota actitudinal no puede ser mayor a 5.0")
+    @NotNull(message = "La nota actitudinal (Ser 30%) es obligatoria")
+    @DecimalMin(value = "1.0", message = "La nota mínima es 1.0")
+    @DecimalMax(value = "5.0", message = "La nota máxima es 5.0")
     private BigDecimal notaActitudinal;
 
-    private String observaciones;
+    private String juicioValorativo;
+    private String planMejoramiento;
 }

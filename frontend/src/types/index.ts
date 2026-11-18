@@ -1,4 +1,4 @@
-export type Rol =
+export type Role =
   | 'ADMIN'
   | 'RECTOR'
   | 'COORDINADOR'
@@ -6,351 +6,358 @@ export type Rol =
   | 'DOCENTE'
   | 'ESTUDIANTE'
   | 'TUTOR'
-  | 'ADMINISTRATIVO'
-  | 'admin'
-  | 'rector'
-  | 'coordinador'
-  | 'director_grupo'
-  | 'docente'
-  | 'estudiante'
-  | 'tutor'
-  | 'administrativo';
+  | 'ADMINISTRATIVO';
 
-export interface Usuario {
+export interface User {
   id: number;
   email: string;
-  rol: Rol;
-  nombre?: string;
-  apellido?: string;
-  primerNombre?: string;
-  segundoNombre?: string;
-  primerApellido?: string;
-  segundoApellido?: string;
-  avatarUrl?: string;
+  documento: string;
+  primerNombre: string;
+  primerApellido: string;
   nombreCompleto: string;
-  activo: boolean;
-}
-
-export interface AuthResponse {
+  rol: Role;
   token: string;
-  tipo: string;
-  id: number;
-  email: string;
-  rol: 'ADMIN' | 'RECTOR' | 'COORDINADOR' | 'DIRECTOR_GRUPO' | 'DOCENTE' | 'ESTUDIANTE' | 'TUTOR';
-  nombreCompleto: string;
-  avatarUrl?: string;
-  perfilId?: number;
+  grupoAsignado?: string;
+  grupoAsignadoId?: number;
+  esDirectorGrupo?: boolean;
+  docenteId?: number;
+  estudianteId?: number;
+  tutorId?: number;
 }
 
-export interface Tutor {
-  id: number;
-  tipoDocumento?: string;
-  numeroDocumento?: string;
-  nombres?: string;
-  apellidos?: string;
-  telefonoPrincipal?: string;
-  telefonoSecundario?: string;
-  correo?: string;
-  direccionResidencia?: string;
-  ocupacion?: string;
-  lugarTrabajo?: string;
-}
-
-export interface Estudiante {
-  id: number;
-  codigoEstudiantil?: string;
-  tipoDocumento?: string;
-  numeroDocumento?: string;
-  nombres?: string;
-  apellidos?: string;
-  fechaNacimiento?: string;
-  genero?: string;
-  tipoSangreRh?: string;
-  epsSeguroMedico?: string;
-  alergiasCondicionesMedicas?: string;
-  direccionResidencia?: string;
-  estado?: string;
-}
-
-export interface Materia {
-  id: number;
-  codigo: string;
-  nombre: string;
-  descripcion?: string;
-  areaConocimiento?: string;
-  horasSemanales?: number;
-  intensidad_horaria?: number;
-  docente_id?: number;
-  docenteNombre?: string;
-}
-
-export interface ActaComisionEvaluacion {
-  id: number;
-  numeroActa?: string;
-  periodo: number;
-  fecha: string;
-  grado: string;
-  grupoNombre?: string;
-  estudiantesEnRiesgo: number;
-  estudianteNombre?: string;
-  materiasReprobadas?: string[];
-  motivo: string;
-  acuerdosPedagogicos: string;
-  planMejoramiento?: string;
-  compromisoAcudiente?: string;
-  coordinadorFirma?: string;
-  firmadoPorRector: boolean;
-  firmadoPorCoordinador: boolean;
-  estado: 'RADICADA' | 'EN_PROCESO' | 'CUMPLIDA' | 'SUPERADO';
-}
-
-export interface BoletinEstudiante {
-  codigoEstudiantil: string;
-  estudianteNombre: string;
-  grado: string;
-  periodo: number;
-  añoLectivo: string;
-  puestoSalon: number;
-  totalEstudiantesSalon: number;
-  promedioGeneral: number;
-  materias: {
-    nombre: string;
-    docente: string;
-    notaCognitiva: number;
-    notaProcedimental: number;
-    notaActitudinal: number;
-    definitiva: number;
-    desempeno: string;
-    fallas: number;
-    juicioValorativo: string;
-  }[];
-  observacionesDirector: string;
-}
-
-export interface Grupo {
-  id: number;
-  nombre: string;
-  salonAula?: string;
-  salon?: string;
-  jornada?: string;
-  cupoMaximo?: number;
-  grado?: string | any;
-  año_lectivo?: string;
-  director_grupo?: string;
-  directorDocenteNombre?: string;
-  directorDocenteId?: number;
-  totalEstudiantes?: number;
-}
-
-export interface Calificacion {
-  id: number;
-  matriculaId?: number;
-  estudiante_id?: number;
-  materia_id?: number;
-  materiaNombre: string;
-  docenteNombre?: string;
-  nota1?: number;
-  nota2?: number;
-  nota3?: number;
-  nota_final?: number;
-  notaCognitiva?: number;
-  notaProcedimental?: number;
-  notaActitudinal?: number;
-  notaDefinitivaPeriodo: number;
-  desempeno: 'SUPERIOR' | 'ALTO' | 'BASICO' | 'BAJO';
-  observaciones?: string;
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 export interface DashboardStats {
   totalEstudiantes: number;
   totalDocentes: number;
-  totalTutores: number;
-  totalMaterias: number;
   totalGrupos: number;
-  totalMatriculasActivas: number;
+  totalMaterias: number;
+  totalUsuarios: number;
+  totalTutores: number;
+  promedioInstitucional: number;
+  porcentajeAsistencia: number;
+  alertasRiesgo: number;
+  solicitudesPendientes: number;
 }
 
-// Entidades para Rector
-export interface ResolucionRectoral {
+export interface UsuarioDto {
   id: number;
-  numeroResolucion: string;
-  fecha: string;
-  titulo: string;
-  descripcion: string;
-  estado: 'VIGENTE' | 'EN_REVISION' | 'HISTORICA';
-  categoria: 'ACADEMICA' | 'ADMINISTRATIVA' | 'DISCIPLINARIA' | 'CONTRATACION';
-  archivoUrl?: string;
+  tipoDocumento: string;
+  documento: string;
+  email: string;
+  rol: Role;
+  primerNombre: string;
+  segundoNombre?: string;
+  primerApellido: string;
+  segundoApellido?: string;
+  nombre: string;
+  apellido: string;
+  nombreCompleto: string;
+  telefono?: string;
+  direccion?: string;
+  estado: boolean;
+  grupo?: string;
+  grupoId?: number;
+  especialidad?: string;
+  ultimoAcceso?: string;
+  fechaCreacion?: string;
 }
 
-// Entidades para Coordinador
-export interface CasoConvivencia {
+export interface GrupoDto {
   id: number;
-  estudianteNombre: string;
-  grupoNombre: string;
-  fecha: string;
-  tipoFalta: 'TIPO_I' | 'TIPO_II' | 'TIPO_III';
-  descripcion: string;
-  docenteReporta: string;
-  estado: 'ABIERTO' | 'EN_CONCILIACION' | 'CERRADO_CON_COMPROMISO';
-  citacionPadres: boolean;
+  nombre: string;
+  codigoGrupo: string;
+  grado: string;
+  gradoId: number;
+  nivel: string;
+  director: string;
+  directorNombre: string;
+  directorGrupoId?: number;
+  salon: string;
+  salonAula: string;
+  jornada: string;
+  cupoMaximo: number;
+  estudiantes: number;
+  totalEstudiantes: number;
+  anioLectivo: number;
 }
 
-export interface CitacionPadres {
-  id: number;
-  estudianteNombre: string;
-  tutorNombre: string;
-  telefonoTutor: string;
-  fechaHora: string;
-  motivo: string;
-  asistio: boolean;
-  docenteSolicita: string;
-}
-
-// Entidades para Director de Grupo
-export interface AlumnoGrupoDetalle {
+export interface MateriaDto {
   id: number;
   codigo: string;
-  nombreCompleto: string;
-  acudientePrincipal: string;
-  parentesco: string;
-  telefonoEmergencia: string;
-  tipoSangreRh: string;
-  eps: string;
-  alergias: string;
-  promedioAcumulado: number;
-  asistenciaPorcentaje: number;
-  observacionesConvivencia: number;
-  autorizadoRetiro: boolean;
+  codigoOficial: string;
+  nombre: string;
+  area: string;
+  areaConocimiento: string;
+  intensidadHoraria: number;
+  horasSemanales: number;
+  descripcion?: string;
+  activa: boolean;
+  docente: string;
+  grupos: string;
 }
 
-// Horarios Escolares Institucionales
-export interface HorarioClase {
+export interface CargaAcademicaDto {
   id: number;
-  diaSemana: 'LUNES' | 'MARTES' | 'MIERCOLES' | 'JUEVES' | 'VIERNES' | 'SABADO';
+  grupoId: number;
+  grupo: string;
+  materiaId: number;
+  materia: string;
+  area?: string;
+  docenteId: number;
+  docenteUsuarioId?: number;
+  docente: string;
+  intensidadHoraria: number;
+}
+
+export interface PeriodoAcademicoDto {
+  id: number;
+  numeroPeriodo: number;
+  nombre: string;
+  porcentajeValor: number;
+  fechaInicio: string;
+  fechaFin: string;
+  fechaCierreNotas: string;
+  cerrado: boolean;
+}
+
+export interface CalificacionDto {
+  id: number;
+  matriculaId: number;
+  estudianteId: number;
+  estudianteUsuarioId?: number;
+  estudianteNombre: string;
+  documentoEstudiante?: string;
+  grupoId: number;
+  grupo: string;
+  cargaAcademicaId: number;
+  materiaId: number;
+  materia: string;
+  area: string;
+  intensidadHoraria: number;
+  docente: string;
+  periodoId: number;
+  numeroPeriodo: number;
+  periodoNombre: string;
+  periodoCerrado: boolean;
+  notaCognitiva: number;
+  notaProcedimental: number;
+  notaActitudinal: number;
+  nota1: number;
+  nota2: number;
+  nota3: number;
+  notaDefinitivaPeriodo: number;
+  notaFinal: number;
+  definitiva: number;
+  escalaDesempeno: 'SUPERIOR' | 'ALTO' | 'BASICO' | 'BAJO';
+  desempeno: string;
+  juicioValorativo?: string;
+  observaciones?: string;
+  planMejoramiento?: string;
+}
+
+export interface SolicitudNotaDto {
+  id: number;
+  calificacionId?: number;
+  docente: string;
+  estudiante: string;
+  estudianteNombre: string;
+  materia: string;
+  materiaNombre: string;
+  grupo: string;
+  periodo: string;
+  notaAnterior: number;
+  notaNueva: number;
+  notaNuevaCognitiva: number;
+  notaNuevaProcedimental: number;
+  notaNuevaActitudinal: number;
+  motivo: string;
+  estado: 'PENDIENTE' | 'APROBADA' | 'RECHAZADA';
+  comentarioResolucion?: string;
+  fecha: string;
+}
+
+export interface AsistenciaDto {
+  id: number;
+  matriculaId: number;
+  estudianteId: number;
+  estudianteNombre: string;
+  estudiante: string;
+  grupo: string;
+  cargaAcademicaId: number;
+  materiaId: number;
+  materia: string;
+  fecha: string;
+  fechaClase: string;
+  estado: 'PRESENTE' | 'AUSENTE' | 'TARDE' | 'EXCUSA_MEDICA' | 'PERMISO_INSTITUCIONAL';
+  estadoAsistencia: string;
+  minutosRetraso?: number;
+  observacion?: string;
+  justificada: boolean;
+}
+
+export interface JustificacionDto {
+  id: number;
+  asistenciaId: number;
+  estudiante: string;
+  estudianteNombre: string;
+  grupo: string;
+  materia: string;
+  fechaInasistencia: string;
+  fecha: string;
+  acudiente: string;
+  motivo: string;
+  tipo: string;
+  soporte?: string;
+  estado: 'PENDIENTE_REVISION' | 'APROBADA_COORDINACION' | 'RECHAZADA';
+  observacionCoordinacion?: string;
+}
+
+export interface HorarioBloqueDto {
+  id: number;
+  grupoId: number;
+  grupo: string;
+  materiaId: number;
+  materia: string;
+  docenteId: number;
+  docente: string;
+  dia: string;
+  diaSemana: string;
+  bloqueOrden: number;
   horaInicio: string;
   horaFin: string;
-  grupoNombre: string;
-  materiaNombre: string;
-  docenteNombre: string;
+  hora: string;
   aula: string;
-  color?: string;
 }
 
-// Estudiantes Completo para Administrador (CRUD)
-export interface EstudianteCompleto {
+export interface ComunicadoDto {
   id: number;
-  codigoEstudiantil: string;
-  nombres: string;
-  apellidos: string;
-  tipoDocumento: string;
-  numeroDocumento: string;
-  fechaNacimiento: string;
-  genero: string;
-  tipoSangreRh: string;
-  epsSeguroMedico: string;
-  alergiasCondicionesMedicas: string;
-  direccionResidencia: string;
-  grupoNombre: string;
-  tutorNombre: string;
-  tutorTelefono: string;
-  tutorParentesco: string;
-  estado: 'ACTIVO' | 'INACTIVO' | 'RETIRADO';
+  titulo: string;
+  contenido: string;
+  mensaje: string;
+  autor: string;
+  rolAutor: string;
+  destinatarios: string;
+  destinatarioRol: string;
+  prioridad: string;
+  importancia: string;
+  fecha: string;
 }
 
-// Hijo / Menor para Dashboard del Tutor
-export interface HijoTutor {
+export interface ObservacionDto {
   id: number;
-  codigo: string;
-  nombreCompleto: string;
-  grado: string;
-  directorGrupo: string;
-  tipoSangreRh: string;
-  eps: string;
-  alergias: string;
-  asistenciaPorcentaje: number;
-  promedioGeneral: number;
-  puestoEnCurso: number;
-  autorizadoRetiro: string;
-  calificaciones: {
-    materia: string;
-    docente: string;
-    cognitivo: number;
-    procedimental: number;
-    actitudinal: number;
-    definitiva: number;
-    desempeno: 'SUPERIOR' | 'ALTO' | 'BASICO' | 'BAJO';
-  }[];
-  observaciones: {
-    fecha: string;
-    docente: string;
-    tipo: 'FORMATIVA' | 'FELICITACION' | 'FALTA_LEVE' | 'FALTA_GRAVE';
-    descripcion: string;
-    compromiso: string;
-  }[];
-  citaciones: {
-    id: number;
-    fechaHora: string;
-    motivo: string;
-    docente: string;
-    estado: 'PENDIENTE' | 'CONFIRMADA' | 'REALIZADA';
-  }[];
+  matriculaId: number;
+  estudianteId: number;
+  estudiante: string;
+  estudianteNombre: string;
+  grupo: string;
+  autor: string;
+  periodo: string;
+  fecha: string;
+  tipo: string;
+  tipoAnotacion: string;
+  categoriaFalta: string;
+  descripcion: string;
+  descripcionHechos: string;
+  descargos?: string;
+  compromisos: string;
+  firmadoEstudiante: boolean;
+  firmadoAcudiente: boolean;
 }
 
-// ==============================================================================
-// TIPOS PARA AGENTE MIPA Y AUDITORÍA DE TELEMETRÍA (INGRESOS WEB / APP)
-// ==============================================================================
-
-export interface TelemetriaResumen {
-  total_ingresos: number;
-  ingresos_web: number;
-  ingresos_app: number;
-  ingresos_hoy: number;
-  ingresos_por_rol: Record<string, number>;
-  ultimos_ingresos: {
-    timestamp: string;
-    plataforma: string;
-    rol: string;
-    email?: string;
-    nombre?: string;
-  }[];
-  total_analisis_mipa: number;
-  alertas_criticas_generadas: number;
-  servidor_estado: string;
-  timestamp: string;
-}
-
-export interface MateriaAlertaMipa {
-  materia: string;
+export interface CitacionDto {
+  id: number;
+  estudianteId: number;
+  estudiante: string;
+  estudianteNombre: string;
+  acudiente: string;
+  convocadoPor: string;
+  docente: string;
+  fecha: string;
+  hora: string;
+  lugar: string;
   motivo: string;
+  modalidad: string;
+  estado: string;
+  compromisosActa?: string;
 }
 
-export interface AnalisisMipaEstudiante {
-  codigo_estudiante: string;
-  nombre_estudiante?: string;
+export interface CasoConvivenciaDto {
+  id: number;
+  radicado: string;
+  matriculaId: number;
+  estudiante: string;
+  estudianteNombre: string;
+  grupo: string;
+  tipoSituacion: string;
+  tipoFalta: string;
+  severidad: string;
+  descripcion: string;
+  descripcionSuceso: string;
+  medidaPedagogica: string;
+  accionTomada: string;
+  estado: string;
+  remitidoComite: boolean;
+  reportadoPor: string;
+  fecha: string;
+}
+
+export interface ResolucionDto {
+  id: number;
+  numero: string;
+  numeroResolucion: string;
+  titulo: string;
+  considerando: string;
+  resuelve: string;
+  descripcion: string;
+  emitidoPor: string;
+  fecha: string;
+  estado: string;
+  vigente: boolean;
+}
+
+export interface BoletinOficialDto {
+  folioMatricula: string;
+  estudianteId: number;
+  estudianteNombre: string;
+  documento: string;
+  codigoEstudiantil: string;
+  grupo: string;
   grado: string;
-  promedio: number;
-  cumplimiento_porcentaje: number;
-  dias_inactivo: number;
-  ira_score: number;
-  nivel_prioridad: 'CRITICA' | 'ALTA' | 'MODERADA' | 'PREVENTIVA';
-  clasificacion_riesgo: 'CONCEPTUAL' | 'GESTION_TIEMPO' | 'ASISTENCIA_CONECTIVIDAD' | 'MULTIFACTORIAL';
-  diagnostico_tecnico: string;
-  materias_en_alerta: MateriaAlertaMipa[];
-  plan_intervencion: {
-    accion_inmediata: string;
-    ruta_apoyo: string;
-    condiciones_seguimiento: string;
-  };
-  notificacion_estudiante: {
-    asunto: string;
-    mensaje: string;
-  };
-  notificacion_acudiente: {
-    asunto: string;
-    mensaje: string;
-  };
-  origen_analisis: string;
-  tokens_usados: number;
-  timestamp: string;
+  jornada: string;
+  directorGrupo: string;
+  anioLectivo: number;
+  periodo: string;
+  promedioGeneral: number;
+  escalaGlobal: string;
+  puestoCurso: number;
+  totalEstudiantesCurso: number;
+  fallasInjustificadas: number;
+  fallasJustificadas: number;
+  codigoVerificacion: string;
+  fechaEmision: string;
+  asignaturas: CalificacionDto[];
 }
 
+export interface AlertaMipaDto {
+  id: number;
+  matriculaId: number;
+  estudianteId: number;
+  estudiante: string;
+  documento: string;
+  grupo: string;
+  promedio: number;
+  inasistencias: number;
+  indiceRiesgo: number;
+  puntajeRiesgo: number;
+  nivelRiesgo: 'CRITICO' | 'ALTO' | 'MODERADO' | 'BAJO';
+  nivelAlerta: string;
+  factores: string[];
+  factoresDetectados: string;
+  recomendacion: string;
+  atendidoOrientacion: boolean;
+}

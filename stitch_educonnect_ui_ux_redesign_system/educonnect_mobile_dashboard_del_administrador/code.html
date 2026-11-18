@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f7f9ff;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-container": "#535f7d", "tertiary-container": "#0c68db", "surface": "#f7f9ff", "on-primary-fixed": "#001550", "surface-tint": "#004ee7", "on-secondary-fixed-variant": "#3b4664", "primary-container": "#175cff", "on-primary-fixed-variant": "#003ab1", "surface-dim": "#d6dae1", "secondary-container": "#ced9fe", "on-surface": "#171c21", "secondary-fixed": "#d9e2ff", "surface-container-low": "#f0f4fb", "surface-container-lowest": "#ffffff", "on-primary-container": "#edeeff", "on-surface-variant": "#434656", "error-container": "#ffdad6", "secondary-fixed-dim": "#bac6e9", "inverse-surface": "#2c3136", "on-tertiary-fixed": "#001a42", "on-tertiary": "#ffffff", "surface-container": "#eaeef5", "tertiary-fixed": "#d8e2ff", "outline": "#737688", "on-background": "#171c21", "surface-variant": "#dfe3ea", "surface-container-highest": "#dfe3ea", "tertiary-fixed-dim": "#adc6ff", "surface-container-high": "#e4e8ef", "error": "#ba1a1a", "inverse-primary": "#b6c4ff", "primary-fixed": "#dce1ff", "background": "#f7f9ff", "on-tertiary-container": "#ebefff", "primary": "#0045d0", "on-tertiary-fixed-variant": "#004395", "on-secondary-fixed": "#0e1b36", "secondary": "#525e7d", "primary-fixed-dim": "#b6c4ff", "inverse-on-surface": "#edf1f8", "surface-bright": "#f7f9ff", "on-error-container": "#93000a", "on-secondary": "#ffffff", "on-error": "#ffffff", "on-primary": "#ffffff", "outline-variant": "#c3c5d9", "tertiary": "#0050af" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-mobile": "1rem", "space-xs": "0.25rem", "gutter-mobile": "1rem", "margin": "2rem", "gutter": "1.5rem", "space-md": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xl": "2rem" }, "fontFamily": { "label-md": ["Inter"], "body-lg": ["Inter"], "display-lg": ["Plus Jakarta Sans"], "headline-xl": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-sm": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "label-sm": ["Inter"], "headline-md": ["Plus Jakarta Sans"], "body-md": ["Inter"], "metric-display": ["Plus Jakarta Sans"], "headline-xl-mobile": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "display-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }], "metric-display": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(7,20,47,0.04)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-headline-sm font-bold shadow-[0_4px_14px_0_rgba(23,92,255,0.35)] shrink-0"><span class="material-symbols-outlined text-[20px]">school</span></div><div class="flex flex-col truncate"><span class="font-headline-sm text-headline-sm text-on-surface truncate">EduConnect</span><button class="flex items-center gap-0.5 text-on-surface-variant font-label-sm text-label-sm text-left truncate -mt-0.5"><span class="truncate">2025-A · Sede Central</span><span class="material-symbols-outlined text-[14px]">expand_more</span></button></div></div><div class="flex items-center gap-space-xs shrink-0"><button class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface relative transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span></button><button class="w-11 h-11 flex items-center justify-center rounded-full transition-transform active:scale-95"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></button></div></div></header><main class="flex-1 flex flex-col w-full px-margin-mobile pt-16 pb-24 bg-surface max-w-lg mx-auto"><div class="flex flex-col w-full pb-6 space-y-4">
+<!-- Saludo y Perfil Rápido -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface truncate">Hola, Ing. Mendoza 👋</h1>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Panel de Gestión Central &amp; Rendimiento Académico</p>
+</div>
+<div class="shrink-0 flex items-center gap-1.5 bg-secondary-container/60 px-2.5 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed-variant">Clúster 99.98%</span>
+</div>
+</div>
+<!-- Selector rápido de Ciclo & Filtro Contextual -->
+<div class="flex items-center justify-between bg-surface-container-low p-2.5 rounded-xl">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary-container shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+</div>
+<div class="flex flex-col truncate">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Periodo Operativo</span>
+<span class="font-headline-sm text-body-md text-on-surface truncate font-semibold">Ciclo 2025-I · Sede Central</span>
+</div>
+</div>
+<button class="bg-surface-container-lowest px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-sm active:scale-95 transition-transform shrink-0">
+<span class="font-label-md text-label-md text-primary-container">Cambiar</span>
+<span class="material-symbols-outlined text-[16px] text-primary-container">unfold_more</span>
+</button>
+</div>
+<!-- Banner de Alerta Crítica en Vivo -->
+<div class="relative overflow-hidden bg-error-container/40 p-3.5 rounded-xl shadow-sm">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-full bg-error-container flex items-center justify-center shrink-0 text-error">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-error font-bold">Alerta Temprana</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">En vivo</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5 font-medium leading-snug">
+          3 casos de inasistencia &gt;15% detectados en Grado 10°
+        </p>
+<div class="mt-2.5 flex items-center gap-2">
+<button class="bg-error text-on-error px-3 py-1 rounded-lg font-label-md text-label-md shadow-sm active:scale-95 transition-transform flex items-center gap-1">
+<span>Ver Alerta</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+<button class="bg-surface-container-lowest/80 text-on-surface px-2.5 py-1 rounded-lg font-label-md text-label-md active:scale-95 transition-transform">
+            Ignorar
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Métricas Principales (Grid 2x2 táctil) -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Estudiantes -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<div class="w-8 h-8 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">group</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold">98.4%</span>
+</div>
+<div>
+<span class="font-headline-lg-mobile text-metric-display text-on-surface font-bold leading-none">3,842</span>
+<p class="font-body-sm text-label-sm text-on-surface-variant mt-1">Estudiantes activos</p>
+</div>
+</div>
+<!-- Docentes -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold">99.1%</span>
+</div>
+<div>
+<span class="font-headline-lg-mobile text-metric-display text-on-surface font-bold leading-none">240</span>
+<p class="font-body-sm text-label-sm text-on-surface-variant mt-1">Docentes en aula</p>
+</div>
+</div>
+<!-- Cursos Activos -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-2">
+<div class="w-8 h-8 rounded-lg bg-secondary-container/50 flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">auto_stories</span>
+</div>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-semibold">0 cruces</span>
+</div>
+<div>
+<span class="font-headline-lg-mobile text-metric-display text-on-surface font-bold leading-none">154</span>
+<p class="font-body-sm text-label-sm text-on-surface-variant mt-1">Cursos activos</p>
+</div>
+</div>
+<!-- Asistencia Global -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1">
+<div class="w-8 h-8 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+</div>
+<!-- Sparkline mini -->
+<svg class="w-12 h-5 text-primary-container" fill="none" viewbox="0 0 48 20">
+<path d="M1 18 L12 12 L24 14 L36 6 L47 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg-mobile text-metric-display text-on-surface font-bold leading-none">96.8%</span>
+<span class="font-label-sm text-label-sm text-primary-container font-bold">+1.2%</span>
+</div>
+<p class="font-body-sm text-label-sm text-on-surface-variant mt-1">Asistencia global</p>
+</div>
+</div>
+</div>
+<!-- Acciones Rápidas Táctiles (Diseño optimizado sin scroll horizontal) -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Acciones Clave</span>
+<span class="font-label-sm text-label-sm text-primary-container font-semibold">Gestión ágil</span>
+</div>
+<div class="grid grid-cols-5 gap-1 text-center">
+<!-- Botón 1 -->
+<button class="flex flex-col items-center group active:scale-95 transition-transform">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary shadow-sm group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1.5 leading-tight truncate w-full">+ Alumno</span>
+</button>
+<!-- Botón 2 -->
+<button class="flex flex-col items-center group active:scale-95 transition-transform">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-fixed-variant shadow-sm group-hover:bg-secondary-fixed transition-colors">
+<span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1.5 leading-tight truncate w-full">Boletines</span>
+</button>
+<!-- Botón 3 -->
+<button class="flex flex-col items-center group active:scale-95 transition-transform">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface shadow-sm group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">lock_clock</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1.5 leading-tight truncate w-full">Cierre</span>
+</button>
+<!-- Botón 4 -->
+<button class="flex flex-col items-center group active:scale-95 transition-transform">
+<div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary shadow-sm group-hover:bg-tertiary transition-colors">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1.5 leading-tight truncate w-full">MIPA IA</span>
+</button>
+<!-- Botón 5 -->
+<button class="flex flex-col items-center group active:scale-95 transition-transform">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface shadow-sm group-hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1.5 leading-tight truncate w-full">Auditoría</span>
+</button>
+</div>
+</div>
+<!-- Gráfico de Rendimiento Institucional (Barras horizontales comparativas) -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Rendimiento por Área</h2>
+<p class="font-body-sm text-label-sm text-on-surface-variant">Promedios generales sobre 5.0</p>
+</div>
+<div class="bg-surface-container px-2 py-0.5 rounded-full">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Meta: ≥ 4.50</span>
+</div>
+</div>
+<div class="space-y-3">
+<!-- Ciencias -->
+<div class="space-y-1">
+<div class="flex justify-between items-center text-label-md">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+            Ciencias
+          </span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.62</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 92.4%"></div>
+</div>
+</div>
+<!-- Humanidades -->
+<div class="space-y-1">
+<div class="flex justify-between items-center text-label-md">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+            Humanidades
+          </span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.58</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary-container h-full rounded-full" style="width: 91.6%"></div>
+</div>
+</div>
+<!-- STEM -->
+<div class="space-y-1">
+<div class="flex justify-between items-center text-label-md">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-fixed-dim"></span>
+            STEM Integrado
+          </span>
+<span class="font-label-md text-label-md font-bold text-on-surface">4.60</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 92.0%"></div>
+</div>
+</div>
+<!-- Matemáticas -->
+<div class="space-y-1">
+<div class="flex justify-between items-center text-label-md">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-error-container"></span>
+            Matemáticas
+          </span>
+<span class="font-label-md text-label-md font-bold text-on-surface text-error">4.38</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-on-secondary-container h-full rounded-full" style="width: 87.6%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Capacidad y Aforo de Sedes (Tarjetas apiladas con barras de progreso) -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Aforo de Sedes</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tiempo Real</span>
+</div>
+<div class="space-y-3">
+<!-- Sede 1: Campus Central -->
+<div class="bg-surface-container-low p-3 rounded-lg space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[16px]">location_city</span>
+</div>
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Campus Central</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-error">96% aforo</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 96%"></div>
+</div>
+<div class="flex justify-between items-center font-label-sm text-label-sm text-on-surface-variant">
+<span>Ocupación: 1,920 estudiantes</span>
+<span>Máx: 2,000</span>
+</div>
+</div>
+<!-- Sede 2: Campus Norte -->
+<div class="bg-surface-container-low p-3 rounded-lg space-y-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[16px]">domain</span>
+</div>
+<span class="font-headline-sm text-body-md font-semibold text-on-surface">Campus Norte</span>
+</div>
+<span class="font-label-md text-label-md font-bold text-primary-container">91% aforo</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 91%"></div>
+</div>
+<div class="flex justify-between items-center font-label-sm text-label-sm text-on-surface-variant">
+<span>Ocupación: 1,365 estudiantes</span>
+<span>Máx: 1,500</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Actividad Reciente del Sistema (Feed condensado móvil) -->
+<div class="bg-surface-container-lowest p-3.5 rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Actividad de Sistema</h2>
+<button class="font-label-sm text-label-sm text-primary-container font-semibold hover:underline">Ver todo</button>
+</div>
+<div class="space-y-3">
+<!-- Item 1 -->
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container/60 flex items-center justify-center text-on-secondary-fixed-variant shrink-0">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">Sincronización SIS completada</p>
+<p class="font-body-sm text-label-sm text-on-surface-variant">Actualización automática de matrículas</p>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Hace 5m</span>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-[18px]">cloud_done</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">Respaldo Cloud Exitoso</p>
+<p class="font-body-sm text-label-sm text-on-surface-variant">Snapshot de base de datos cifrado</p>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">3:00 AM</span>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[18px]">key</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">Tokens API renovados</p>
+<p class="font-body-sm text-label-sm text-on-surface-variant">Integración LMS y Pasarela de Pagos</p>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant shrink-0">Ayer</span>
+</div>
+</div>
+</div>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_-4px_20px_rgba(7,20,47,0.05)]" data-active-classes="text-primary-container font-semibold"><div class="h-16 max-w-lg mx-auto px-margin-mobile flex items-center justify-around"><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-label-sm mt-0.5">Inicio</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="academico" href="#"><span class="material-symbols-outlined text-[22px]">auto_stories</span><span class="font-label-sm text-label-sm mt-0.5">Módulos</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="agenda" href="#"><span class="material-symbols-outlined text-[22px]">calendar_month</span><span class="font-label-sm text-label-sm mt-0.5">Agenda</span></a><a class="flex flex-col items-center justify-center w-14 h-14 text-on-surface-variant transition-colors" data-path="perfil" href="#"><span class="material-symbols-outlined text-[22px]">tune</span><span class="font-label-sm text-label-sm mt-0.5">Ajustes</span></a></div></nav></body></html>

@@ -1,566 +1,382 @@
-import React, { useState } from 'react';
-import { api } from '../services/api';
+import React, { useState, useEffect } from 'react';
 import {
-  X,
-  Mail,
   KeyRound,
+  Mail,
+  ShieldCheck,
   Lock,
-  Eye,
-  EyeOff,
+  ArrowRight,
   CheckCircle2,
   AlertCircle,
-  ArrowRight,
-  ShieldCheck,
+  X,
   RefreshCw,
-  Send
+  Eye,
+  EyeOff,
+  HelpCircle,
 } from 'lucide-react';
+import { emailService } from '../services/emailService';
 
 interface RecuperarClaveModalProps {
-  initialEmail?: string;
+  isOpen: boolean;
   onClose: () => void;
-  onPasswordResetSuccess: (email: string) => void;
+  initialEmail?: string;
 }
 
-export const RecuperarClaveModal: React.FC<RecuperarClaveModalProps> = ({
-  initialEmail = '',
+const RecuperarClaveModal: React.FC<RecuperarClaveModalProps> = ({
+  isOpen,
   onClose,
-  onPasswordResetSuccess,
+  initialEmail = '',
 }) => {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [email, setEmail] = useState(initialEmail);
   const [codigo, setCodigo] = useState('');
   const [nuevaPassword, setNuevaPassword] = useState('');
   const [confirmarPassword, setConfirmarPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-
+  const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
-  const [devCodeBanner, setDevCodeBanner] = useState<string | null>(null);
-  const [providerUsed, setProviderUsed] = useState<string | null>(null);
+  const [error, setError] = useState('');
+  const [infoMessage, setInfoMessage] = useState('');
+  const [countdown, setCountdown] = useState(0);
 
-  // PASO 1: Solicitar código de recuperación
+  useEffect(() => {
+    if (isOpen) {
+      setStep(1);
+      setEmail(initialEmail || '');
+      setCodigo('');
+      setNuevaPassword('');
+      setConfirmarPassword('');
+      setError('');
+      setInfoMessage('');
+      setCountdown(0);
+    }
+  }, [isOpen, initialEmail]);
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [countdown]);
+
+  if (!isOpen) return null;
+
   const handleSolicitarCodigo = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMsg(null);
-    setSuccessMsg(null);
-
-    if (!email || !email.includes('@')) {
-      setErrorMsg('Por favor ingresa un correo electrónico institucional válido.');
+    setError('');
+    if (!email.trim() || !email.includes('@')) {
+      setError('Ingresa un correo electrónico institucional válido.');
       return;
     }
-
     setLoading(true);
     try {
-      const res = await api.solicitarRecuperacionClave(email);
-      setProviderUsed(res.provider);
-
-      if (res.devCode) {
-        setDevCodeBanner(res.devCode);
-      }
-
-      setSuccessMsg(res.message);
+      const res = await emailService.solicitarCodigoRecuperacion(email.trim());
+      setInfoMessage(res.mensaje);
+      setCountdown(900);
       setStep(2);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Error al solicitar el código de recuperación.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al procesar la solicitud.');
     } finally {
       setLoading(false);
     }
   };
 
-  // PASO 2: Confirmar código y restablecer contraseña
-  const handleRestablecerClave = async (e: React.FormEvent) => {
+  const handleVerificarCodigo = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMsg(null);
-
-    if (!codigo || codigo.trim().length !== 6) {
-      setErrorMsg('El código de seguridad debe tener exactamente 6 dígitos.');
+    setError('');
+    if (codigo.trim().length !== 6) {
+      setError('El código de seguridad debe tener exactamente 6 dígitos.');
       return;
     }
-
-    if (nuevaPassword.length < 6) {
-      setErrorMsg('La nueva contraseña debe tener al menos 6 caracteres.');
-      return;
-    }
-
-    if (nuevaPassword !== confirmarPassword) {
-      setErrorMsg('Las contraseñas no coinciden. Por favor verifícalas.');
-      return;
-    }
-
     setLoading(true);
     try {
-      const res = await api.restablecerClave(email, codigo, nuevaPassword);
-      setSuccessMsg(res.message);
-      setStep(3);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Error al restablecer la contraseña.');
+      const valido = await emailService.verificarCodigoRecuperacion(email.trim(), codigo.trim());
+      if (valido) {
+        setStep(3);
+      } else {
+        setError('El código ingresado es inválido o ha expirado.');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Código incorrecto o expirado.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleFinalizar = () => {
-    onPasswordResetSuccess(email);
-    onClose();
+  const handleRestablecerPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    if (nuevaPassword.length < 6) {
+      setError('La nueva contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+    if (nuevaPassword !== confirmarPassword) {
+      setError('Las contraseñas ingresadas no coinciden.');
+      return;
+    }
+    setLoading(true);
+    try {
+      await emailService.restablecerPassword(email.trim(), codigo.trim(), nuevaPassword);
+      setStep(4);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No fue posible actualizar la contraseña.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatTime = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        backgroundColor: 'rgba(2, 6, 23, 0.85)',
-        backdropFilter: 'blur(10px)',
-        zIndex: 9999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1.25rem',
-        animation: 'fadeIn 0.25s ease-out'
-      }}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-recuperar-titulo"
+      className="ec-modal-overlay"
     >
-      <div
-        style={{
-          background: 'linear-gradient(145deg, #1e293b 0%, #0f172a 100%)',
-          border: '1px solid #334155',
-          borderRadius: '24px',
-          width: '100%',
-          maxWidth: '480px',
-          padding: '2rem',
-          boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(56, 189, 248, 0.1)',
-          position: 'relative',
-          color: '#f8fafc'
-        }}
-      >
-        {/* BOTÓN CERRAR */}
+      <div className="ec-modal-card" style={{ maxWidth: '470px', padding: '2rem', position: 'relative' }}>
         <button
-          onClick={onClose}
           type="button"
+          onClick={onClose}
+          aria-label="Cerrar ventana de recuperación"
           style={{
             position: 'absolute',
-            top: '1.25rem',
-            right: '1.25rem',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            color: '#94a3b8',
-            borderRadius: '50%',
+            top: '1.15rem',
+            right: '1.15rem',
+            background: 'var(--ec-surface-low)',
+            border: '1px solid var(--ec-border)',
+            color: 'var(--ec-text-muted)',
             width: '34px',
             height: '34px',
+            borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.2s'
           }}
-          title="Cerrar ventana"
         >
-          <X size={18} />
+          <X size={17} />
         </button>
 
-        {/* ==============================================================================
-            PASO 1: INGRESO DE CORREO INSTITUCIONAL
-           ============================================================================== */}
-        {step === 1 && (
-          <div>
-            <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
-              <div
-                style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '16px',
-                  background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(3, 105, 161, 0.3) 100%)',
-                  border: '1px solid rgba(56, 189, 248, 0.4)',
-                  color: '#38bdf8',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1rem'
-                }}
-              >
-                <KeyRound size={28} />
-              </div>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 800, margin: '0 0 0.5rem', letterSpacing: '-0.02em' }}>
-                ¿Olvidaste tu contraseña?
-              </h2>
-              <p style={{ fontSize: '0.88rem', color: '#94a3b8', margin: 0, lineHeight: 1.5 }}>
-                Ingresa tu correo institucional registrado y te enviaremos un código de seguridad para crear una nueva clave.
-              </p>
-            </div>
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+          <div
+            style={{
+              width: '54px',
+              height: '54px',
+              borderRadius: '16px',
+              background: step === 4 ? 'var(--ec-success-bg)' : 'var(--ec-primary-soft)',
+              color: step === 4 ? 'var(--ec-success)' : 'var(--ec-primary)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '0.75rem',
+            }}
+          >
+            {step === 4 ? <CheckCircle2 size={28} /> : <KeyRound size={24} />}
+          </div>
+          <div
+            style={{
+              fontSize: '0.7rem',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--ec-primary)',
+              marginBottom: '0.3rem',
+            }}
+          >
+            Credenciales Institucionales · Paso {step} de 4
+          </div>
+          <h3 id="modal-recuperar-titulo" style={{ margin: 0, fontSize: '1.35rem', fontWeight: 800, color: 'var(--ec-text)' }}>
+            {step === 4 ? '¡Contraseña Restablecida!' : 'Recuperar Contraseña'}
+          </h3>
+        </div>
 
-            {errorMsg && (
-              <div
-                style={{
-                  background: 'rgba(239, 68, 68, 0.15)',
-                  border: '1px solid rgba(239, 68, 68, 0.3)',
-                  color: '#fca5a5',
-                  padding: '0.75rem 1rem',
-                  borderRadius: '12px',
-                  fontSize: '0.85rem',
-                  marginBottom: '1.25rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.6rem'
-                }}
-              >
-                <AlertCircle size={18} style={{ flexShrink: 0 }} />
-                <span>{errorMsg}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSolicitarCodigo}>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#cbd5e1', marginBottom: '0.5rem' }}>
-                  Correo Electrónico Institucional
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <Mail
-                    size={18}
-                    style={{
-                      position: 'absolute',
-                      left: '14px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      color: '#64748b'
-                    }}
-                  />
-                  <input
-                    type="email"
-                    className="login-input"
-                    placeholder="ejemplo: docente@educonnect.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    style={{ paddingLeft: '44px', width: '100%', boxSizing: 'border-box' }}
-                    autoFocus
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="btn-pill-primary"
-                disabled={loading}
-                style={{
-                  width: '100%',
-                  justifyContent: 'center',
-                  padding: '0.85rem',
-                  fontSize: '0.92rem',
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
-              >
-                {loading ? (
-                  <>
-                    <RefreshCw size={18} className="animate-spin" />
-                    <span>Enviando código...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send size={18} />
-                    <span>Enviar Código de Seguridad</span>
-                  </>
-                )}
-              </button>
-            </form>
-
-            <div style={{ textAlign: 'center', marginTop: '1.5rem', borderTop: '1px solid #334155', paddingTop: '1rem' }}>
-              <button
-                type="button"
-                onClick={onClose}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#94a3b8',
-                  fontSize: '0.85rem',
-                  cursor: 'pointer',
-                  fontWeight: 600
-                }}
-              >
-                ← Volver al inicio de sesión
-              </button>
-            </div>
+        {error && (
+          <div
+            style={{
+              background: 'var(--ec-danger-bg)',
+              border: '1px solid var(--ec-danger-border)',
+              color: 'var(--ec-danger)',
+              padding: '0.75rem 1rem',
+              borderRadius: '12px',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              marginBottom: '1rem',
+            }}
+          >
+            <AlertCircle size={16} style={{ flexShrink: 0 }} />
+            <span>{error}</span>
           </div>
         )}
 
-        {/* ==============================================================================
-            PASO 2: INGRESO DE CÓDIGO Y NUEVA CONTRASEÑA
-           ============================================================================== */}
-        {step === 2 && (
-          <div>
-            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <div
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '16px',
-                  background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(21, 128, 61, 0.3) 100%)',
-                  border: '1px solid rgba(74, 222, 128, 0.4)',
-                  color: '#4ade80',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 0.75rem'
-                }}
-              >
-                <ShieldCheck size={26} />
+        {step === 1 && (
+          <form onSubmit={handleSolicitarCodigo}>
+            <p style={{ fontSize: '0.88rem', color: 'var(--ec-text-muted)', marginBottom: '1.25rem', lineHeight: 1.55, textAlign: 'center' }}>
+              Ingresa tu correo electrónico institucional registrado. Enviaremos un código de verificación temporal de un solo uso.
+            </p>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                <label className="form-label" style={{ margin: 0 }}>Correo institucional registrado</label>
+                <span style={{ fontSize: '0.74rem', color: 'var(--ec-text-muted)', fontWeight: 600 }}>Requerido</span>
               </div>
-              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, margin: '0 0 0.35rem' }}>
-                Verifica tu Código
-              </h2>
-              <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: 0 }}>
-                Enviamos un código de 6 dígitos a:<br />
-                <strong style={{ color: '#38bdf8' }}>{email}</strong>
-              </p>
+              <div style={{ position: 'relative' }}>
+                <Mail size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="usuario@educonnect.com"
+                  className="ec-auth-input"
+                />
+              </div>
+            </div>
+            <button type="submit" disabled={loading} className="btn-primary-action" style={{ width: '100%', padding: '0.78rem' }}>
+              <span>{loading ? 'Procesando en servidor...' : 'Enviar Código de Verificación'}</span>
+              <ArrowRight size={16} />
+            </button>
+
+            <div
+              style={{
+                marginTop: '1.25rem',
+                background: 'var(--ec-surface-low)',
+                border: '1px solid var(--ec-border)',
+                borderRadius: '12px',
+                padding: '0.85rem 1rem',
+                display: 'flex',
+                gap: '0.7rem',
+                alignItems: 'flex-start',
+              }}
+            >
+              <HelpCircle size={18} style={{ color: 'var(--ec-primary)', flexShrink: 0, marginTop: '2px' }} />
+              <div style={{ fontSize: '0.78rem', color: 'var(--ec-text-secondary)', lineHeight: 1.45 }}>
+                <strong>¿Necesita asistencia institucional?</strong> Contacte a la Secretaría Académica o Mesa de Ayuda TI de su sede si olvidó su correo oficial.
+              </div>
+            </div>
+          </form>
+        )}
+
+        {step === 2 && (
+          <form onSubmit={handleVerificarCodigo}>
+            <div
+              style={{
+                background: 'var(--ec-primary-soft)',
+                border: '1px solid var(--ec-primary-border)',
+                borderRadius: '12px',
+                padding: '0.85rem 1rem',
+                fontSize: '0.83rem',
+                color: 'var(--ec-primary-dark)',
+                marginBottom: '1.15rem',
+              }}
+            >
+              <div>{infoMessage}</div>
+              {countdown > 0 && (
+                <div style={{ marginTop: '0.4rem', fontWeight: 700, color: 'var(--ec-primary)' }}>
+                  Tiempo restante de validez: {formatTime(countdown)}
+                </div>
+              )}
             </div>
 
-            {/* BANNER INFORMATIVO / SANDBOX SI NO HAY API KEY TODAVÍA */}
-            {devCodeBanner && (
-              <div
-                style={{
-                  background: 'rgba(56, 189, 248, 0.1)',
-                  border: '1.5px dashed #38bdf8',
-                  padding: '0.85rem 1rem',
-                  borderRadius: '12px',
-                  marginBottom: '1.25rem',
-                  textAlign: 'center'
-                }}
-              >
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
-                  🧪 Código Generado (Sandbox / Pruebas)
-                </div>
-                <div style={{ fontSize: '1.6rem', fontWeight: 900, letterSpacing: '0.25em', color: '#38bdf8', fontFamily: 'monospace' }}>
-                  {devCodeBanner}
-                </div>
-                <div style={{ fontSize: '0.72rem', color: '#cbd5e1', marginTop: '0.35rem' }}>
-                  {providerUsed === 'resend' 
-                    ? '✅ Despachado por Resend a tu bandeja de entrada.' 
-                    : '💡 Puedes usar este código directamente para probar el flujo de inmediato.'}
-                </div>
-              </div>
-            )}
-
-            {errorMsg && (
-              <div
-                style={{
-                  background: 'rgba(239, 68, 68, 0.15)',
-                  border: '1px solid rgba(239, 68, 68, 0.3)',
-                  color: '#fca5a5',
-                  padding: '0.75rem 1rem',
-                  borderRadius: '12px',
-                  fontSize: '0.85rem',
-                  marginBottom: '1.25rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.6rem'
-                }}
-              >
-                <AlertCircle size={18} style={{ flexShrink: 0 }} />
-                <span>{errorMsg}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleRestablecerClave}>
-              {/* CÓDIGO DE 6 DÍGITOS */}
-              <div style={{ marginBottom: '1.15rem' }}>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#cbd5e1', marginBottom: '0.4rem' }}>
-                  Código de 6 Dígitos
-                </label>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label className="form-label">Código de 6 dígitos recibido por correo</label>
+              <div style={{ position: 'relative' }}>
+                <ShieldCheck size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
                 <input
                   type="text"
                   maxLength={6}
-                  placeholder="Ej: 123456"
+                  required
                   value={codigo}
                   onChange={(e) => setCodigo(e.target.value.replace(/\D/g, ''))}
-                  className="login-input"
-                  style={{
-                    textAlign: 'center',
-                    fontSize: '1.35rem',
-                    letterSpacing: '0.3em',
-                    fontWeight: 800,
-                    fontFamily: 'monospace',
-                    boxSizing: 'border-box',
-                    width: '100%'
-                  }}
-                  required
-                  autoFocus
+                  placeholder="000000"
+                  className="ec-auth-input"
+                  style={{ letterSpacing: '6px', fontWeight: 800, fontSize: '1.08rem' }}
                 />
               </div>
+            </div>
 
-              {/* NUEVA CONTRASEÑA */}
-              <div style={{ marginBottom: '1.15rem' }}>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#cbd5e1', marginBottom: '0.4rem' }}>
-                  Nueva Contraseña (mínimo 6 caracteres)
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <Lock
-                    size={17}
-                    style={{
-                      position: 'absolute',
-                      left: '14px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      color: '#64748b'
-                    }}
-                  />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    value={nuevaPassword}
-                    onChange={(e) => setNuevaPassword(e.target.value)}
-                    className="login-input"
-                    style={{ paddingLeft: '44px', paddingRight: '40px', width: '100%', boxSizing: 'border-box' }}
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{
-                      position: 'absolute',
-                      right: '12px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'none',
-                      border: 'none',
-                      color: '#94a3b8',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              </div>
-
-              {/* CONFIRMAR CONTRASEÑA */}
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#cbd5e1', marginBottom: '0.4rem' }}>
-                  Confirmar Nueva Contraseña
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <Lock
-                    size={17}
-                    style={{
-                      position: 'absolute',
-                      left: '14px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      color: '#64748b'
-                    }}
-                  />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    value={confirmarPassword}
-                    onChange={(e) => setConfirmarPassword(e.target.value)}
-                    className="login-input"
-                    style={{ paddingLeft: '44px', width: '100%', boxSizing: 'border-box' }}
-                    required
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="btn-pill-primary"
-                disabled={loading}
-                style={{
-                  width: '100%',
-                  justifyContent: 'center',
-                  padding: '0.85rem',
-                  fontSize: '0.92rem',
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
-              >
-                {loading ? (
-                  <>
-                    <RefreshCw size={18} className="animate-spin" />
-                    <span>Guardando cambios...</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 size={18} />
-                    <span>Restablecer y Guardar Contraseña</span>
-                  </>
-                )}
-              </button>
-            </form>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem', borderTop: '1px solid #334155', paddingTop: '1rem' }}>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '0.82rem', cursor: 'pointer' }}
+                className="btn-secondary-action"
+                style={{ flex: 1 }}
               >
-                ← Cambiar correo
+                <RefreshCw size={14} /> Cambiar correo
               </button>
-
-              <button
-                type="button"
-                onClick={handleSolicitarCodigo}
-                disabled={loading}
-                style={{ background: 'none', border: 'none', color: '#38bdf8', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer' }}
-              >
-                Reenviar código
+              <button type="submit" disabled={loading} className="btn-primary-action" style={{ flex: 1 }}>
+                {loading ? 'Validando...' : 'Verificar Código'}
               </button>
             </div>
-          </div>
+          </form>
         )}
 
-        {/* ==============================================================================
-            PASO 3: ÉXITO TOTAL Y CONFIRMACIÓN
-           ============================================================================== */}
         {step === 3 && (
-          <div style={{ textAlign: 'center', padding: '1rem 0' }}>
-            <div
-              style={{
-                width: '68px',
-                height: '68px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.25) 0%, rgba(21, 128, 61, 0.4) 100%)',
-                border: '2px solid #22c55e',
-                color: '#4ade80',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 1.25rem'
-              }}
-            >
-              <CheckCircle2 size={36} />
+          <form onSubmit={handleRestablecerPassword}>
+            <div style={{ marginBottom: '1rem' }}>
+              <label className="form-label">Nueva Contraseña Institucional</label>
+              <div style={{ position: 'relative' }}>
+                <Lock size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
+                <input
+                  type={showPass ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  value={nuevaPassword}
+                  onChange={(e) => setNuevaPassword(e.target.value)}
+                  placeholder="Mínimo 6 caracteres"
+                  className="ec-auth-input"
+                  style={{ paddingRight: '2.6rem' }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  style={{
+                    position: 'absolute',
+                    right: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'transparent',
+                    color: 'var(--ec-text-muted)',
+                  }}
+                >
+                  {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
 
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, margin: '0 0 0.5rem', color: '#ffffff' }}>
-              ¡Contraseña Restablecida!
-            </h2>
-            <p style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: 1.6, marginBottom: '1.75rem' }}>
-              Tu clave ha sido actualizada con éxito en la base de datos institucional. Ya puedes ingresar con tu nueva contraseña.
-            </p>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label className="form-label">Confirmar Nueva Contraseña</label>
+              <div style={{ position: 'relative' }}>
+                <Lock size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
+                <input
+                  type={showPass ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  value={confirmarPassword}
+                  onChange={(e) => setConfirmarPassword(e.target.value)}
+                  placeholder="Repite la nueva contraseña"
+                  className="ec-auth-input"
+                />
+              </div>
+            </div>
 
-            <button
-              type="button"
-              className="btn-pill-primary"
-              onClick={handleFinalizar}
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                padding: '0.85rem',
-                fontSize: '0.95rem',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)'
-              }}
-            >
-              <span>Iniciar Sesión Ahora</span>
-              <ArrowRight size={18} />
+            <button type="submit" disabled={loading} className="btn-primary-action" style={{ width: '100%', padding: '0.78rem' }}>
+              {loading ? 'Actualizando clave...' : 'Guardar Nueva Contraseña'}
+            </button>
+          </form>
+        )}
+
+        {step === 4 && (
+          <div style={{ textAlign: 'center', padding: '0.5rem 0' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--ec-text-muted)', marginBottom: '1.5rem', lineHeight: 1.55 }}>
+              Tu nueva contraseña ha sido cifrada mediante BCrypt y almacenada de forma segura en la base de datos institucional.
+            </p>
+            <button type="button" onClick={onClose} className="btn-primary-action" style={{ width: '100%', padding: '0.78rem' }}>
+              Iniciar Sesión Ahora
             </button>
           </div>
         )}
@@ -568,3 +384,5 @@ export const RecuperarClaveModal: React.FC<RecuperarClaveModalProps> = ({
     </div>
   );
 };
+
+export default RecuperarClaveModal;

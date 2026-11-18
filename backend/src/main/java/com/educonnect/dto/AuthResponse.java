@@ -1,22 +1,30 @@
 package com.educonnect.dto;
 
 import com.educonnect.model.Rol;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthResponse {
-
+    private Long id;
     private String token;
     @Builder.Default
-    private String tipo = "Bearer";
-    private Long id;
+    private String type = "Bearer";
     private String email;
-    private Rol rol;
+    private String documento;
     private String nombreCompleto;
-    private String avatarUrl;
-    private Long perfilId; // Id de Docente, Estudiante o Tutor según el rol
+    private String primerNombre;
+    private String primerApellido;
+    private Rol rol;
+    private String grupoAsignado;
+    private Long grupoAsignadoId;
+    private Boolean esDirectorGrupo;
+    private Long docenteId;
+    private Long estudianteId;
+    private Long tutorId;
 }

@@ -1,312 +1,466 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
-import { Calificacion, HorarioClase, BoletinEstudiante } from '../types';
-import { HorarioSemanalGrid } from './HorarioSemanalGrid';
-import { BoletinOficialModal } from './BoletinOficialModal';
 import {
-  GraduationCap,
-  LogOut,
+  AsistenciaDto,
+  CalificacionDto,
+  ComunicadoDto,
+  HorarioBloqueDto,
+  ObservacionDto,
+} from '../types';
+import HorarioSemanalGrid from './HorarioSemanalGrid';
+import BoletinOficialModal from './BoletinOficialModal';
+import {
+  DashboardShell,
+  EmptyOrLoadingState,
+  KpiCard,
+  SidebarNavGroup,
+  StatusBanner,
+} from './ui/DashboardShared';
+import {
   Award,
-  HeartPulse,
-  UserCheck,
   Calendar,
-  Clock,
-  BookOpen,
   CheckCircle,
-  AlertCircle,
   Printer,
-  FileText
+  FileText,
+  Megaphone,
+  FileSignature,
+  BookOpen,
 } from 'lucide-react';
 
 export const EstudianteDashboard: React.FC = () => {
   const { user, logout } = useAuth();
-  const [currentTab, setCurrentTab] = useState<'calificaciones' | 'horario' | 'observador'>('calificaciones');
-  const [calificaciones, setCalificaciones] = useState<Calificacion[]>([]);
-  const [horarios, setHorarios] = useState<HorarioClase[]>([]);
+  const [currentTab, setCurrentTab] = useState<'calificaciones' | 'horario' | 'observador' | 'comunicados'>('calificaciones');
 
-  // Boletín Oficial (Decreto 1290)
-  const [selectedBoletin, setSelectedBoletin] = useState<BoletinEstudiante | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
+
+  const [calificaciones, setCalificaciones] = useState<CalificacionDto[]>([]);
+  const [asistencias, setAsistencias] = useState<AsistenciaDto[]>([]);
+  const [horarios, setHorarios] = useState<HorarioBloqueDto[]>([]);
+  const [observaciones, setObservaciones] = useState<ObservacionDto[]>([]);
+  const [comunicados, setComunicados] = useState<ComunicadoDto[]>([]);
   const [showBoletinModal, setShowBoletinModal] = useState(false);
 
-  const handleVerBoletinOficial = async () => {
-    const b = await api.getBoletinEstudiante('EST-2026-001', 1);
-    setSelectedBoletin(b);
-    setShowBoletinModal(true);
-  };
-
-  const handleImprimir = () => {
-    window.print();
-  };
+  const cargarDatosEstudiante = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [calData, asisData, horData, obsData, comData] = await Promise.all([
+        api.getCalificacionesEstudiante(user?.estudianteId),
+        api.getAsistenciasEstudiante(user?.estudianteId),
+        api.getHorarios(user?.grupoAsignado),
+        api.getObservaciones(user?.estudianteId),
+        api.getComunicados(),
+      ]);
+      setCalificaciones(calData);
+      setAsistencias(asisData);
+      setHorarios(horData);
+      setObservaciones(obsData);
+      setComunicados(comData);
+    } catch (err) {
+      setStatusMessage({
+        type: 'error',
+        text: err instanceof Error ? err.message : 'No fue posible cargar tu información académica.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.estudianteId, user?.grupoAsignado]);
 
   useEffect(() => {
-    if (user?.id) {
-      api.getCalificacionesEstudiante(user.id).then((data) => {
-        if (data && data.length > 0) {
-          setCalificaciones(data);
-        } else {
-          setCalificaciones([
-            { id: 1, materiaNombre: 'Matemáticas y Álgebra', docenteNombre: 'Prof. Roberto Silva', notaCognitiva: 4.8, notaProcedimental: 4.5, notaActitudinal: 5.0, notaDefinitivaPeriodo: 4.70, desempeno: 'SUPERIOR' },
-            { id: 2, materiaNombre: 'Lengua Castellana y Literatura', docenteNombre: 'Lic. Elena Gómez', notaCognitiva: 4.6, notaProcedimental: 4.7, notaActitudinal: 5.0, notaDefinitivaPeriodo: 4.72, desempeno: 'SUPERIOR' },
-            { id: 3, materiaNombre: 'Ciencias Naturales y Química', docenteNombre: 'Lic. Claudia Morales', notaCognitiva: 4.5, notaProcedimental: 4.6, notaActitudinal: 4.8, notaDefinitivaPeriodo: 4.60, desempeno: 'SUPERIOR' },
-            { id: 4, materiaNombre: 'Educación Física y Deportes', docenteNombre: 'Lic. Marcos Rivas', notaCognitiva: 5.0, notaProcedimental: 5.0, notaActitudinal: 5.0, notaDefinitivaPeriodo: 5.00, desempeno: 'SUPERIOR' },
-            { id: 5, materiaNombre: 'Inglés Comunicativo', docenteNombre: 'Lic. Sandra Vargas', notaCognitiva: 4.2, notaProcedimental: 4.4, notaActitudinal: 4.6, notaDefinitivaPeriodo: 4.36, desempeno: 'ALTO' },
-          ]);
-        }
+    void cargarDatosEstudiante();
+  }, [cargarDatosEstudiante]);
+
+  const handleFirmarObservacion = async (id: number) => {
+    try {
+      const actualizada = await api.firmarObservacion(id);
+      setObservaciones((prev) => prev.map((o) => (o.id === id ? actualizada : o)));
+      setStatusMessage({
+        type: 'success',
+        text: 'Anotación del observador firmada digitalmente por el estudiante.',
+      });
+    } catch (err) {
+      setStatusMessage({
+        type: 'error',
+        text: err instanceof Error ? err.message : 'Error al firmar la observación.',
       });
     }
+  };
 
-    api.getHorarios().then(setHorarios);
-  }, [user]);
+  const average =
+    calificaciones.length > 0
+      ? (calificaciones.reduce((acc, c) => acc + c.notaDefinitivaPeriodo, 0) / calificaciones.length).toFixed(2)
+      : '0.00';
 
-  const average = calificaciones.length > 0
-    ? (calificaciones.reduce((acc, c) => acc + c.notaDefinitivaPeriodo, 0) / calificaciones.length).toFixed(2)
-    : '4.68';
+  const totalFallas = asistencias.filter((a) => a.estado === 'AUSENTE' && !a.justificada).length;
+  const porcentajeAsistencia =
+    asistencias.length > 0
+      ? Math.round(((asistencias.length - totalFallas) / asistencias.length) * 100)
+      : 100;
+
+  const navGroups: SidebarNavGroup[] = [
+    {
+      category: 'MI APRENDIZAJE',
+      items: [
+        { id: 'calificaciones', label: 'Mis Calificaciones', icon: <Award size={18} />, badge: calificaciones.length || undefined },
+        { id: 'horario', label: 'Mi Horario de Clases', icon: <Calendar size={18} /> },
+      ],
+    },
+    {
+      category: 'SEGUIMIENTO & COMUNICACIÓN',
+      items: [
+        { id: 'observador', label: 'Observador & Asistencia', icon: <CheckCircle size={18} />, badge: observaciones.length || undefined },
+        { id: 'comunicados', label: 'Circulares Institucionales', icon: <Megaphone size={18} />, badge: comunicados.length || undefined },
+      ],
+    },
+  ];
 
   return (
-    <div className="dashboard-layout">
-      {/* SIDEBAR */}
-      <aside className="dashboard-sidebar">
-        <div className="sidebar-header">
-          <div className="brand-wrapper">
-            <div className="brand-icon-box">
-              <GraduationCap size={22} />
-            </div>
-            <div>
-              <div className="brand-title" style={{ fontSize: '1.2rem' }}>EduConnect</div>
-              <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>Portal Estudiantil</span>
-            </div>
+    <DashboardShell
+      portalTitle="Campus Estudiantes"
+      portalSubtitle={`Grupo ${user?.grupoAsignado || '10-A'}`}
+      navGroups={navGroups}
+      activeTab={currentTab}
+      onSelectTab={(id) => setCurrentTab(id as typeof currentTab)}
+      userName={user?.nombreCompleto || 'Estudiante'}
+      userRoleLabel="ESTUDIANTE"
+      userSubLabel={user?.grupoAsignado}
+      onLogout={logout}
+      headerActions={
+        <button
+          type="button"
+          className="btn-primary-action"
+          onClick={() => setShowBoletinModal(true)}
+          style={{ padding: '0.45rem 0.9rem', fontSize: '0.8rem' }}
+        >
+          <FileText size={15} />
+          <span>Boletín Oficial</span>
+        </button>
+      }
+    >
+      {/* HERO WELCOME BANNER STITCH */}
+      <div className="ec-hero-banner no-print">
+        <div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', background: 'rgba(255,255,255,0.16)', padding: '0.25rem 0.7rem', borderRadius: '999px', fontSize: '0.73rem', fontWeight: 700, marginBottom: '0.55rem' }}>
+            <span>Grupo {user?.grupoAsignado || '10-A'}</span>
+            <span>·</span>
+            <span>Año Lectivo 2026</span>
           </div>
+          <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>
+            ¡Hola de nuevo, {user?.primerNombre || user?.nombreCompleto}!
+          </h1>
+          <p style={{ margin: '0.35rem 0 0', fontSize: '0.88rem', color: 'rgba(255,255,255,0.88)' }}>
+            Tu promedio acumulado actual es <strong>{average} / 5.0</strong> con <strong>{porcentajeAsistencia}%</strong> de asistencia.
+          </p>
         </div>
 
-        <ul className="sidebar-menu">
-          <li
-            className={`sidebar-item ${currentTab === 'calificaciones' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('calificaciones')}
-          >
-            <Award size={20} />
-            <span>Mis Calificaciones</span>
-          </li>
-          <li
-            className={`sidebar-item ${currentTab === 'horario' ? 'active' : ''}`}
+        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
             onClick={() => setCurrentTab('horario')}
+            style={{
+              background: '#ffffff',
+              color: 'var(--ec-primary-dark)',
+              padding: '0.58rem 1rem',
+              borderRadius: '11px',
+              fontWeight: 700,
+              fontSize: '0.82rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+            }}
           >
-            <Calendar size={20} />
-            <span>Mi Horario de Clases</span>
-          </li>
-          <li
-            className={`sidebar-item ${currentTab === 'observador' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('observador')}
+            <Calendar size={15} /> Ver mi horario
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowBoletinModal(true)}
+            style={{
+              background: 'rgba(255,255,255,0.16)',
+              color: '#ffffff',
+              border: '1px solid rgba(255,255,255,0.28)',
+              padding: '0.58rem 1rem',
+              borderRadius: '11px',
+              fontWeight: 600,
+              fontSize: '0.82rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+            }}
           >
-            <CheckCircle size={20} />
-            <span>Observador & Asistencia</span>
-          </li>
-        </ul>
-
-        <div className="sidebar-footer">
-          <button className="btn-logout" onClick={logout}>
-            <LogOut size={18} />
-            <span>Cerrar Sesión</span>
+            <FileText size={15} /> Boletín Decreto 1290
           </button>
         </div>
-      </aside>
+      </div>
 
-      {/* CONTENIDO PRINCIPAL */}
-      <main className="dashboard-content">
-        <div className="dashboard-topbar">
-          <div>
-            <h1 style={{ fontSize: '1.85rem', marginBottom: '0.2rem' }}>
-              {currentTab === 'calificaciones' && 'Boletín Académico Personal'}
-              {currentTab === 'horario' && 'Horario Semanal de Clases'}
-              {currentTab === 'observador' && 'Seguimiento Convivencial y Asistencia'}
-            </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
-              Estudiante: {user?.nombreCompleto || 'Carlos Vargas'} — Grado: 6°A Secundaria (Año Lectivo 2026)
-            </p>
-          </div>
-
-          <div className="user-profile-badge">
-            <div className="user-avatar-circle" style={{ background: '#e0e7ff', color: '#4338ca' }}>
-              👨‍🎓
-            </div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{user?.nombreCompleto}</div>
-              <div style={{ fontSize: '0.75rem', color: '#4338ca', fontWeight: 700 }}>ESTUDIANTE ACTIVO</div>
-            </div>
-          </div>
-        </div>
-
-        {/* METRICS */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon indigo"><Award size={24} /></div>
-            <div>
-              <div className="stat-number">{average}</div>
-              <div className="stat-label">Promedio Acumulado (0-5.0)</div>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon green"><UserCheck size={24} /></div>
-            <div>
-              <div className="stat-number">Juan Fernando Ramírez</div>
-              <div className="stat-label">Tutor / Acudiente Vinculado</div>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon rose"><HeartPulse size={24} /></div>
-            <div>
-              <div className="stat-number">O+ (Sanitas EPS)</div>
-              <div className="stat-label">Ficha Médica y Seguro Estudiantil</div>
-            </div>
-          </div>
-        </div>
-
-        {/* TAB 1: CALIFICACIONES */}
-        {currentTab === 'calificaciones' && (
-          <div className="panel-card" style={{ width: '100%' }}>
-            <div className="panel-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.2rem' }}>📑 Calificaciones del Periodo Actual</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Evaluación continua: Cognitivo (40%) + Procedimental (40%) + Actitudinal (20%)
-                </p>
-              </div>
-
-              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  className="btn-primary-action"
-                  onClick={handleVerBoletinOficial}
-                  style={{ padding: '0.55rem 1.15rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.45rem', background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', boxShadow: '0 4px 12px rgba(2, 132, 199, 0.3)' }}
-                >
-                  <FileText size={16} />
-                  <span>Ver Boletín Oficial (Decreto 1290)</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleImprimir}
-                  style={{ padding: '0.55rem 1.1rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.45rem', background: 'rgba(255, 255, 255, 0.08)', border: '1px solid var(--border-dark)', borderRadius: '10px', color: 'white', fontWeight: 700, cursor: 'pointer' }}
-                >
-                  <Printer size={16} />
-                  <span>Imprimir Calificaciones</span>
-                </button>
-              </div>
-            </div>
-
-            <div style={{ width: '100%', overflowX: 'visible', padding: '0 0.5rem 0.5rem' }}>
-              <table className="data-table" style={{ width: '100%', tableLayout: 'auto' }}>
-                <thead>
-                  <tr>
-                    <th style={{ width: '28%' }}>Asignatura</th>
-                    <th style={{ width: '22%' }}>Docente Titular</th>
-                    <th style={{ width: '10%', textAlign: 'center' }}>Cognitivo<br/><span style={{ fontSize: '0.72rem', opacity: 0.8 }}>(40%)</span></th>
-                    <th style={{ width: '10%', textAlign: 'center' }}>Procedimental<br/><span style={{ fontSize: '0.72rem', opacity: 0.8 }}>(40%)</span></th>
-                    <th style={{ width: '10%', textAlign: 'center' }}>Actitudinal<br/><span style={{ fontSize: '0.72rem', opacity: 0.8 }}>(20%)</span></th>
-                    <th style={{ width: '10%', textAlign: 'center' }}>Nota Final</th>
-                    <th style={{ width: '10%', textAlign: 'center' }}>Desempeño</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {calificaciones.map((c) => (
-                    <tr key={c.id}>
-                      <td style={{ fontWeight: 700, color: '#f8fafc' }}>{c.materiaNombre}</td>
-                      <td style={{ color: 'var(--text-muted)' }}>{c.docenteNombre}</td>
-                      <td style={{ textAlign: 'center', fontWeight: 600 }}>{c.notaCognitiva?.toFixed(1) || '4.5'}</td>
-                      <td style={{ textAlign: 'center', fontWeight: 600 }}>{c.notaProcedimental?.toFixed(1) || '4.6'}</td>
-                      <td style={{ textAlign: 'center', fontWeight: 600 }}>{c.notaActitudinal?.toFixed(1) || '5.0'}</td>
-                      <td style={{ textAlign: 'center' }}>
-                        <span
-                          className={`grade-badge ${
-                            c.desempeno === 'SUPERIOR' ? 'superior' : c.desempeno === 'ALTO' ? 'alto' : c.desempeno === 'BASICO' ? 'basico' : 'bajo'
-                          }`}
-                        >
-                          {c.notaDefinitivaPeriodo.toFixed(2)}
-                        </span>
-                      </td>
-                      <td style={{ textAlign: 'center' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{c.desempeno}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 2: HORARIO DE CLASES (EN RECUADROS) */}
-        {currentTab === 'horario' && (
-          <div className="panel-card">
-            <div className="panel-header">
-              <div>
-                <h3>📅 Horario Semanal de Clases (En Recuadros)</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Grado: <strong>6°A Secundaria</strong> — Salón 201 Bloque A
-                </p>
-              </div>
-              <span className="grade-badge superior">Jornada Mañana (07:00 AM - 01:30 PM)</span>
-            </div>
-
-            <div style={{ padding: '1.25rem' }}>
-              <HorarioSemanalGrid horarios={horarios} readOnly={true} />
-            </div>
-          </div>
-        )}
-
-        {/* TAB 3: OBSERVADOR & ASISTENCIA */}
-        {currentTab === 'observador' && (
-          <div className="panel-card">
-            <div className="panel-header">
-              <div>
-                <h3>📋 Mi Observador y Registro Convivencial</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Historial de seguimiento formativo y porcentaje de asistencia
-                </p>
-              </div>
-              <span className="grade-badge superior">Asistencia: 98% al día</span>
-            </div>
-
-            <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-dark)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                  <span className="grade-badge superior">FELICITACIÓN</span>
-                  <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>2026-02-20 — Prof. Roberto Silva</span>
-                </div>
-                <p style={{ fontSize: '0.9rem', color: '#e2e8f0', marginBottom: '0.5rem' }}>
-                  Demostró excelente desempeño en la resolución de problemas de pensamiento lógico y colaboración activa con sus compañeros de equipo.
-                </p>
-                <div style={{ fontSize: '0.85rem', color: '#38bdf8' }}>
-                  <strong>Compromiso:</strong> Continuar participando en el semillero de ciencias exactas.
-                </div>
-              </div>
-
-              <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-dark)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                  <span className="grade-badge alto">FORMATIVA</span>
-                  <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>2026-02-10 — Lic. Elena Gómez</span>
-                </div>
-                <p style={{ fontSize: '0.9rem', color: '#e2e8f0', marginBottom: '0.5rem' }}>
-                  Entrega puntual del primer informe del proyecto de comprensión lectora.
-                </p>
-                <div style={{ fontSize: '0.85rem', color: '#38bdf8' }}>
-                  <strong>Compromiso:</strong> Mantener el hábito de lectura diaria.
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </main>
-
-      {/* MODAL BOLETÍN OFICIAL DECRETO 1290 */}
-      {showBoletinModal && selectedBoletin && (
-        <BoletinOficialModal
-          boletin={selectedBoletin}
-          onClose={() => setShowBoletinModal(false)}
+      {statusMessage && (
+        <StatusBanner
+          type={statusMessage.type}
+          message={statusMessage.text}
+          onClose={() => setStatusMessage(null)}
         />
       )}
-    </div>
+
+      {/* METRICS */}
+      <div className="stats-grid no-print">
+        <KpiCard
+          icon={<Award size={20} />}
+          tone="blue"
+          badge="Escala MEN"
+          badgeTone="primary"
+          value={`${average} / 5.0`}
+          label="Promedio Acumulado"
+        />
+        <KpiCard
+          icon={<CheckCircle size={20} />}
+          tone="emerald"
+          badge={`${totalFallas} fallas`}
+          badgeTone="success"
+          value={`${porcentajeAsistencia}%`}
+          label="Cumplimiento de Asistencia"
+        />
+        <KpiCard
+          icon={<BookOpen size={20} />}
+          tone="indigo"
+          badge="Periodo"
+          value={calificaciones.length}
+          label="Asignaturas Evaluadas"
+        />
+        <KpiCard
+          icon={<FileSignature size={20} />}
+          tone="amber"
+          badge="Convivencia"
+          value={observaciones.length}
+          label="Anotaciones en Observador"
+          onClick={() => setCurrentTab('observador')}
+        />
+      </div>
+
+      {loading ? (
+        <EmptyOrLoadingState loading={true} message="Cargando tu expediente estudiantil desde el servidor..." />
+      ) : (
+        <>
+          {/* TAB 1: CALIFICACIONES */}
+          {currentTab === 'calificaciones' && (
+            <div className="panel-card">
+              <div className="panel-header">
+                <div>
+                  <h3>Calificaciones del Periodo Actual</h3>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '0.2rem' }}>
+                    Ponderación SIEE Decreto 1290: Saber/Cognitivo (40%) + Hacer/Procedimental (30%) + Ser/Actitudinal (30%)
+                  </p>
+                </div>
+
+                <div className="no-print" style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    className="btn-primary-action"
+                    onClick={() => setShowBoletinModal(true)}
+                  >
+                    <FileText size={15} />
+                    <span>Ver Boletín Oficial</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn-secondary-action"
+                    onClick={() => window.print()}
+                  >
+                    <Printer size={15} />
+                    <span>Imprimir</span>
+                  </button>
+                </div>
+              </div>
+
+              {calificaciones.length === 0 ? (
+                <EmptyOrLoadingState loading={false} message="Aún no tienes calificaciones registradas en este periodo." />
+              ) : (
+                <div className="ec-table-responsive">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Asignatura</th>
+                        <th>Docente Titular</th>
+                        <th style={{ textAlign: 'center' }}>Saber (40%)</th>
+                        <th style={{ textAlign: 'center' }}>Hacer (30%)</th>
+                        <th style={{ textAlign: 'center' }}>Ser (30%)</th>
+                        <th style={{ textAlign: 'center' }}>Definitiva</th>
+                        <th style={{ textAlign: 'center' }}>Desempeño</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {calificaciones.map((c) => (
+                        <tr key={c.id}>
+                          <td style={{ fontWeight: 700, color: 'var(--ec-text)' }}>{c.materia}</td>
+                          <td style={{ color: 'var(--ec-text-muted)' }}>{c.docente}</td>
+                          <td style={{ textAlign: 'center', fontWeight: 600 }}>{c.notaCognitiva.toFixed(1)}</td>
+                          <td style={{ textAlign: 'center', fontWeight: 600 }}>{c.notaProcedimental.toFixed(1)}</td>
+                          <td style={{ textAlign: 'center', fontWeight: 600 }}>{c.notaActitudinal.toFixed(1)}</td>
+                          <td style={{ textAlign: 'center' }}>
+                            <span
+                              className={`grade-badge ${
+                                c.escalaDesempeno === 'SUPERIOR'
+                                  ? 'superior'
+                                  : c.escalaDesempeno === 'ALTO'
+                                  ? 'alto'
+                                  : c.escalaDesempeno === 'BASICO'
+                                  ? 'basico'
+                                  : 'bajo'
+                              }`}
+                            >
+                              {c.notaDefinitivaPeriodo.toFixed(2)}
+                            </span>
+                          </td>
+                          <td style={{ textAlign: 'center' }}>
+                            <span style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--ec-text)' }}>{c.escalaDesempeno}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 2: HORARIO DE CLASES */}
+          {currentTab === 'horario' && (
+            <div className="panel-card">
+              <div className="panel-header">
+                <div>
+                  <h3>Horario Semanal de Clases</h3>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '0.2rem' }}>
+                    Grupo: <strong>{user?.grupoAsignado || '10-A'}</strong>
+                  </p>
+                </div>
+                <span className="grade-badge superior">Horario Oficial</span>
+              </div>
+
+              <div className="panel-body">
+                <HorarioSemanalGrid bloques={horarios} editable={false} />
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: OBSERVADOR & ASISTENCIA */}
+          {currentTab === 'observador' && (
+            <div className="panel-card">
+              <div className="panel-header">
+                <div>
+                  <h3>Mi Observador y Registro de Asistencia</h3>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '0.2rem' }}>
+                    Historial formativo y compromisos académicos
+                  </p>
+                </div>
+                <span className="grade-badge superior">Asistencia: {porcentajeAsistencia}%</span>
+              </div>
+
+              <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                {observaciones.length === 0 ? (
+                  <EmptyOrLoadingState emptyMessage="No tienes anotaciones registradas en el observador estudiantil." />
+                ) : (
+                  observaciones.map((obs) => (
+                    <div
+                      key={obs.id}
+                      style={{
+                        background: 'var(--ec-surface-low)',
+                        padding: '1.15rem 1.25rem',
+                        borderRadius: '14px',
+                        border: '1px solid var(--ec-border)',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                        <span className={`grade-badge ${obs.tipo === 'FELICITACION' ? 'superior' : 'alto'}`}>
+                          {obs.tipo}
+                        </span>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--ec-text-muted)', fontWeight: 600 }}>
+                          {obs.fecha} — {obs.autor}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--ec-text)', marginBottom: '0.6rem', lineHeight: 1.5 }}>{obs.descripcion}</p>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.6rem' }}>
+                        <div style={{ fontSize: '0.83rem', color: 'var(--ec-primary-dark)' }}>
+                          <strong>Compromiso:</strong> {obs.compromisos}
+                        </div>
+                        {obs.firmadoEstudiante ? (
+                          <span className="grade-badge superior">Firmado por Estudiante</span>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => handleFirmarObservacion(obs.id)}
+                            className="btn-primary-action"
+                            style={{ padding: '0.35rem 0.85rem', fontSize: '0.78rem' }}
+                          >
+                            Firmar Compromiso
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: COMUNICADOS */}
+          {currentTab === 'comunicados' && (
+            <div className="panel-card">
+              <div className="panel-header">
+                <h3>Circulares y Comunicados Institucionales</h3>
+              </div>
+              <div className="panel-body" style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                {comunicados.length === 0 ? (
+                  <EmptyOrLoadingState emptyMessage="No hay comunicados publicados en este momento." />
+                ) : (
+                  comunicados.map((com) => (
+                    <div
+                      key={com.id}
+                      style={{
+                        background: 'var(--ec-surface-low)',
+                        border: '1px solid var(--ec-border)',
+                        borderRadius: '14px',
+                        padding: '1.1rem 1.25rem',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                        <strong style={{ color: 'var(--ec-text)' }}>{com.titulo}</strong>
+                        <span className="grade-badge alto">{com.fecha}</span>
+                      </div>
+                      <p style={{ color: 'var(--ec-text-secondary)', fontSize: '0.88rem', lineHeight: 1.55 }}>{com.contenido}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* MODAL BOLETÍN OFICIAL DECRETO 1290 */}
+      <BoletinOficialModal
+        isOpen={showBoletinModal}
+        onClose={() => setShowBoletinModal(false)}
+        estudianteId={user?.estudianteId}
+        estudianteNombre={user?.nombreCompleto || 'Estudiante'}
+        estudianteDocumento={user?.documento}
+        grupo={user?.grupoAsignado || '10-A'}
+        periodo="Primer Periodo 2026"
+        inasistenciasTotales={totalFallas}
+        calificaciones={calificaciones.map((c) => ({
+          id: c.id,
+          materia: c.materia,
+          area: c.area,
+          docente: c.docente,
+          intensidadHoraria: c.intensidadHoraria,
+          nota1: c.notaCognitiva,
+          nota2: c.notaProcedimental,
+          nota3: c.notaActitudinal,
+          notaFinal: c.notaDefinitivaPeriodo,
+          observaciones: c.juicioValorativo,
+        }))}
+      />
+    </DashboardShell>
   );
 };
+
+export default EstudianteDashboard;

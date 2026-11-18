@@ -1,17 +1,23 @@
 package com.educonnect.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DashboardStatsDto {
     private long totalEstudiantes;
     private long totalDocentes;
-    private long totalTutores;
-    private long totalMaterias;
     private long totalGrupos;
-    private long totalMatriculasActivas;
+    private long totalMaterias;
+    private long totalUsuarios;
+    private long totalTutores;
+    private double promedioInstitucional;
+    private double porcentajeAsistencia;
+    private long alertasRiesgo;
+    private long solicitudesPendientes;
 }

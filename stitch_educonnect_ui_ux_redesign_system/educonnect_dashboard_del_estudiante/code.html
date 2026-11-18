@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-error":"#ffffff","secondary-container":"#ced9fe","on-secondary-container":"#535f7d","outline-variant":"#c3c5d9","surface-tint":"#004ee7","on-surface-variant":"#434656","surface-bright":"#f7f9ff","on-tertiary-fixed-variant":"#004395","on-primary-fixed-variant":"#003ab1","primary":"#0045d0","secondary":"#525e7d","on-secondary-fixed":"#0e1b36","on-tertiary":"#ffffff","surface-container-high":"#e4e8ef","surface-container-lowest":"#ffffff","tertiary-container":"#0c68db","on-surface":"#171c21","error-container":"#ffdad6","background":"#f7f9ff","on-secondary-fixed-variant":"#3b4664","surface-variant":"#dfe3ea","surface-container":"#eaeef5","on-primary-fixed":"#001550","inverse-on-surface":"#edf1f8","error":"#ba1a1a","primary-fixed-dim":"#b6c4ff","on-primary":"#ffffff","primary-container":"#175cff","on-error-container":"#93000a","inverse-primary":"#b6c4ff","surface-container-highest":"#dfe3ea","outline":"#737688","tertiary-fixed-dim":"#adc6ff","surface-container-low":"#f0f4fb","on-primary-container":"#edeeff","on-secondary":"#ffffff","on-background":"#171c21","surface":"#f7f9ff","on-tertiary-fixed":"#001a42","tertiary":"#0050af","inverse-surface":"#2c3136","secondary-fixed":"#d9e2ff","on-tertiary-container":"#ebefff","secondary-fixed-dim":"#bac6e9","surface-dim":"#d6dae1","tertiary-fixed":"#d8e2ff","primary-fixed":"#dce1ff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter-mobile":"1rem","space-xl":"2rem","space-lg":"1.5rem","space-md":"1rem","space-xs":"0.25rem","space-sm":"0.5rem","margin":"2rem","margin-mobile":"1rem","gutter":"1.5rem"},"fontFamily":{"label-md":["Inter"],"headline-xl-mobile":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"label-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"body-md":["Inter"],"headline-sm":["Plus Jakarta Sans"],"metric-display":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-lg":["Inter"],"body-sm":["Inter"]},"fontSize":{"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-xl-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"display-lg-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"metric-display":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-gradient-to-b from-[#0c1938] to-[#07142f] text-white z-50 flex flex-col justify-between overflow-y-auto shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="p-space-lg"><div class="flex items-center justify-between mb-space-lg"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container font-headline-md text-headline-md font-bold shadow-md">EC</div><div><span class="font-headline-sm text-headline-sm font-bold tracking-tight text-white block leading-none">EduConnect</span><span class="font-body-sm text-[10px] text-primary-fixed-dim uppercase tracking-wider font-semibold">Campus Estudiantes</span></div></div><span class="px-2 py-0.5 rounded-full bg-primary/30 text-primary-fixed font-label-sm text-[10px] font-semibold border border-primary-container/40">v3.4 IB</span></div><div class="bg-white/5 backdrop-blur-md rounded-xl p-space-sm mb-space-lg border border-white/10"><div class="flex items-center gap-space-sm"><div class="relative"><div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-container to-tertiary-container flex items-center justify-center text-white font-headline-sm text-headline-sm font-bold shadow-sm">SM</div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#0c1938]"></span></div><div class="flex-1 min-w-0"><div class="flex items-center justify-between"><h3 class="font-headline-sm text-label-md font-bold text-white truncate">Santiago Morales P.</h3></div><p class="font-body-sm text-[11px] text-slate-300 truncate">11°A • Media Técnica &amp; IB</p></div></div><div class="mt-space-sm pt-space-xs border-t border-white/10 flex items-center justify-between"><span class="flex items-center gap-1 font-label-sm text-[10px] text-amber-300 font-semibold"><span class="material-symbols-outlined text-[14px]">military_tech</span>#3 de Cohorte</span><span class="font-label-sm text-[10px] text-primary-fixed-dim bg-white/5 px-2 py-0.5 rounded-full font-medium">Honor IB</span></div></div><nav class="space-y-space-md" data-active-classes="bg-primary-container text-on-primary-container font-bold shadow-sm"><div class="space-y-1"><p class="px-3 font-label-sm text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1.5">Mi Espacio</p><a aria-current="page" class="flex items-center justify-between px-3 py-2 rounded-xl transition-all bg-primary-container text-on-primary-container font-bold shadow-sm" data-path="inicio" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">space_dashboard</span>Inicio</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="mi-perfil" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">account_circle</span>Mi Perfil</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="notificaciones" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">notifications</span>Notificaciones</span><span class="w-5 h-5 rounded-full bg-error text-on-error font-label-sm text-[10px] font-bold flex items-center justify-center">3</span></a></div><div class="space-y-1"><p class="px-3 font-label-sm text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1.5">Mi Aprendizaje</p><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="mis-calificaciones" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>Mis Calificaciones</span><span class="px-2 py-0.5 rounded-full bg-primary-container/40 text-primary-fixed-dim font-label-sm text-[10px] font-semibold">Corte 1</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="mi-rendimiento-academico" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">monitoring</span>Rendimiento IB</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="mi-horario" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">calendar_view_week</span>Mi Horario</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="mis-materias" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">menu_book</span>Mis Materias</span></a></div><div class="space-y-1"><p class="px-3 font-label-sm text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1.5">Seguimiento</p><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="mi-asistencia" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">co_present</span>Mi Asistencia</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="observador" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">visibility</span>Observador</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="convivencia" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">groups</span>Convivencia</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="compromisos" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">task_alt</span>Compromisos</span></a></div><div class="space-y-1"><p class="px-3 font-label-sm text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1.5">Recursos</p><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="recursos-educativos" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">folder_shared</span>Recursos Educativos</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="calendario-academico" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">event</span>Calendario</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="edubot-ia" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px] text-amber-300">auto_awesome</span>EduBot IA</span><span class="px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 font-label-sm text-[10px] font-bold">PRO</span></a><a class="flex items-center justify-between px-3 py-2 rounded-xl text-slate-300 hover:bg-white/10 hover:text-white transition-all font-label-md text-label-md" data-path="ayuda" href="#"><span class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">help</span>Centro de Ayuda</span></a></div></nav></div><div class="p-space-md pt-0"><div class="bg-gradient-to-br from-primary/30 to-tertiary-container/40 p-space-md rounded-xl border border-primary-container/30 mb-space-sm relative overflow-hidden backdrop-blur-sm"><div class="flex items-start gap-space-sm mb-2"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shrink-0"><span class="material-symbols-outlined text-[18px]">smart_toy</span></div><div><p class="font-headline-sm text-body-sm font-bold text-white leading-tight">¿Dudas con Cálculo o Física?</p><p class="font-body-sm text-[11px] text-slate-300 mt-0.5">Pregúntale a EduBot IA 24/7</p></div></div><button class="w-full py-1.5 px-3 bg-white text-on-surface font-label-md text-label-sm rounded-lg hover:bg-surface-container-low hover:text-on-surface transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button"><span class="material-symbols-outlined text-[15px] text-primary">bolt</span><span>Consultar EduBot</span></button></div><div class="pt-space-xs border-t border-white/10 flex items-center justify-between text-slate-400 font-label-sm text-[11px]"><button class="flex items-center gap-1.5 hover:text-white transition-colors py-1 px-2 rounded-lg hover:bg-white/5" type="button"><span class="material-symbols-outlined text-[16px]">logout</span><span>Cerrar sesión</span></button><div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-[10px] text-slate-300">Conectado</span></div></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md flex-1 max-w-xl"><div class="hidden lg:flex items-center gap-1.5 font-label-md text-label-sm text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">school</span><span>Bachillerato Internacional</span><span class="text-outline">/</span><span class="text-on-surface font-semibold">Panel Principal</span></div><div class="relative flex-1 max-w-md"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span><input class="w-full bg-surface-container-low text-on-surface placeholder:text-on-surface-variant text-body-sm font-body-sm rounded-xl pl-9 pr-12 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all" placeholder="Buscar tareas, materias, guías o eventos (⌘K)..." type="text"/><kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-on-surface-variant bg-surface-container-high px-1.5 py-0.5 rounded border border-outline-variant/30">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-1.5 bg-surface-container-high px-3 py-1.5 rounded-xl font-label-md text-label-sm text-on-surface"><span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span><span>Periodo 2025 • Corte 1</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div><div class="flex items-center gap-1.5 bg-amber-500/10 text-amber-800 px-3 py-1.5 rounded-xl font-label-md text-label-sm"><span class="material-symbols-outlined text-amber-600 text-[18px]">local_fire_department</span><span class="font-bold">12 días</span><span class="hidden md:inline text-amber-700/80 font-normal">de racha</span></div><button class="hidden md:flex items-center gap-1.5 bg-gradient-to-r from-primary to-primary-container text-on-primary px-3.5 py-1.5 rounded-xl font-label-md text-label-sm shadow-sm hover:opacity-95 transition-opacity" type="button"><span class="material-symbols-outlined text-[16px]">auto_awesome</span><span>EduBot IA</span></button><button class="relative p-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full bg-error ring-2 ring-surface"></span></button><div class="flex items-center gap-space-sm pl-space-xs border-l border-outline-variant/40"><div class="relative cursor-pointer"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-surface"></span></div><div class="hidden xl:block text-left cursor-pointer"><p class="font-label-md text-label-sm font-bold text-on-surface leading-tight">Santiago Morales</p><p class="font-body-sm text-[10px] text-on-surface-variant">Estudiante IB</p></div></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="p-space-lg lg:p-space-xl space-y-space-xl max-w-7xl mx-auto w-full">
+<!-- 1. BANNER HERO DE BIENVENIDA PERSONALIZADA -->
+<section class="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary via-primary-container to-[#0c1938] text-on-primary p-space-lg lg:p-space-xl shadow-xl">
+<!-- Glow decoration elements contained -->
+<div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-tertiary-container/30 blur-3xl pointer-events-none"></div>
+<div class="absolute -left-12 -bottom-16 w-80 h-80 rounded-full bg-secondary-container/20 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-lg">
+<div class="space-y-space-sm max-w-2xl">
+<div class="flex flex-wrap items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-white font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-amber-300">school</span>
+              11°-A • Bachillerato Internacional (IB)
+            </span>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-400/20 backdrop-blur-md text-amber-200 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-amber-300">local_fire_department</span>
+              12 días de racha consecutiva
+            </span>
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-primary-fixed-dim font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-primary-fixed-dim">military_tech</span>
+              #3 de 38 en cohorte
+            </span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-white tracking-tight leading-tight">
+            ¡Hola de nuevo, Santiago! <span class="inline-block transform hover:rotate-12 transition-transform duration-300 cursor-default">🚀</span>
+</h1>
+<p class="font-body-lg text-body-lg text-primary-fixed-dim/95 leading-relaxed">
+            Estás a solo <strong class="text-white font-semibold">4 semanas</strong> de los exámenes del Corte 1. Tu rendimiento acumulado en <span class="text-amber-200 font-medium">Cálculo</span> y <span class="text-secondary-fixed font-medium">Física</span> ha aumentado un <span class="inline-flex items-center text-white bg-white/20 px-2 py-0.5 rounded-full font-label-sm text-label-sm">↑ +8%</span> este mes.
+          </p>
+<div class="pt-space-xs flex flex-wrap items-center gap-space-sm">
+<a class="inline-flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container-lowest text-primary font-label-md text-label-md shadow-md hover:bg-surface-container-low transition-all" href="#horario-hoy">
+<span class="material-symbols-outlined text-[18px]">calendar_view_day</span>
+              Ver mi horario de hoy
+            </a>
+<button class="inline-flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-white/15 hover:bg-white/25 text-white backdrop-blur-md font-label-md text-label-md transition-all" onclick="document.getElementById('edubot-quick-modal').classList.toggle('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px] text-amber-300">smart_toy</span>
+              Preguntar a EduBot IA
+            </button>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim/80 hidden sm:inline-flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              Campus Central • Conexión Activa
+            </span>
+</div>
+</div>
+<!-- Student summary badge visual -->
+<div class="hidden xl:flex flex-col items-center bg-white/10 backdrop-blur-lg rounded-xl p-space-md min-w-[210px] text-center shadow-inner">
+<div class="relative w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-primary-container flex items-center justify-center text-white shadow-lg mb-2">
+<span class="material-symbols-outlined text-[32px]">workspace_premium</span>
+<span class="absolute -bottom-1 -right-1 px-1.5 py-0.2 rounded-full bg-surface-container-lowest text-primary font-label-sm text-[10px] font-bold">IB</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-white font-bold">Nivel 8</p>
+<p class="font-body-sm text-body-sm text-primary-fixed-dim">Investigador Senior</p>
+<div class="w-full bg-white/20 h-1.5 rounded-full mt-3 overflow-hidden">
+<div class="bg-amber-300 h-full rounded-full" style="width: 85%"></div>
+</div>
+<span class="font-label-sm text-[10px] text-amber-200 mt-1.5">850 / 1000 XP (+150 al Nivel 9)</span>
+</div>
+</div>
+</section>
+<!-- 2. MATRIZ DE RESUMEN ACADÉMICO (TARJETAS KPI MOTIVADORAS) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Promedio General -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">grade</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-800 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-emerald-600">trending_up</span>
+              +0.15 vs C. Ant.
+            </span>
+</div>
+<div class="mt-space-md">
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium">Promedio Académico</p>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-metric-display text-metric-display text-on-surface font-bold">4.72</span>
+<span class="font-body-md text-body-md text-on-surface-variant">/ 5.0</span>
+</div>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between">
+<span class="inline-flex items-center gap-1 text-[11px] font-semibold text-primary">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Desempeño Superior
+          </span>
+<!-- Inline Sparkline SVG -->
+<svg class="w-20 h-6 text-primary" fill="none" viewbox="0 0 80 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M2 18 L18 15 L34 17 L50 8 L66 10 L78 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<circle cx="78" cy="3" fill="currentColor" r="2.5"></circle>
+</svg>
+</div>
+</div>
+<!-- Card 2: Asistencia -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[22px]">verified_user</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 font-label-sm text-label-sm">
+              0 Fallas Injustificadas
+            </span>
+</div>
+<div class="mt-space-md">
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium">Asistencia Bimestral</p>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-metric-display text-metric-display text-on-surface font-bold">98.5%</span>
+<span class="font-label-sm text-label-sm text-emerald-700 font-semibold">Excelente</span>
+</div>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs">
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 98.5%"></div>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant mt-1.5">Cumple holgadamente el 85% exigido por el IB</p>
+</div>
+</div>
+<!-- Card 3: Próxima Clase En Vivo -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden">
+<div class="absolute right-0 top-0 w-24 h-24 bg-primary/5 rounded-bl-full pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center text-amber-700">
+<span class="material-symbols-outlined text-[22px]">schedule</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-900 font-label-sm text-label-sm font-bold animate-pulse">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+              En 25 min
+            </span>
+</div>
+<div class="mt-space-md">
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium">Siguiente Sesión</p>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold truncate mt-0.5">Física Cuántica</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant truncate">Aula 302 • Edificio STEM</p>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between font-label-sm text-label-sm text-primary">
+<span class="truncate">Prof. Fernando Garzón</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+<!-- Card 4: Entregas Pendientes -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[22px]">assignment_late</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-error/10 text-error font-label-sm text-label-sm font-semibold">
+              1 Urgente Mañana
+            </span>
+</div>
+<div class="mt-space-md">
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium">Tareas de la Semana</p>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-metric-display text-metric-display text-on-surface font-bold">3</span>
+<span class="font-body-md text-body-md text-on-surface-variant">pendientes</span>
+</div>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between">
+<span class="font-label-sm text-[11px] text-on-surface-variant">2 entregas ya calificadas</span>
+<a class="font-label-sm text-label-sm text-primary font-semibold hover:underline" href="#entregas-semanales">Revisar</a>
+</div>
+</div>
+</section>
+<!-- 3. SECCIÓN HORARIO DEL DÍA & PRÓXIMAS ACTIVIDADES (BENTO 2 COLUMNAS) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Columna Izquierda: Horario de Hoy (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between" id="horario-hoy">
+<div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-lg">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">calendar_today</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">Horario de Hoy</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Martes, 18 de Marzo • Jornada Continua IB</p>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container px-3 py-1.5 rounded-lg text-on-surface font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>5 Bloques Académicos</span>
+</div>
+</div>
+<!-- Timeline List -->
+<div class="space-y-space-sm">
+<!-- Bloque 1: Completada -->
+<div class="flex items-start gap-space-md p-space-sm rounded-lg bg-surface-container-low transition-colors">
+<div class="w-12 text-center pt-0.5 shrink-0">
+<span class="font-label-sm text-[11px] font-bold text-on-surface-variant block">07:00</span>
+<span class="font-body-sm text-[10px] text-outline block">08:30</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-sm text-label-md font-bold text-on-surface truncate">Cálculo Diferencial</h4>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-[10px] font-semibold">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+                    Completada
+                  </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Prof. Restrepo • Aula 204 • Teorema de Rolle</p>
+</div>
+</div>
+<!-- Bloque 2: Completada -->
+<div class="flex items-start gap-space-md p-space-sm rounded-lg bg-surface-container-low transition-colors">
+<div class="w-12 text-center pt-0.5 shrink-0">
+<span class="font-label-sm text-[11px] font-bold text-on-surface-variant block">08:45</span>
+<span class="font-body-sm text-[10px] text-outline block">10:15</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-sm text-label-md font-bold text-on-surface truncate">Literatura Universal e IB</h4>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-[10px] font-semibold">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+                    Completada
+                  </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dra. Marcela Valenzuela • Análisis de Realismo Mágico</p>
+</div>
+</div>
+<!-- Bloque 3: Siguiente (En 25 min) - Highlight Card -->
+<div class="flex items-start gap-space-md p-space-md rounded-xl bg-primary/10 transition-all shadow-sm">
+<div class="w-12 text-center pt-0.5 shrink-0">
+<span class="font-label-sm text-[11px] font-bold text-primary block">10:45</span>
+<span class="font-body-sm text-[10px] text-primary/80 block">12:15</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h4 class="font-headline-sm text-headline-sm font-bold text-primary truncate">Física Mecánica y Cuántica</h4>
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-[11px] font-bold shadow-sm">
+<span class="material-symbols-outlined text-[13px]">notifications_active</span>
+                    Siguiente (25m)
+                  </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface font-medium mt-1">Prof. Fernando Garzón • Aula 302 (Edificio STEM)</p>
+<div class="flex items-center gap-space-sm mt-2 pt-2 bg-white/60 p-2 rounded-lg">
+<span class="material-symbols-outlined text-[16px] text-primary">lab_profile</span>
+<span class="font-body-sm text-[11px] text-on-surface truncate">Material requerido: Guía de Laboratorio No. 3 y Simulador PhET</span>
+</div>
+</div>
+</div>
+<!-- Bloque 4: Almuerzo -->
+<div class="flex items-center gap-space-md px-space-sm py-2 rounded-lg bg-surface-container-high/40 text-on-surface-variant">
+<div class="w-12 text-center shrink-0">
+<span class="font-label-sm text-[11px] block">12:15</span>
+<span class="font-body-sm text-[10px] block">01:00</span>
+</div>
+<div class="flex items-center gap-2 flex-1">
+<span class="material-symbols-outlined text-[18px] text-amber-600">restaurant</span>
+<span class="font-label-md text-label-sm font-medium">Receso &amp; Almuerzo Institucional</span>
+</div>
+<span class="font-body-sm text-[11px] text-outline">Comedor Central</span>
+</div>
+<!-- Bloque 5: Robótica -->
+<div class="flex items-start gap-space-md p-space-sm rounded-lg bg-surface-container-low transition-colors">
+<div class="w-12 text-center pt-0.5 shrink-0">
+<span class="font-label-sm text-[11px] font-bold text-on-surface-variant block">01:00</span>
+<span class="font-body-sm text-[10px] text-outline block">02:30</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h4 class="font-headline-sm text-label-md font-bold text-on-surface truncate">Robótica e Inteligencia Artificial</h4>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-[10px] font-semibold">
+                    Pendiente
+                  </span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Lab de Innovación 4.0 • Programación en ROS2</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between">
+<span class="font-body-sm text-[12px] text-on-surface-variant">Salida programada: 02:45 PM</span>
+<button class="text-primary font-label-md text-label-sm font-semibold hover:underline inline-flex items-center gap-1" type="button">
+<span>Ver horario semanal completo</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Columna Derecha: Próximas Entregas & Evaluaciones (5 cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between" id="entregas-semanales">
+<div>
+<div class="flex items-center justify-between mb-space-lg">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">assignment</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">Próximas Entregas</h3>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold">
+              3 Activas
+            </span>
+</div>
+<div class="space-y-space-md">
+<!-- Tarea 1: Taller Límites (Prioritaria) -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all">
+<div class="flex items-start justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-error font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                  Mañana • 07:00 AM
+                </span>
+<span class="font-label-sm text-[11px] text-primary font-bold">85% listo</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Taller 4: Límites y Continuidad</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Cálculo Diferencial • Subir PDF a EduConnect Cloud</p>
+<!-- Progress indicator -->
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-3 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+</div>
+<div class="mt-3 flex items-center justify-between pt-1">
+<span class="font-body-sm text-[11px] text-outline">Falta ejercicio #12 y portada</span>
+<button class="px-3 py-1 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm shadow-sm hover:opacity-95 transition-opacity" type="button">
+                  Subir Entrega
+                </button>
+</div>
+</div>
+<!-- Tarea 2: Ensayo IB -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all">
+<div class="flex items-start justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-amber-700 font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">event</span>
+                  Jueves • 10:00 AM
+                </span>
+<span class="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-800 font-label-sm text-[10px] font-semibold">Borrador 2</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Monografía IB: Literatura LatAm</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Dra. Valenzuela • Revisión de hipótesis y 2.500 palabras</p>
+<div class="mt-3 flex items-center justify-between pt-1">
+<span class="font-body-sm text-[11px] text-outline">En edición en Google Docs</span>
+<button class="px-3 py-1 bg-surface-container-high text-on-surface rounded-lg font-label-sm text-label-sm hover:bg-surface-variant transition-colors" type="button">
+                  Abrir Borrador
+                </button>
+</div>
+</div>
+<!-- Tarea 3: Quiz Física -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:bg-surface-container transition-all">
+<div class="flex items-start justify-between gap-2">
+<span class="inline-flex items-center gap-1 font-label-sm text-[11px] text-secondary font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">quiz</span>
+                  Viernes • Presencial
+                </span>
+<span class="font-label-sm text-[11px] text-secondary font-semibold">Valor 15%</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">Quiz de Leyes de Newton &amp; Termodinámica</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Física Mecánica • En el aula de clase con formulario</p>
+<div class="mt-3 flex items-center justify-between pt-1">
+<span class="font-body-sm text-[11px] text-outline">Guía de estudio disponible</span>
+<button class="text-primary font-label-sm text-label-sm font-semibold hover:underline flex items-center gap-0.5" type="button">
+<span class="material-symbols-outlined text-[14px]">download</span>
+                  Descargar guía
+                </button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm text-center">
+<a class="font-label-md text-label-sm text-primary font-semibold hover:underline inline-flex items-center gap-1" href="#">
+<span>Ver todas las tareas del Periodo 1 (12 entregadas)</span>
+<span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 4. GRÁFICA DE PROGRESO ACADÉMICO Y RENDIMIENTO POR MATERIAS -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">analytics</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">Rendimiento Académico por Asignatura</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Comparativo de tus calificaciones actuales frente al promedio de tu grupo (11°-A)</p>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-sm bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface font-medium">Tu Calificación</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-sm bg-surface-container-high"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Promedio Grupo</span>
+</div>
+<div class="hidden sm:block pl-2 border-l border-outline-variant/30">
+<span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-[11px] font-bold">
+              Todas sobre la media (+0.42)
+            </span>
+</div>
+</div>
+</div>
+<!-- Custom SVG / CSS Bar Chart Representation -->
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-space-md pt-space-sm">
+<!-- Robótica: 5.0 vs 4.2 -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-label-sm text-[11px] font-bold">ROB</span>
+<span class="font-label-sm text-[11px] text-emerald-700 font-bold">+0.8</span>
+</div>
+<div class="my-space-md space-y-1.5">
+<div class="flex items-end justify-between">
+<span class="font-metric-display text-metric-display text-primary font-bold">5.0</span>
+<span class="font-body-sm text-[11px] text-outline">Prom. 4.2</span>
+</div>
+<!-- Dual bars -->
+<div class="space-y-1">
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 100%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline/40 h-full rounded-full" style="width: 84%"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-sm font-bold text-on-surface truncate">Robótica &amp; IA</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Doc. Ospina</p>
+</div>
+</div>
+<!-- Literatura IB: 4.9 vs 4.1 -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="w-7 h-7 rounded-lg bg-primary-fixed text-primary flex items-center justify-center font-label-sm text-[11px] font-bold">LIT</span>
+<span class="font-label-sm text-[11px] text-emerald-700 font-bold">+0.8</span>
+</div>
+<div class="my-space-md space-y-1.5">
+<div class="flex items-end justify-between">
+<span class="font-metric-display text-metric-display text-primary font-bold">4.9</span>
+<span class="font-body-sm text-[11px] text-outline">Prom. 4.1</span>
+</div>
+<div class="space-y-1">
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 98%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline/40 h-full rounded-full" style="width: 82%"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-sm font-bold text-on-surface truncate">Literatura IB</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Dra. Valenzuela</p>
+</div>
+</div>
+<!-- Cálculo: 4.8 vs 3.9 -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="w-7 h-7 rounded-lg bg-primary-fixed text-primary flex items-center justify-center font-label-sm text-[11px] font-bold">CAL</span>
+<span class="font-label-sm text-[11px] text-emerald-700 font-bold">+0.9</span>
+</div>
+<div class="my-space-md space-y-1.5">
+<div class="flex items-end justify-between">
+<span class="font-metric-display text-metric-display text-primary font-bold">4.8</span>
+<span class="font-body-sm text-[11px] text-outline">Prom. 3.9</span>
+</div>
+<div class="space-y-1">
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 96%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline/40 h-full rounded-full" style="width: 78%"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-sm font-bold text-on-surface truncate">Cálculo Diferencial</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Prof. Restrepo</p>
+</div>
+</div>
+<!-- Inglés C1: 4.8 vs 4.3 -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="w-7 h-7 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center font-label-sm text-[11px] font-bold">ENG</span>
+<span class="font-label-sm text-[11px] text-emerald-700 font-bold">+0.5</span>
+</div>
+<div class="my-space-md space-y-1.5">
+<div class="flex items-end justify-between">
+<span class="font-metric-display text-metric-display text-primary font-bold">4.8</span>
+<span class="font-body-sm text-[11px] text-outline">Prom. 4.3</span>
+</div>
+<div class="space-y-1">
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 96%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline/40 h-full rounded-full" style="width: 86%"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-sm font-bold text-on-surface truncate">English C1 Higher</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Teacher Hawkins</p>
+</div>
+</div>
+<!-- Física: 4.6 vs 4.0 -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="w-7 h-7 rounded-lg bg-primary-fixed text-primary flex items-center justify-center font-label-sm text-[11px] font-bold">FIS</span>
+<span class="font-label-sm text-[11px] text-emerald-700 font-bold">+0.6</span>
+</div>
+<div class="my-space-md space-y-1.5">
+<div class="flex items-end justify-between">
+<span class="font-metric-display text-metric-display text-primary font-bold">4.6</span>
+<span class="font-body-sm text-[11px] text-outline">Prom. 4.0</span>
+</div>
+<div class="space-y-1">
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 92%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline/40 h-full rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-sm font-bold text-on-surface truncate">Física Mecánica</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Prof. Garzón</p>
+</div>
+</div>
+<!-- Química IB: 4.5 vs 4.1 -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col justify-between hover:bg-surface-container transition-all">
+<div class="flex items-center justify-between">
+<span class="w-7 h-7 rounded-lg bg-tertiary-fixed text-tertiary flex items-center justify-center font-label-sm text-[11px] font-bold">QUI</span>
+<span class="font-label-sm text-[11px] text-emerald-700 font-bold">+0.4</span>
+</div>
+<div class="my-space-md space-y-1.5">
+<div class="flex items-end justify-between">
+<span class="font-metric-display text-metric-display text-primary font-bold">4.5</span>
+<span class="font-body-sm text-[11px] text-outline">Prom. 4.1</span>
+</div>
+<div class="space-y-1">
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 90%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-outline/40 h-full rounded-full" style="width: 82%"></div>
+</div>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-sm font-bold text-on-surface truncate">Química Experimental</p>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Dra. Sotomayor</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 5 & 6. GAMIFICACIÓN & AVISOS INSTITUCIONALES (GRID 2 COLS) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- 5. GAMIFICACIÓN Y RECONOCIMIENTOS (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500 text-[24px]">military_tech</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-bold">Insignias &amp; Gamificación IB</h3>
+</div>
+<span class="inline-flex items-center gap-1 text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[15px] text-amber-500">stars</span>
+              4 Medallas Activas
+            </span>
+</div>
+<!-- Nivel y progreso XP -->
+<div class="p-space-md rounded-xl bg-gradient-to-r from-primary-fixed/30 to-secondary-fixed/30 mb-space-md">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm text-[10px] text-primary uppercase font-bold tracking-wider">Progreso de Temporada</span>
+<h4 class="font-headline-sm text-headline-sm font-bold text-on-surface">Nivel 8: Investigador Senior</h4>
+</div>
+<span class="font-metric-display text-headline-md font-bold text-primary">850 <span class="font-body-sm text-[12px] text-on-surface-variant">/ 1000 XP</span></span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 mt-2 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-primary-container h-full rounded-full transition-all duration-700" style="width: 85%"></div>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant mt-1.5 flex items-center justify-between">
+<span>Siguiente recompensa: Bono de selección de tema en Proyecto STEM</span>
+<span class="font-semibold text-primary">Faltan 150 XP</span>
+</p>
+</div>
+<!-- Cuadrícula de Medallas -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Medalla 1 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center gap-space-sm hover:bg-surface-container transition-all">
+<div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">emoji_events</span>
+</div>
+<div class="min-w-0">
+<h5 class="font-label-md text-label-sm font-bold text-on-surface truncate">Cuadro de Honor Bimestral</h5>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Top 3 del grado durante 2 periodos</p>
+</div>
+</div>
+<!-- Medalla 2 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center gap-space-sm hover:bg-surface-container transition-all">
+<div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">bolt</span>
+</div>
+<div class="min-w-0">
+<h5 class="font-label-md text-label-sm font-bold text-on-surface truncate">Asistencia Impecable</h5>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">98.5% de puntualidad confirmada</p>
+</div>
+</div>
+<!-- Medalla 3 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center gap-space-sm hover:bg-surface-container transition-all">
+<div class="w-11 h-11 rounded-xl bg-primary-fixed text-primary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">psychology</span>
+</div>
+<div class="min-w-0">
+<h5 class="font-label-md text-label-sm font-bold text-on-surface truncate">Pensamiento Crítico STEM</h5>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Distinción en Taller de Robótica e IA</p>
+</div>
+</div>
+<!-- Medalla 4 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-center gap-space-sm hover:bg-surface-container transition-all">
+<div class="w-11 h-11 rounded-xl bg-tertiary-fixed text-tertiary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">auto_awesome</span>
+</div>
+<div class="min-w-0">
+<h5 class="font-label-md text-label-sm font-bold text-on-surface truncate">Mente Resolutiva EduBot</h5>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">50 consultas de profundización resueltas</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-[11px]">Próxima insignia: «Embajador de Lectura IB» (80%)</span>
+<button class="text-primary font-label-sm text-label-sm font-semibold hover:underline" type="button">Ver vitrina de trofeos</button>
+</div>
+</div>
+<!-- 6. AVISOS INSTITUCIONALES Y COMPROMISOS (5 cols) -->
+<div class="lg:col-span-5 space-y-space-md flex flex-col justify-between">
+<!-- Aviso Institucional Principal -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">campaign</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-[10px] text-primary uppercase font-bold tracking-wider">Comité Académico</span>
+<span class="font-body-sm text-[11px] text-outline">Hace 2 horas</span>
+</div>
+<h4 class="font-headline-sm text-label-md font-bold text-on-surface mt-0.5">Simulacro Saber 11 / IB Programado</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-normal">
+                El próximo <strong class="text-on-surface font-semibold">sábado 29 de Marzo</strong> a las 07:00 AM se llevará a cabo la 1ª sesión obligatoria de simulación en bloques de Ciencias Naturales y Matemáticas.
+              </p>
+<div class="mt-space-sm pt-space-xs flex items-center gap-space-sm">
+<button class="px-3 py-1 bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-sm text-label-sm rounded-lg transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[14px]">event_available</span>
+                  Añadir al calendario
+                </button>
+<button class="text-primary font-label-sm text-label-sm font-semibold hover:underline" type="button">
+                  Instrucciones
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Estado de Compromisos y Convivencia -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<h4 class="font-headline-sm text-label-md font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">verified</span>
+              Paz y Salvo &amp; Compromisos
+            </h4>
+<span class="font-label-sm text-[10px] text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full font-bold">Al Día</span>
+</div>
+<div class="space-y-space-xs">
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">check_circle</span>
+<span class="font-body-sm text-on-surface text-[12px]">Paz y Salvo Biblioteca Central</span>
+</div>
+<span class="font-label-sm text-[11px] text-on-surface-variant">0 libros pendientes</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">gavel</span>
+<span class="font-body-sm text-on-surface text-[12px]">Convivencia &amp; Observador Escolar</span>
+</div>
+<span class="font-label-sm text-[11px] text-emerald-700 font-bold">Sin anotaciones</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]">handshake</span>
+<span class="font-body-sm text-on-surface text-[12px]">Horas de Servicio Comunitario CAS (IB)</span>
+</div>
+<span class="font-label-sm text-[11px] text-primary font-bold">42 / 50 hrs completadas</span>
+</div>
+</div>
+</div>
+<!-- EduBot Quick Assistant Widget -->
+<div class="bg-gradient-to-br from-[#0c1938] to-[#172554] rounded-xl p-space-md text-white shadow-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-amber-300 text-[22px]">smart_toy</span>
+</div>
+<div class="min-w-0">
+<p class="font-headline-sm text-label-md font-bold truncate">¿Repaso rápido de derivadas?</p>
+<p class="font-body-sm text-[11px] text-slate-300 truncate">EduBot preparó 3 flashcards para Física y Cálculo</p>
+</div>
+</div>
+<button class="shrink-0 px-3 py-1.5 rounded-lg bg-primary-container text-white font-label-sm text-label-sm font-semibold hover:bg-primary transition-all shadow-sm" type="button">
+            Iniciar
+          </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Interactive Slide-over modal for EduBot IA quick consultation -->
+<div class="hidden fixed inset-0 z-50 overflow-hidden bg-on-surface/40 backdrop-blur-sm transition-opacity flex justify-end" id="edubot-quick-modal">
+<div class="w-full max-w-md bg-surface-container-lowest h-full shadow-2xl p-space-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container-high">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">EduBot Tutor 24/7</h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant">Tutor pedagógico personal para Santiago</p>
+</div>
+</div>
+<button class="p-1 rounded-lg hover:bg-surface-container-high text-on-surface-variant" onclick="document.getElementById('edubot-quick-modal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="mt-space-md space-y-space-sm">
+<div class="p-space-sm rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm">
+            ¡Hola Santiago! 👋 Veo que tu clase de <strong class="text-primary">Física Mecánica</strong> empieza en 25 minutos. ¿Quieres repasar rápidamente las leyes de conservación de la energía o resolver dudas del Taller de Cálculo?
+          </div>
+<p class="font-label-sm text-[11px] uppercase tracking-wider text-outline font-bold mt-space-sm">Sugerencias rápidas:</p>
+<div class="space-y-1.5">
+<button class="w-full text-left p-2 rounded-lg bg-surface-container-high/50 hover:bg-primary-fixed text-on-surface font-body-sm text-[12px] transition-colors flex items-center justify-between" type="button">
+<span>"Explícame el Teorema de Rolle con un ejemplo"</span>
+<span class="material-symbols-outlined text-[14px] text-primary">arrow_forward</span>
+</button>
+<button class="w-full text-left p-2 rounded-lg bg-surface-container-high/50 hover:bg-primary-fixed text-on-surface font-body-sm text-[12px] transition-colors flex items-center justify-between" type="button">
+<span>"Fórmulas esenciales de Movimiento Armónico Simple"</span>
+<span class="material-symbols-outlined text-[14px] text-primary">arrow_forward</span>
+</button>
+<button class="w-full text-left p-2 rounded-lg bg-surface-container-high/50 hover:bg-primary-fixed text-on-surface font-body-sm text-[12px] transition-colors flex items-center justify-between" type="button">
+<span>"Revisar rúbrica de citación APA 7 para Monografía IB"</span>
+<span class="material-symbols-outlined text-[14px] text-primary">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="pt-space-md border-t border-surface-container-high">
+<div class="relative">
+<input class="w-full bg-surface-container-low text-on-surface rounded-xl pl-3 pr-10 py-2.5 font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Escribe tu pregunta académica aquí..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:text-primary-container p-1" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<p class="font-body-sm text-[10px] text-outline text-center mt-2">EduBot utiliza IA adaptativa alineada con el currículo del Bachillerato Internacional.</p>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

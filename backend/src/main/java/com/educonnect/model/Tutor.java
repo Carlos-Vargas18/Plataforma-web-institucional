@@ -2,17 +2,11 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tutores")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Tutor {
 
@@ -20,55 +14,23 @@ public class Tutor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", unique = true)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
     private Usuario usuario;
 
-    @Column(name = "tipo_documento", nullable = false, length = 20)
-    private String tipoDocumento;
-
-    @Column(name = "numero_documento", nullable = false, unique = true, length = 50)
-    private String numeroDocumento;
-
-    @Column(nullable = false, length = 150)
-    private String nombres;
-
-    @Column(nullable = false, length = 150)
-    private String apellidos;
-
-    @Column(name = "telefono_principal", nullable = false, length = 30)
-    private String telefonoPrincipal;
-
-    @Column(name = "telefono_secundario", length = 30)
-    private String telefonoSecundario;
-
-    @Column(length = 150)
-    private String correo;
-
-    @Column(name = "direccion_residencia", nullable = false, columnDefinition = "TEXT")
-    private String direccionResidencia;
-
-    @Column(name = "barrio_municipio", length = 100)
-    private String barrioMunicipio;
-
-    @Column(length = 120)
+    @Column(length = 100)
     private String ocupacion;
 
-    @Column(name = "lugar_trabajo", length = 150)
-    private String lugarTrabajo;
+    @Column(name = "empresa_trabajo", length = 120)
+    private String empresaTrabajo;
 
-    @Column(name = "telefono_trabajo", length = 30)
-    private String telefonoTrabajo;
+    @Column(name = "telefono_emergencia", nullable = false, length = 25)
+    private String telefonoEmergencia;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "correo_alternativo", length = 120)
+    private String correoAlternativo;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    public String getNombreCompleto() {
-        return nombres + " " + apellidos;
-    }
+    @Builder.Default
+    @Column(name = "autorizado_recoger", nullable = false)
+    private Boolean autorizadoRecoger = true;
 }

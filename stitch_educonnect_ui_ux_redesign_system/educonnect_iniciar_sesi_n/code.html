@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-variant":"#dfe3ea","secondary-fixed":"#d9e2ff","inverse-primary":"#b6c4ff","outline-variant":"#c3c5d9","surface-bright":"#f7f9ff","error-container":"#ffdad6","tertiary-container":"#0c68db","on-secondary":"#ffffff","on-tertiary-fixed-variant":"#004395","on-surface":"#171c21","on-primary":"#ffffff","outline":"#737688","secondary-fixed-dim":"#bac6e9","primary-fixed-dim":"#b6c4ff","on-surface-variant":"#434656","surface-container-low":"#f0f4fb","tertiary":"#0050af","secondary-container":"#ced9fe","tertiary-fixed-dim":"#adc6ff","surface-tint":"#004ee7","surface-dim":"#d6dae1","secondary":"#525e7d","on-error":"#ffffff","background":"#f7f9ff","on-secondary-fixed":"#0e1b36","inverse-on-surface":"#edf1f8","on-secondary-fixed-variant":"#3b4664","on-error-container":"#93000a","primary-fixed":"#dce1ff","surface":"#f7f9ff","primary":"#0045d0","on-tertiary-fixed":"#001a42","on-tertiary":"#ffffff","on-primary-fixed-variant":"#003ab1","error":"#ba1a1a","on-primary-container":"#edeeff","on-background":"#171c21","surface-container-high":"#e4e8ef","surface-container-highest":"#dfe3ea","on-tertiary-container":"#ebefff","surface-container":"#eaeef5","surface-container-lowest":"#ffffff","on-secondary-container":"#535f7d","primary-container":"#175cff","inverse-surface":"#2c3136","tertiary-fixed":"#d8e2ff","on-primary-fixed":"#001550"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","margin-mobile":"1rem","space-md":"1rem","space-lg":"1.5rem","space-sm":"0.5rem","space-xl":"2rem","gutter-mobile":"1rem","space-xs":"0.25rem","gutter":"1.5rem"},"fontFamily":{"body-lg":["Inter"],"headline-xl":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"display-lg-mobile":["Plus Jakarta Sans"],"label-sm":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"label-md":["Inter"],"metric-display":["Plus Jakarta Sans"],"body-md":["Inter"],"display-lg":["Plus Jakarta Sans"]},"fontSize":{"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-xl-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"display-lg-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"metric-display":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen"><main class="w-full min-h-screen bg-surface"><div class="flex flex-col w-full">
+<div class="w-full min-h-screen p-4 sm:p-6 lg:p-10 flex items-center justify-center bg-surface relative overflow-hidden">
+<!-- Atmospheric Ambient Glows behind main card -->
+<div class="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-32 -right-32 w-[30rem] h-[30rem] bg-tertiary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Main Container Card (Dual Column Split) -->
+<div class="w-full max-w-6xl bg-surface-container-lowest rounded-xl shadow-xl overflow-hidden flex flex-col lg:flex-row relative z-10">
+<!-- LEFT COLUMN: Authentication Form (High Clarity Canvas) -->
+<div class="w-full lg:w-7/12 p-6 sm:p-10 lg:p-14 flex flex-col justify-between bg-surface-container-lowest">
+<div>
+<!-- Header: Brand & Campus Selector -->
+<div class="flex items-center justify-between gap-4 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shadow-md shadow-primary/20 text-on-primary">
+<span class="material-symbols-outlined text-2xl">hub</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface tracking-tight font-bold">EduConnect</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm tracking-wide">Campus OS v3.4</span>
+</div>
+</div>
+<!-- Campus Pill Dropdown Indicator -->
+<div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-base text-primary">location_city</span>
+<span>Sede Central • Bogotá</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+<!-- Title & Prompt Verbatim -->
+<div class="mb-8">
+<div class="inline-flex items-center gap-2 mb-2 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              Autenticación Institucional Segura
+            </div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-2 font-bold tracking-tight">Bienvenido nuevamente</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg">
+              Ingrese sus credenciales institucionales para acceder a su portal de gestión académica y directiva.
+            </p>
+</div>
+<!-- Form Area -->
+<form class="space-y-5" id="loginForm" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5" for="email">
+<span class="material-symbols-outlined text-base text-secondary">alternate_email</span>
+                  Correo electrónico institucional
+                </label>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+<span class="material-symbols-outlined text-xs">verified</span>
+                  Dominio verificado
+                </span>
+</div>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pl-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none transition-all placeholder:text-outline" id="email" placeholder="ej. rectoria@colegio.edu.co" type="email" value="rectoria@colegio.edu.co"/>
+<span class="material-symbols-outlined absolute left-3 top-3 text-secondary text-lg">school</span>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5" for="password">
+<span class="material-symbols-outlined text-base text-secondary">lock</span>
+                  Contraseña institucional
+                </label>
+<a class="font-label-sm text-label-sm text-primary hover:text-tertiary hover:underline transition-colors" href="#forgot">
+                  ¿Olvidó su contraseña?
+                </a>
+</div>
+<div class="relative">
+<input class="w-full h-11 px-3.5 pl-10 pr-10 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none transition-all placeholder:text-outline" id="password" placeholder="••••••••••••" type="password" value="Institucional2025#"/>
+<span class="material-symbols-outlined absolute left-3 top-3 text-secondary text-lg">key</span>
+<button aria-label="Mostrar u ocultar contraseña" class="absolute right-2.5 top-2.5 text-secondary hover:text-on-surface flex items-center justify-center p-1 rounded transition-colors" id="togglePasswordBtn" type="button">
+<span class="material-symbols-outlined text-lg" id="pwdEyeIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember me & Trust Device Control -->
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary accent-primary cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Recordar sesión en este equipo de confianza</span>
+</label>
+</div>
+<!-- Primary Submit Action -->
+<button class="w-full h-12 rounded-lg bg-primary hover:bg-tertiary text-on-primary font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary/25 transition-all active:scale-[0.99] cursor-pointer" type="submit">
+<span>Iniciar sesión</span>
+<span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</form>
+<!-- Divider -->
+<div class="relative my-7 text-center">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full bg-surface-container-high h-[1px]"></div>
+</div>
+<span class="relative px-3 bg-surface-container-lowest font-label-sm text-label-sm text-outline uppercase tracking-wider">
+              O autentíquese vía Directorio Institucional
+            </span>
+</div>
+<!-- Alternative Auth Providers -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2.5 h-11 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span>Google Workspace</span>
+</button>
+<button class="flex items-center justify-center gap-2.5 h-11 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors" type="button">
+<svg class="w-4 h-4" viewbox="0 0 23 23">
+<path d="M1 1h10v10H1z" fill="#f35325"></path>
+<path d="M12 1h10v10H12z" fill="#81bc06"></path>
+<path d="M1 12h10v10H1z" fill="#05a6f0"></path>
+<path d="M12 12h10v10H12z" fill="#ffba08"></path>
+</svg>
+<span>Microsoft 365 Edu</span>
+</button>
+</div>
+</div>
+<!-- Security and Audit Micro-Footer -->
+<div class="mt-8 pt-4 flex flex-wrap items-center justify-between gap-3 text-secondary font-label-sm text-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">security</span>
+<span>Cifrado TLS 1.3 • Certificación ISO 27001</span>
+</div>
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#soporte">
+<span class="material-symbols-outlined text-sm">support_agent</span>
+<span>Mesa de Ayuda TI</span>
+</a>
+</div>
+</div>
+<!-- RIGHT COLUMN: Institutional Showcase & Real-Time Operational Signals (Dark Navy Surface) -->
+<div class="w-full lg:w-5/12 bg-on-secondary-fixed p-6 sm:p-10 lg:p-12 text-inverse-on-surface flex flex-col justify-between relative overflow-hidden">
+<!-- Living Background Visual Mesh -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-tertiary-container/30 pointer-events-none"></div>
+<div class="absolute -right-20 -top-20 w-72 h-72 bg-primary/20 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Top Section: System status & Campus telemetry -->
+<div class="relative z-10 space-y-6">
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-on-secondary-fixed-variant/40 backdrop-blur-md text-surface-bright font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span>Cluster Académico Bogotá-1 • Activo</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim">Latencia: 14ms</span>
+</div>
+<!-- Hero Institutional Quote -->
+<div class="space-y-3 pt-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary-fixed">Visión de Excelencia</span>
+<p class="font-headline-lg text-headline-lg text-surface-bright leading-snug font-bold">
+              “Transformando la gestión escolar en una experiencia conectada, inteligente y sin fricciones.”
+            </p>
+<p class="font-body-sm text-body-sm text-secondary-fixed-dim">
+              Ecosistema Digital EduConnect • Red de más de 3,800 estudiantes y 240 docentes activos.
+            </p>
+</div>
+<!-- Floating Micro-panel 1: Performance Metric Card -->
+<div class="p-4 rounded-xl bg-inverse-surface/80 backdrop-blur-md shadow-lg space-y-3 transition-transform hover:-translate-y-1 duration-200">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined text-lg">insights</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-surface-bright leading-none">Rendimiento Institucional</h4>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim">Periodo lectivo en curso</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">check_circle</span>
+                Meta cumplida
+              </span>
+</div>
+<!-- Metric display & Sparkline Visualization -->
+<div class="flex items-end justify-between pt-1">
+<div>
+<span class="font-metric-display text-metric-display text-surface-bright font-bold">97.2%</span>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim">Retención y asistencia verificada</p>
+</div>
+<!-- Embedded SVG Sparkline -->
+<div class="w-28 h-10">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 112 40">
+<defs>
+<lineargradient id="sparklineGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#175cff" stop-opacity="0.4"></stop>
+<stop offset="100%" stop-color="#175cff" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,32 Q20,30 35,18 T70,16 T112,6 L112,40 L0,40 Z" fill="url(#sparklineGrad)"></path>
+<path d="M0,32 Q20,30 35,18 T70,16 T112,6" fill="none" stroke="#175cff" stroke-linecap="round" stroke-width="2.5"></path>
+<circle class="animate-ping" cx="112" cy="6" fill="#175cff" r="3.5"></circle>
+<circle cx="112" cy="6" fill="#ffffff" r="3"></circle>
+</svg>
+</div>
+</div>
+</div>
+<!-- Floating Micro-panel 2: Real-time Audit & Predictive AI -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+<div class="p-3.5 rounded-xl bg-inverse-surface/60 backdrop-blur-sm space-y-2">
+<div class="flex items-center gap-1.5 text-secondary-fixed">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+<span class="font-label-sm text-label-sm">Auditoría en tiempo real</span>
+</div>
+<p class="font-body-sm text-body-sm text-surface-bright font-medium line-clamp-2">
+                Acta de Calificaciones 11°B validada con firma digital OTP
+              </p>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim">Hace 4 minutos</span>
+</div>
+<div class="p-3.5 rounded-xl bg-inverse-surface/60 backdrop-blur-sm space-y-2">
+<div class="flex items-center gap-1.5 text-primary-fixed">
+<span class="material-symbols-outlined text-sm">psychology</span>
+<span class="font-label-sm text-label-sm">IA Predictiva Activa</span>
+</div>
+<p class="font-body-sm text-body-sm text-surface-bright font-medium">
+                0 alertas críticas de deserción detectadas hoy
+              </p>
+<span class="font-label-sm text-label-sm text-emerald-400">Estado preventivo óptimo</span>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Active Directorial Team Avatars -->
+<div class="relative z-10 pt-6 mt-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<!-- Avatar Stack with Online Indicators -->
+<div class="flex -space-x-2.5">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover" data-alt="Close-up professional portrait of Dr. Elena Valenzuela, Hispanic school principal with glasses, smiling confidently in navy blue blazer in high-end modern institutional office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAphMVKzWaGE3F-9K68iaGIBIaeYrOdtV79Gngrs0fEU4bKsI3MobxLjEuuNRqqbq4OzHLWK-Xg2IIijAaoqcG1bgYr2EAVA8CGWrgvr8rJVM9I6G8PSYK4ON8aHFvzQ1UPzCRZ6btO2FV-ble3bEgWxP6DEMIqdAoMggXCy36nQAZNsXMijJpbfbjoNQiPYQsLhpAM5MTkY1_pHre2hI-i1SgzgFz8SQp0oa29YbI"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+</div>
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover" data-alt="Academic coordinator man in light shirt with tablet in a clean bright university corridor, modern lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUWvRhmGJ0BPDfWApOj7ZbWqTvihgjNlX7Jel24hHTLMQCWoWMFuki3kAhck2-K3Aa-Nz76c0MlTIkIs379_G91q71Z7l5HxEV2GY-Q4uaTRc2e9yq3W971x3lxyWNxewG2tAES7wWia1ck8pMfRRoGivvMuQwsqYCVVSMwabI-EyWRIhgVIP1CZmUzToxY05cb-S7IpTx5X-x3Fav-gTS_RE2GL5IvonFhe7Mkks"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+</div>
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover" data-alt="Female lead teacher smiling wearing academic lanyard in bright modern classroom library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-L0P4aAX7wcuTToRVSa9XILIapT_Rf6C_cs4i4NuhA_Y8o22IKxWgWI17zfdHl-tPox6cJ9H1RRKZa5vZb1Bzea3KPL-XkYz3i1sXSfjO0x4HOjhSXb2tvKtHu7OLY20sPT0-9nFIIwOMNgjuIMVmCSYKXD8X9JldmFfoXAi6zhscA-3KY9jRTXeuwd4V71frIO8MSzh28WiCYpbtBmamAKV_iB5uAsl-_wLV5jQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full"></span>
+</div>
+</div>
+<div>
+<p class="font-label-md text-label-md text-surface-bright leading-tight">Equipo de Gestión en Línea</p>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim">Dra. Elena Valenzuela y 8 coordinadores</p>
+</div>
+</div>
+<div class="flex items-center text-primary-fixed hover:text-surface-bright transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl">help_outline</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const pwdInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePasswordBtn');
+    const eyeIcon = document.getElementById('pwdEyeIcon');
+
+    if (toggleBtn && pwdInput && eyeIcon) {
+      toggleBtn.addEventListener('click', function() {
+        const isPassword = pwdInput.getAttribute('type') === 'password';
+        pwdInput.setAttribute('type', isPassword ? 'text' : 'password');
+        eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+      });
+    }
+  })();
+</script></main></body></html>

@@ -1,18 +1,14 @@
 package com.educonnect.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "usuarios")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Usuario {
 
@@ -20,9 +16,17 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 150)
+    @Builder.Default
+    @Column(name = "tipo_documento", nullable = false, length = 20)
+    private String tipoDocumento = "CC";
+
+    @Column(nullable = false, unique = true, length = 30)
+    private String documento;
+
+    @Column(nullable = false, unique = true, length = 120)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
@@ -30,45 +34,66 @@ public class Usuario {
     @Column(nullable = false, length = 30)
     private Rol rol;
 
-    @Column(name = "primer_nombre", nullable = false, length = 100)
+    @Column(name = "primer_nombre", nullable = false, length = 60)
     private String primerNombre;
 
-    @Column(name = "segundo_nombre", length = 100)
+    @Column(name = "segundo_nombre", length = 60)
     private String segundoNombre;
 
-    @Column(name = "primer_apellido", nullable = false, length = 100)
+    @Column(name = "primer_apellido", nullable = false, length = 60)
     private String primerApellido;
 
-    @Column(name = "segundo_apellido", length = 100)
+    @Column(name = "segundo_apellido", length = 60)
     private String segundoApellido;
 
-    @Column(name = "avatar_url", columnDefinition = "TEXT")
-    private String avatarUrl;
+    @Column(length = 25)
+    private String telefono;
+
+    @Column(length = 200)
+    private String direccion;
+
+    @Column(name = "foto_perfil_url")
+    private String fotoPerfilUrl;
 
     @Builder.Default
     @Column(nullable = false)
-    private boolean activo = true;
+    private Boolean estado = true;
+
+    @Builder.Default
+    @Column(name = "intentos_fallidos", nullable = false)
+    private Integer intentosFallidos = 0;
 
     @Column(name = "ultimo_acceso")
     private LocalDateTime ultimoAcceso;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    @Builder.Default
+    @Column(name = "fecha_creacion", nullable = false, updatable = false)
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Builder.Default
+    @Column(name = "fecha_actualizacion", nullable = false)
+    private LocalDateTime fechaActualizacion = LocalDateTime.now();
+
+    @PreUpdate
+    public void preUpdate() {
+        this.fechaActualizacion = LocalDateTime.now();
+    }
+
+    public boolean isActivo() {
+        return Boolean.TRUE.equals(this.estado);
+    }
 
     public String getNombreCompleto() {
-        StringBuilder sb = new StringBuilder(primerNombre);
+        StringBuilder sb = new StringBuilder(primerNombre != null ? primerNombre : "");
         if (segundoNombre != null && !segundoNombre.isBlank()) {
             sb.append(" ").append(segundoNombre);
         }
-        sb.append(" ").append(primerApellido);
+        if (primerApellido != null && !primerApellido.isBlank()) {
+            sb.append(" ").append(primerApellido);
+        }
         if (segundoApellido != null && !segundoApellido.isBlank()) {
             sb.append(" ").append(segundoApellido);
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 }

@@ -1,462 +1,591 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  Users,
+  Award,
+  AlertTriangle,
+  FileText,
+  Lock,
+  Unlock,
+  CheckCircle,
+  XCircle,
+  Megaphone,
+  Activity,
+  Plus,
+  RefreshCw,
+  GraduationCap,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
-import { ResolucionRectoral } from '../types';
 import {
-  Landmark,
-  TrendingUp,
-  Award,
-  Users,
-  FileText,
-  DollarSign,
-  ShieldCheck,
-  CheckCircle,
-  Plus,
-  LogOut,
-  Calendar,
-  Building,
-  School,
-  FileCheck,
-  Download,
-  Activity
-} from 'lucide-react';
-import { ActaComisionEvaluacion, BoletinEstudiante } from '../types';
-import { BoletinOficialModal } from './BoletinOficialModal';
-import { MipaTelemetriaPanel } from './MipaTelemetriaPanel';
+  ComunicadoDto,
+  PeriodoAcademicoDto,
+  ResolucionDto,
+  SolicitudNotaDto,
+} from '../types';
+import MipaTelemetriaPanel from './MipaTelemetriaPanel';
+import {
+  DashboardShell,
+  EmptyOrLoadingState,
+  KpiCard,
+  SidebarNavGroup,
+  StatusBanner,
+} from './ui/DashboardShared';
 
 export const RectorDashboard: React.FC = () => {
   const { user, logout } = useAuth();
-  const [currentTab, setCurrentTab] = useState<'kpis' | 'resoluciones' | 'consejo' | 'comisiones' | 'mipa'>('kpis');
-  const [resoluciones, setResoluciones] = useState<ResolucionRectoral[]>([]);
-  const [comisiones, setComisiones] = useState<ActaComisionEvaluacion[]>([]);
-  const [stats, setStats] = useState<any>(null);
-  const [nuevaResModal, setNuevaResModal] = useState(false);
-  const [nuevoTitulo, setNuevoTitulo] = useState('');
-  const [nuevaDesc, setNuevaDesc] = useState('');
-  const [nuevaCat, setNuevaCat] = useState<'ACADEMICA' | 'ADMINISTRATIVA' | 'DISCIPLINARIA' | 'CONTRATACION'>('ACADEMICA');
+  const [activeTab, setActiveTab] = useState<
+    'ejecutivo' | 'auditoria_notas' | 'periodos' | 'resoluciones' | 'promocion' | 'comunicados' | 'mipa'
+  >('ejecutivo');
 
-  // Boletín Oficial Modal (Decreto 1290)
-  const [selectedBoletin, setSelectedBoletin] = useState<BoletinEstudiante | null>(null);
-  const [showBoletinModal, setShowBoletinModal] = useState(false);
+  const [resumen, setResumen] = useState<Record<string, number>>({});
+  const [solicitudes, setSolicitudes] = useState<SolicitudNotaDto[]>([]);
+  const [periodos, setPeriodos] = useState<PeriodoAcademicoDto[]>([]);
+  const [resoluciones, setResoluciones] = useState<ResolucionDto[]>([]);
+  const [actasPromocion, setActasPromocion] = useState<Array<Record<string, unknown>>>([]);
+  const [comunicados, setComunicados] = useState<ComunicadoDto[]>([]);
 
-  useEffect(() => {
-    api.getRectorStats().then(setStats);
-    api.getResolucionesRectorales().then(setResoluciones);
-    api.getComisionesEvaluacion().then(setComisiones);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  // Formulario de nueva Resolución Rectoral
+  const [resNumero, setResNumero] = useState('');
+  const [resTitulo, setResTitulo] = useState('');
+  const [resConsiderando, setResConsiderando] = useState('');
+  const [resResuelve, setResResuelve] = useState('');
+
+  // Formulario de Comunicado Rectoral
+  const [comTitulo, setComTitulo] = useState('');
+  const [comContenido, setComContenido] = useState('');
+  const [comDestinatarios, setComDestinatarios] = useState('TODOS');
+  const [comImportancia, setComImportancia] = useState('ALTA');
+
+  const cargarDatosRectoria = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const [resData, solData, perData, resRectorData, promData, comData] = await Promise.all([
+        api.getRectorResumen(),
+        api.getSolicitudesCambioNota(),
+        api.getPeriodosConfig(),
+        api.getResolucionesRector(),
+        api.getActasPromocion(),
+        api.getComunicados(),
+      ]);
+      setResumen(resData as Record<string, number>);
+      setSolicitudes(solData);
+      setPeriodos(perData);
+      setResoluciones(resRectorData);
+      setActasPromocion(promData);
+      setComunicados(comData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al sincronizar datos de Rectoría.');
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const handleExportarSIMAT = async () => {
-    const ests = await api.getEstudiantesAdmin();
-    api.exportarSIMATCSV(ests);
+  useEffect(() => {
+    cargarDatosRectoria();
+  }, [cargarDatosRectoria]);
+
+  const handleResolverSolicitud = async (id: number, decision: 'APROBADA' | 'RECHAZADA') => {
+    setError('');
+    try {
+      await api.resolverSolicitudCambioNota(
+        id,
+        decision,
+        decision === 'APROBADA'
+          ? 'Autorizado por Rectoría conforme al debido proceso académico Decreto 1290.'
+          : 'Rechazado por falta de soporte documental.'
+      );
+      setSuccess(`Solicitud #${id} ${decision.toLowerCase()} exitosamente en PostgreSQL.`);
+      await cargarDatosRectoria();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No fue posible procesar la solicitud.');
+    }
   };
 
-  const handleVerBoletin = async (codigo: string) => {
-    const b = await api.getBoletinEstudiante(codigo, 1);
-    setSelectedBoletin(b);
-    setShowBoletinModal(true);
+  const handleTogglePeriodo = async (periodo: PeriodoAcademicoDto) => {
+    setError('');
+    try {
+      await api.togglePeriodoCerrado(periodo.id, !periodo.cerrado);
+      setSuccess(
+        `El ${periodo.nombre} ahora se encuentra ${!periodo.cerrado ? 'CERRADO (bloqueado)' : 'ABIERTO (habilitado)'} en base de datos.`
+      );
+      await cargarDatosRectoria();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al actualizar el estado del periodo.');
+    }
   };
 
-  const handleFirmarActa = (id: number) => {
-    setComisiones(prev => prev.map(c => c.id === id ? { ...c, firmadoPorRector: true, estado: 'CUMPLIDA' } : c));
-  };
-
-  const handleCrearResolucion = (e: React.FormEvent) => {
+  const handleCrearResolucion = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nuevoTitulo.trim()) return;
-
-    const nueva: ResolucionRectoral = {
-      id: Date.now(),
-      numeroResolucion: `RES-00${resoluciones.length + 1}-2026`,
-      fecha: new Date().toISOString().split('T')[0],
-      titulo: nuevoTitulo,
-      descripcion: nuevaDesc,
-      estado: 'VIGENTE',
-      categoria: nuevaCat
-    };
-
-    setResoluciones([nueva, ...resoluciones]);
-    setNuevoTitulo('');
-    setNuevaDesc('');
-    setNuevaResModal(false);
+    setError('');
+    try {
+      await api.crearResolucionRector({
+        numeroResolucion: resNumero,
+        titulo: resTitulo,
+        considerando: resConsiderando,
+        resuelve: resResuelve,
+      });
+      setResNumero('');
+      setResTitulo('');
+      setResConsiderando('');
+      setResResuelve('');
+      setSuccess('Resolución Rectoral emitida y registrada en PostgreSQL.');
+      await cargarDatosRectoria();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al emitir la resolución.');
+    }
   };
+
+  const handleCrearComunicado = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    try {
+      await api.crearComunicado({
+        titulo: comTitulo,
+        contenido: comContenido,
+        destinatarioRol: comDestinatarios,
+        importancia: comImportancia,
+      });
+      setComTitulo('');
+      setComContenido('');
+      setSuccess('Circular Rectoral publicada oficialmente.');
+      await cargarDatosRectoria();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al publicar comunicado.');
+    }
+  };
+
+  const pendientesCount = solicitudes.filter((s) => s.estado === 'PENDIENTE').length;
+
+  const navGroups: SidebarNavGroup[] = [
+    {
+      category: 'GOBIERNO ESCOLAR',
+      items: [{ id: 'ejecutivo', label: 'Dashboard General', icon: <Award size={18} /> }],
+    },
+    {
+      category: 'GESTIÓN ACADÉMICA',
+      items: [
+        {
+          id: 'auditoria_notas',
+          label: 'Auditoría de Notas',
+          icon: <CheckCircle size={18} />,
+          badge: pendientesCount || undefined,
+          badgeTone: pendientesCount > 0 ? 'danger' : 'default',
+        },
+        { id: 'periodos', label: 'Cierre de Periodos', icon: <Lock size={18} /> },
+        { id: 'promocion', label: 'Actas de Promoción', icon: <GraduationCap size={18} /> },
+      ],
+    },
+    {
+      category: 'NORMATIVA & ANALÍTICA',
+      items: [
+        { id: 'resoluciones', label: 'Resoluciones Rectorales', icon: <FileText size={18} />, badge: resoluciones.length },
+        { id: 'comunicados', label: 'Circulares Oficiales', icon: <Megaphone size={18} /> },
+        {
+          id: 'mipa',
+          label: 'Telemetría y MIPA',
+          icon: <Activity size={18} />,
+          badge: resumen.alertasRiesgoMipa || undefined,
+          badgeTone: (resumen.alertasRiesgoMipa || 0) > 0 ? 'danger' : 'default',
+        },
+      ],
+    },
+  ];
 
   return (
-    <div className="dashboard-layout">
-      {/* SIDEBAR RECTORÍA */}
-      <aside className="dashboard-sidebar">
-        <div className="sidebar-header">
-          <div className="brand-wrapper">
-            <div className="brand-icon-box" style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }}>
-              <Landmark size={22} />
-            </div>
-            <div>
-              <div className="brand-title" style={{ fontSize: '1.2rem' }}>EduConnect</div>
-              <span style={{ fontSize: '0.75rem', color: '#60a5fa', fontWeight: 700 }}>Rectoría & Gobierno</span>
-            </div>
-          </div>
+    <DashboardShell
+      portalTitle="Despacho Rectoral"
+      portalSubtitle="Gobierno Escolar"
+      navGroups={navGroups}
+      activeTab={activeTab}
+      onSelectTab={(id) => setActiveTab(id as typeof activeTab)}
+      userName={user?.nombreCompleto || 'Rectoría'}
+      userRoleLabel={user?.rol || 'RECTOR'}
+      onLogout={logout}
+      headerActions={
+        <button
+          type="button"
+          onClick={cargarDatosRectoria}
+          className="btn-secondary-action"
+          style={{ padding: '0.42rem 0.85rem', fontSize: '0.8rem' }}
+        >
+          <RefreshCw size={14} className={loading ? 'ec-spin' : ''} />
+          <span>Sincronizar</span>
+        </button>
+      }
+    >
+      <div className="dashboard-topbar">
+        <div>
+          <h1 className="dashboard-page-title">Bienvenido, {user?.nombreCompleto}</h1>
+          <p className="dashboard-page-subtitle">
+            Supervisión oficial Decreto 1290, Ley 1620, resoluciones rectorales y analítica institucional en tiempo real.
+          </p>
         </div>
-
-        <ul className="sidebar-menu">
-          <li
-            className={`sidebar-item ${currentTab === 'kpis' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('kpis')}
-          >
-            <TrendingUp size={20} />
-            <span>Métricas Estratégicas</span>
-          </li>
-          <li
-            className={`sidebar-item ${currentTab === 'resoluciones' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('resoluciones')}
-          >
-            <FileText size={20} />
-            <span>Resoluciones Rectorales</span>
-          </li>
-          <li
-            className={`sidebar-item ${currentTab === 'consejo' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('consejo')}
-          >
-            <Building size={20} />
-            <span>Consejo Directivo & Presupuesto</span>
-          </li>
-          <li
-            className={`sidebar-item ${currentTab === 'comisiones' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('comisiones')}
-          >
-            <Award size={20} />
-            <span>Comisiones de Evaluación</span>
-          </li>
-          <li
-            className={`sidebar-item ${currentTab === 'mipa' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('mipa')}
-          >
-            <Activity size={20} />
-            <span>Auditoría & Agente MIPA</span>
-          </li>
-        </ul>
-
-        <div className="sidebar-footer">
-          <button className="btn-logout" onClick={logout}>
-            <LogOut size={18} />
-            <span>Cerrar Sesión</span>
+        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+          <button type="button" onClick={() => setActiveTab('auditoria_notas')} className="btn-secondary-action">
+            <CheckCircle size={15} /> Auditoría ({pendientesCount})
+          </button>
+          <button type="button" onClick={() => setActiveTab('resoluciones')} className="btn-primary-action">
+            <Plus size={15} /> Nueva Resolución
           </button>
         </div>
-      </aside>
+      </div>
 
-      {/* CONTENIDO PRINCIPAL RECTORÍA */}
-      <main className="dashboard-content">
-        <div className="dashboard-topbar">
-          <div>
-            <h1 style={{ fontSize: '1.85rem', marginBottom: '0.2rem' }}>Despacho de Rectoría</h1>
-            <p style={{ color: 'var(--text-light-muted)', fontSize: '0.95rem' }}>
-              Rector: <strong>{user?.nombreCompleto || 'Dr. Carlos Alberto Vargas'}</strong> — Plan Institucional de Excelencia 2026-2027
-            </p>
+      <StatusBanner
+        error={error}
+        success={success}
+        onClear={() => {
+          setError('');
+          setSuccess('');
+        }}
+      />
+
+      {activeTab === 'ejecutivo' && (
+        <>
+          <div className="stats-grid">
+            <KpiCard
+              icon={<Users size={21} />}
+              tone="blue"
+              badge="Matrícula"
+              badgeTone="primary"
+              value={resumen.totalEstudiantes ?? 0}
+              label="Estudiantes Matriculados"
+              footer="Registro activo en base de datos"
+            />
+            <KpiCard
+              icon={<Award size={21} />}
+              tone="emerald"
+              badge="Decreto 1290"
+              badgeTone="success"
+              value={`${resumen.tasaAprobacion ?? 0}%`}
+              label="Índice de Aprobación"
+              footer="Evaluación institucional ponderada"
+            />
+            <KpiCard
+              icon={<FileText size={21} />}
+              tone="amber"
+              badge="Auditoría"
+              badgeTone={pendientesCount > 0 ? 'warning' : 'neutral'}
+              value={resumen.solicitudesPendientes ?? pendientesCount}
+              label="Solicitudes de Nota Pendientes"
+              footer="Clic para revisar en auditoría"
+              onClick={() => setActiveTab('auditoria_notas')}
+            />
+            <KpiCard
+              icon={<AlertTriangle size={21} />}
+              tone="rose"
+              badge="MIPA"
+              badgeTone={(resumen.alertasRiesgoMipa ?? 0) > 0 ? 'danger' : 'neutral'}
+              value={resumen.alertasRiesgoMipa ?? 0}
+              label="Alertas MIPA Alto/Crítico"
+              footer="Prevención temprana de deserción"
+              onClick={() => setActiveTab('mipa')}
+            />
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <button
-              onClick={handleExportarSIMAT}
-              style={{ background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#4ade80', padding: '0.55rem 1.15rem', borderRadius: '10px', fontWeight: 700, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer' }}
-              title="Descargar archivo oficial estandarizado para reporte SIMAT MEN"
-            >
-              <Download size={16} /> Exportar SIMAT (MEN)
-            </button>
-
-            <div className="user-profile-badge">
-              <div className="user-avatar-circle" style={{ background: 'linear-gradient(135deg, #2563eb, #1d4ed8)', color: 'white' }}>
-                🏛️
-              </div>
-              <div>
-                <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>{user?.nombreCompleto || 'Rector Titular'}</div>
-                <div style={{ fontSize: '0.75rem', color: '#60a5fa', fontWeight: 800 }}>MÁXIMA AUTORIDAD INSTITUCIONAL</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* TAB 1: MÉTRICAS ESTRATÉGICAS */}
-        {currentTab === 'kpis' && (
-          <>
-            <div className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-icon indigo"><Users size={24} /></div>
-                <div>
-                  <div className="stat-number">{stats?.matriculaTotal || '1,540'}</div>
-                  <div className="stat-label">Matrícula Total Activa</div>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-icon green"><ShieldCheck size={24} /></div>
-                <div>
-                  <div className="stat-number">{stats?.tasaRetencion || '98.4'}%</div>
-                  <div className="stat-label">Tasa de Retención Escolar</div>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-icon amber"><Award size={24} /></div>
-                <div>
-                  <div className="stat-number">{stats?.promedioInstitucional || '4.18'}</div>
-                  <div className="stat-label">Promedio General (0-5.0)</div>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-icon purple"><CheckCircle size={24} /></div>
-                <div>
-                  <div className="stat-number">{stats?.cumplimientoPlanillas || '96.2'}%</div>
-                  <div className="stat-label">Cumplimiento Docente</div>
-                </div>
-              </div>
-            </div>
-
-            {/* BALANCE POR NIVELES ACADÉMICOS */}
-            <div className="panel-card">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+            <div className="panel-card" style={{ marginBottom: 0 }}>
               <div className="panel-header">
-                <h3>📊 Balance General de Rendimiento por Niveles (Año 2026)</h3>
-                <span className="grade-badge superior">Acreditación de Calidad ISO 9001</span>
+                <h3>Estado Actual de Periodos Evaluativos</h3>
+                <button type="button" className="btn-secondary-action" style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem' }} onClick={() => setActiveTab('periodos')}>
+                  Gestionar Periodos
+                </button>
               </div>
-              <div style={{ padding: '1.75rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1.25rem', borderRadius: '16px', border: '1px solid var(--border-dark)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span style={{ fontWeight: 700, color: 'white' }}>Preescolar & Transición</span>
-                    <span style={{ color: '#4ade80', fontWeight: 800 }}>4.82 / 5.0</span>
-                  </div>
-                  <p style={{ fontSize: '0.85rem', color: '#94a3b8' }}>140 estudiantes • 100% seguimiento a motricidad y fonética.</p>
-                </div>
-
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1.25rem', borderRadius: '16px', border: '1px solid var(--border-dark)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span style={{ fontWeight: 700, color: 'white' }}>Primaria (1° a 5°)</span>
-                    <span style={{ color: '#60a5fa', fontWeight: 800 }}>4.35 / 5.0</span>
-                  </div>
-                  <p style={{ fontSize: '0.85rem', color: '#94a3b8' }}>620 estudiantes • Enfoque en lectoescritura y matemáticas.</p>
-                </div>
-
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1.25rem', borderRadius: '16px', border: '1px solid var(--border-dark)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span style={{ fontWeight: 700, color: 'white' }}>Secundaria (6° a 9°)</span>
-                    <span style={{ color: '#fbbf24', fontWeight: 800 }}>3.98 / 5.0</span>
-                  </div>
-                  <p style={{ fontSize: '0.85rem', color: '#94a3b8' }}>510 estudiantes • Refuerzo en ciencias naturales y bilingüismo.</p>
-                </div>
-
-                <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1.25rem', borderRadius: '16px', border: '1px solid var(--border-dark)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <span style={{ fontWeight: 700, color: 'white' }}>Media Vocacional (10° y 11°)</span>
-                    <span style={{ color: '#4ade80', fontWeight: 800 }}>4.42 / 5.0</span>
-                  </div>
-                  <p style={{ fontSize: '0.85rem', color: '#94a3b8' }}>270 estudiantes • Énfasis en preparación para Pruebas Saber 11.</p>
-                </div>
+              <div className="ec-table-responsive">
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Periodo</th>
+                      <th>Ponderación</th>
+                      <th>Vigencia</th>
+                      <th>Estado Oficial</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {periodos.map((p) => (
+                      <tr key={p.id}>
+                        <td><strong style={{ color: 'var(--ec-text)' }}>{p.nombre}</strong></td>
+                        <td>{p.porcentajeValor}%</td>
+                        <td>{p.fechaInicio} al {p.fechaFin}</td>
+                        <td>
+                          <span className={`grade-badge ${p.cerrado ? 'bajo' : 'superior'}`}>
+                            {p.cerrado ? 'CERRADO' : 'ABIERTO'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </>
-        )}
 
-        {/* TAB 2: RESOLUCIONES RECTORALES */}
-        {currentTab === 'resoluciones' && (
-          <div className="panel-card">
-            <div className="panel-header">
+            <div className="ec-radar-dark-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '1rem' }}>
               <div>
-                <h3>📜 Actos Administrativos & Resoluciones Rectorales</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-light-muted)' }}>
-                  Documentos legales emitidos por el Despacho de Rectoría con vigencia jurídica institucional.
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                  <span style={{ fontWeight: 700, fontSize: '1rem', color: '#ffffff' }}>Radar de Gobierno & Alertas</span>
+                  <span style={{ background: 'rgba(244,63,94,0.2)', color: '#fda4af', border: '1px solid rgba(244,63,94,0.35)', padding: '0.2rem 0.6rem', borderRadius: '999px', fontSize: '0.72rem', fontWeight: 700 }}>
+                    {(resumen.alertasRiesgoMipa ?? 0) + pendientesCount} pendientes
+                  </span>
+                </div>
+                <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '1rem', lineHeight: 1.5 }}>
+                  Resumen de acciones prioritarias detectadas directamente desde los registros institucionales.
                 </p>
+
+                <div style={{ display: 'grid', gap: '0.7rem' }}>
+                  <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '12px', padding: '0.85rem', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#ffffff' }}>
+                      {pendientesCount} Solicitudes de corrección de notas
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#cbd5e1', marginTop: '0.2rem' }}>
+                      Pendientes de aprobación o rechazo rectoral.
+                    </div>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '12px', padding: '0.85rem', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#ffffff' }}>
+                      {resumen.alertasRiesgoMipa ?? 0} Alertas MIPA en nivel Alto/Crítico
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#cbd5e1', marginTop: '0.2rem' }}>
+                      Estudiantes que requieren intervención preventiva.
+                    </div>
+                  </div>
+                </div>
               </div>
-              <button
-                className="btn-primary-action"
-                onClick={() => setNuevaResModal(true)}
-              >
-                <Plus size={16} />
-                <span>Emitir Resolución</span>
+
+              <button type="button" onClick={() => setActiveTab('mipa')} className="btn-primary-action" style={{ width: '100%' }}>
+                Abrir Consola MIPA y Telemetría
               </button>
             </div>
+          </div>
+        </>
+      )}
 
-            {nuevaResModal && (
-              <form onSubmit={handleCrearResolucion} style={{ padding: '1.5rem', background: 'rgba(37, 99, 235, 0.06)', borderBottom: '1px solid var(--border-dark)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <h4 style={{ color: '#60a5fa' }}>Emitir Nueva Resolución Rectoral</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem' }}>
-                  <input
-                    type="text"
-                    placeholder="Título de la resolución (ej: Convocatoria a Elección de Personero)"
-                    className="form-input"
-                    value={nuevoTitulo}
-                    onChange={(e) => setNuevoTitulo(e.target.value)}
-                    required
-                  />
-                  <select
-                    className="form-input"
-                    value={nuevaCat}
-                    onChange={(e: any) => setNuevaCat(e.target.value)}
-                  >
-                    <option value="ACADEMICA">Académica</option>
-                    <option value="ADMINISTRATIVA">Administrativa</option>
-                    <option value="DISCIPLINARIA">Disciplinaria</option>
-                    <option value="CONTRATACION">Contratación</option>
-                  </select>
-                </div>
-                <textarea
-                  placeholder="Considerandos y resuelve de la resolución..."
-                  className="form-input"
-                  style={{ minHeight: '80px', resize: 'vertical' }}
-                  value={nuevaDesc}
-                  onChange={(e) => setNuevaDesc(e.target.value)}
-                  required
-                />
-                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                  <button type="button" className="btn-logout" style={{ width: 'auto', padding: '0.5rem 1rem' }} onClick={() => setNuevaResModal(false)}>Cancelar</button>
-                  <button type="submit" className="btn-primary-action">Promulgar y Firmar</button>
-                </div>
-              </form>
-            )}
+      {activeTab === 'auditoria_notas' && (
+        <div className="panel-card">
+          <div className="panel-header">
+            <h3>Solicitudes Docentes de Modificación de Calificaciones</h3>
+            <span className="grade-badge alto">{pendientesCount} pendientes</span>
+          </div>
+          {solicitudes.length === 0 ? (
+            <EmptyOrLoadingState
+              loading={loading}
+              emptyMessage="No existen solicitudes pendientes ni históricas de cambio de nota."
+            />
+          ) : (
+            <div className="ec-table-responsive">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Docente</th>
+                    <th>Estudiante / Grupo</th>
+                    <th>Asignatura / Periodo</th>
+                    <th>Nota Anterior</th>
+                    <th>Nueva Definitiva</th>
+                    <th>Justificación</th>
+                    <th>Estado / Decisión</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {solicitudes.map((s) => (
+                    <tr key={s.id}>
+                      <td>{s.fecha}</td>
+                      <td>{s.docente}</td>
+                      <td>
+                        <strong style={{ color: 'var(--ec-text)' }}>{s.estudiante}</strong>
+                        <div style={{ fontSize: '0.76rem', color: 'var(--ec-text-muted)' }}>Grupo {s.grupo}</div>
+                      </td>
+                      <td>
+                        {s.materia} ({s.periodo})
+                      </td>
+                      <td>{Number(s.notaAnterior).toFixed(1)}</td>
+                      <td>
+                        <strong style={{ color: 'var(--ec-primary)' }}>{Number(s.notaNueva).toFixed(1)}</strong>
+                      </td>
+                      <td style={{ maxWidth: '260px' }}>{s.motivo}</td>
+                      <td>
+                        {s.estado === 'PENDIENTE' ? (
+                          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleResolverSolicitud(s.id, 'APROBADA')}
+                              className="btn-primary-action"
+                              style={{ padding: '0.35rem 0.7rem', fontSize: '0.78rem' }}
+                            >
+                              <CheckCircle size={14} /> Aprobar
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleResolverSolicitud(s.id, 'RECHAZADA')}
+                              className="btn-danger-action"
+                              style={{ padding: '0.35rem 0.7rem', fontSize: '0.78rem' }}
+                            >
+                              <XCircle size={14} /> Rechazar
+                            </button>
+                          </div>
+                        ) : (
+                          <span className={`grade-badge ${s.estado === 'APROBADA' ? 'superior' : 'bajo'}`}>
+                            {s.estado}
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
 
+      {activeTab === 'periodos' && (
+        <div className="panel-card">
+          <div className="panel-header">
+            <h3>Control de Apertura y Cierre de Periodos Académicos</h3>
+          </div>
+          <div className="ec-table-responsive">
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Radicado</th>
-                  <th>Fecha de Emisión</th>
-                  <th>Título de la Resolución</th>
-                  <th>Categoría</th>
-                  <th>Estado Jurídico</th>
+                  <th>Número</th>
+                  <th>Periodo</th>
+                  <th>Porcentaje</th>
+                  <th>Fecha Límite</th>
+                  <th>Estado</th>
+                  <th>Acción Rectoral</th>
                 </tr>
               </thead>
               <tbody>
-                {resoluciones.map((res) => (
-                  <tr key={res.id}>
-                    <td><code>{res.numeroResolucion}</code></td>
-                    <td style={{ color: 'var(--text-light-muted)' }}>{res.fecha}</td>
+                {periodos.map((p) => (
+                  <tr key={p.id}>
+                    <td>#{p.numeroPeriodo}</td>
                     <td>
-                      <div style={{ fontWeight: 700, color: 'white' }}>{res.titulo}</div>
-                      <div style={{ fontSize: '0.82rem', color: '#94a3b8' }}>{res.descripcion}</div>
+                      <strong style={{ color: 'var(--ec-text)' }}>{p.nombre}</strong>
+                    </td>
+                    <td>{p.porcentajeValor}%</td>
+                    <td>{String(p.fechaCierreNotas).replace('T', ' ').substring(0, 16)}</td>
+                    <td>
+                      <span className={`grade-badge ${p.cerrado ? 'bajo' : 'superior'}`}>
+                        {p.cerrado ? 'CERRADO' : 'ABIERTO'}
+                      </span>
                     </td>
                     <td>
-                      <span className="grade-badge alto">{res.categoria}</span>
-                    </td>
-                    <td>
-                      <span className="grade-badge superior">● {res.estado}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleTogglePeriodo(p)}
+                        className={p.cerrado ? 'btn-primary-action' : 'btn-danger-action'}
+                        style={{ padding: '0.4rem 0.9rem', fontSize: '0.8rem' }}
+                      >
+                        {p.cerrado ? (
+                          <>
+                            <Unlock size={14} /> Reabrir Periodo
+                          </>
+                        ) : (
+                          <>
+                            <Lock size={14} /> Cerrar Periodo
+                          </>
+                        )}
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* TAB 3: CONSEJO DIRECTIVO Y FINANZAS */}
-        {currentTab === 'consejo' && (
+      {activeTab === 'resoluciones' && (
+        <>
           <div className="panel-card">
             <div className="panel-header">
-              <h3>🏛️ Consejo Directivo & Fondo de Servicios Educativos</h3>
-              <span className="grade-badge superior">Auditoría Vigente 2026</span>
+              <h3>Emitir Nueva Resolución Rectoral</h3>
             </div>
-
-            <div style={{ padding: '1.75rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
-              <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1.5rem', borderRadius: '18px', border: '1px solid var(--border-dark)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#fbbf24', fontWeight: 800, marginBottom: '1rem', fontSize: '1.1rem' }}>
-                  <DollarSign size={22} />
-                  <span>Presupuesto Institucional FSE</span>
+            <div className="panel-body">
+              <form onSubmit={handleCrearResolucion} style={{ display: 'grid', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+                  <div>
+                    <label className="form-label">Número de Resolución</label>
+                    <input
+                      type="text"
+                      value={resNumero}
+                      onChange={(e) => setResNumero(e.target.value)}
+                      placeholder="Ej: RES-RECT-2026-002"
+                      className="form-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="form-label">Título Oficial *</label>
+                    <input
+                      type="text"
+                      required
+                      value={resTitulo}
+                      onChange={(e) => setResTitulo(e.target.value)}
+                      placeholder="Título oficial de la resolución"
+                      className="form-input"
+                    />
+                  </div>
                 </div>
-                <div style={{ fontSize: '2rem', fontWeight: 900, color: 'white', marginBottom: '0.35rem' }}>$485,000,000 COP</div>
-                <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '1rem' }}>
-                  Ejecución actual: <strong>78.5%</strong> para laboratorios de robótica, material bibliográfico y plataformas cloud.
-                </p>
-                <div style={{ width: '100%', height: '8px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '4px', overflow: 'hidden' }}>
-                  <div style={{ width: '78.5%', height: '100%', background: 'var(--accent-lime)' }}></div>
+                <div>
+                  <label className="form-label">Considerandos</label>
+                  <textarea
+                    rows={2}
+                    value={resConsiderando}
+                    onChange={(e) => setResConsiderando(e.target.value)}
+                    placeholder="Considerandos legales y pedagógicos..."
+                    className="form-input"
+                  />
                 </div>
-              </div>
-
-              <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1.5rem', borderRadius: '18px', border: '1px solid var(--border-dark)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#60a5fa', fontWeight: 800, marginBottom: '1rem', fontSize: '1.1rem' }}>
-                  <FileCheck size={22} />
-                  <span>Composición del Consejo Directivo</span>
+                <div>
+                  <label className="form-label">Disposición Resolutiva *</label>
+                  <textarea
+                    rows={3}
+                    required
+                    value={resResuelve}
+                    onChange={(e) => setResResuelve(e.target.value)}
+                    placeholder="ARTÍCULO PRIMERO: Disposición resolutiva..."
+                    className="form-input"
+                  />
                 </div>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem', color: '#cbd5e1' }}>
-                  <li>• <strong>Presidente:</strong> Rector Titular (Dr. Carlos Alberto Vargas)</li>
-                  <li>• <strong>Representantes Docentes:</strong> Lic. Roberto Silva & Lic. Elena Gómez</li>
-                  <li>• <strong>Representante Padres:</strong> Juan Fernando Ramírez (Consejo de Padres)</li>
-                  <li>• <strong>Representante Estudiantil:</strong> Personero Estudiantil 2026</li>
-                  <li>• <strong>Sector Productivo:</strong> Delegado Cámara de Comercio</li>
-                </ul>
-              </div>
+                <div>
+                  <button type="submit" className="btn-primary-action">
+                    <Plus size={16} /> Emitir y Firmar Resolución en BD
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        )}
 
-        {/* TAB 4: COMISIONES DE EVALUACIÓN Y PROMOCIÓN (DECRETO 1290) */}
-        {currentTab === 'comisiones' && (
           <div className="panel-card">
-            <div className="panel-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <h3 style={{ fontSize: '1.25rem', margin: 0 }}>⚖️ Comisiones de Evaluación y Promoción</h3>
-                  <span className="grade-badge superior">Presidencia de Rectoría</span>
-                </div>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
-                  Decreto 1290 de 2009 - Art. 11: Refrendación de actas institucionales y acuerdos de nivelación
-                </p>
-              </div>
-
-              <button
-                onClick={handleExportarSIMAT}
-                style={{ background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#4ade80', padding: '0.55rem 1.15rem', borderRadius: '10px', fontWeight: 700, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.45rem', cursor: 'pointer' }}
-                title="Descargar archivo oficial estandarizado para reporte SIMAT MEN"
-              >
-                <Download size={16} /> Exportar SIMAT (MEN)
-              </button>
+            <div className="panel-header">
+              <h3>Libro Oficial de Resoluciones Rectorales</h3>
             </div>
-
-            <div style={{ overflowX: 'auto' }}>
+            <div className="ec-table-responsive">
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>No. Acta</th>
-                    <th>Grado / Salón</th>
-                    <th>Periodo</th>
-                    <th>Casos en Riesgo</th>
-                    <th>Acuerdos Pedagógicos y Nivelaciones</th>
-                    <th>Firma Coordinación</th>
-                    <th>Refrendación Rectoral</th>
-                    <th style={{ textAlign: 'center' }}>Boletín de Prueba</th>
+                    <th>Número</th>
+                    <th>Fecha</th>
+                    <th>Título y Disposición</th>
+                    <th>Emitido Por</th>
+                    <th>Vigencia</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {comisiones.map((c) => (
-                    <tr key={c.id}>
-                      <td><code>{c.numeroActa || `ACT-COM-00${c.id}`}</code></td>
-                      <td style={{ fontWeight: 700 }}>{c.grupoNombre || c.grado}</td>
-                      <td>Periodo {c.periodo}</td>
+                  {resoluciones.map((r) => (
+                    <tr key={r.id}>
+                      <td><strong style={{ color: 'var(--ec-text)' }}>{r.numeroResolucion}</strong></td>
+                      <td>{r.fecha}</td>
                       <td>
-                        <span style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700 }}>
-                          {c.estudiantesEnRiesgo || 1} casos reportados
-                        </span>
+                        <strong style={{ color: 'var(--ec-text)' }}>{r.titulo}</strong>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--ec-text-muted)', marginTop: '4px' }}>{r.resuelve}</div>
                       </td>
-                      <td style={{ fontSize: '0.82rem', maxWidth: '280px' }}>
-                        {c.planMejoramiento || c.acuerdosPedagogicos}
-                      </td>
+                      <td>{r.emitidoPor}</td>
                       <td>
-                        <span className="grade-badge superior">✓ Coordinador</span>
-                      </td>
-                      <td>
-                        {c.firmadoPorRector ? (
-                          <span className="grade-badge superior">✓ Refrendado por Rector</span>
-                        ) : (
-                          <button
-                            onClick={() => handleFirmarActa(c.id)}
-                            className="btn-primary-action"
-                            style={{ padding: '5px 12px', fontSize: '0.78rem', background: 'linear-gradient(135deg, #2563eb, #1d4ed8)' }}
-                          >
-                            ✍️ Firmar como Rector
-                          </button>
-                        )}
-                      </td>
-                      <td style={{ textAlign: 'center' }}>
-                        <button
-                          onClick={() => handleVerBoletin('EST-2026-030')}
-                          style={{ background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.3)', color: '#38bdf8', padding: '5px 10px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
-                          title="Ver Boletín Oficial de Calificaciones del Periodo"
-                        >
-                          <FileText size={13} /> Boletín Oficial
-                        </button>
+                        <span className="grade-badge superior">{r.estado}</span>
                       </td>
                     </tr>
                   ))}
@@ -464,19 +593,163 @@ export const RectorDashboard: React.FC = () => {
               </table>
             </div>
           </div>
-        )}
-
-        {/* TAB 5: AUDITORÍA DE ACCESOS Y SEMÁFORO MIPA */}
-        {currentTab === 'mipa' && <MipaTelemetriaPanel />}
-      </main>
-
-      {/* MODAL BOLETÍN OFICIAL DE CALIFICACIONES (DECRETO 1290) */}
-      {showBoletinModal && selectedBoletin && (
-        <BoletinOficialModal
-          boletin={selectedBoletin}
-          onClose={() => setShowBoletinModal(false)}
-        />
+        </>
       )}
-    </div>
+
+      {activeTab === 'promocion' && (
+        <div className="panel-card">
+          <div className="panel-header">
+            <h3>Consolidado de Promoción Escolar y Paz y Salvo</h3>
+          </div>
+          <div className="ec-table-responsive">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Folio Matrícula</th>
+                  <th>Estudiante</th>
+                  <th>Documento</th>
+                  <th>Curso</th>
+                  <th>Promedio Acumulado</th>
+                  <th>Materias en Bajo</th>
+                  <th>Estado de Promoción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {actasPromocion.map((a) => (
+                  <tr key={String(a.id)}>
+                    <td>{String(a.folio)}</td>
+                    <td>
+                      <strong style={{ color: 'var(--ec-text)' }}>{String(a.estudiante)}</strong>
+                    </td>
+                    <td>{String(a.documento)}</td>
+                    <td>{String(a.grupo)}</td>
+                    <td>
+                      <strong style={{ color: 'var(--ec-text)' }}>{Number(a.promedio).toFixed(2)}</strong>
+                    </td>
+                    <td>{String(a.materiasPerdidas)}</td>
+                    <td>
+                      <span
+                        className={`grade-badge ${
+                          a.estadoPromocion === 'PROMOVIDO' ? 'superior' : 'basico'
+                        }`}
+                      >
+                        {String(a.estadoPromocion)}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'comunicados' && (
+        <>
+          <div className="panel-card">
+            <div className="panel-header">
+              <h3>Publicar Circular o Comunicado Institucional</h3>
+            </div>
+            <div className="panel-body">
+              <form onSubmit={handleCrearComunicado} style={{ display: 'grid', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                  <div>
+                    <label className="form-label">Asunto del comunicado *</label>
+                    <input
+                      type="text"
+                      required
+                      value={comTitulo}
+                      onChange={(e) => setComTitulo(e.target.value)}
+                      placeholder="Asunto del comunicado"
+                      className="form-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="form-label">Destinatarios</label>
+                    <select
+                      value={comDestinatarios}
+                      onChange={(e) => setComDestinatarios(e.target.value)}
+                      className="form-input"
+                    >
+                      <option value="TODOS">Toda la Comunidad</option>
+                      <option value="DOCENTES">Solo Docentes</option>
+                      <option value="ESTUDIANTES">Solo Estudiantes</option>
+                      <option value="TUTORES">Solo Acudientes</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="form-label">Prioridad</label>
+                    <select
+                      value={comImportancia}
+                      onChange={(e) => setComImportancia(e.target.value)}
+                      className="form-input"
+                    >
+                      <option value="NORMAL">Importancia Normal</option>
+                      <option value="ALTA">Importancia Alta</option>
+                      <option value="URGENTE">Urgente</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label className="form-label">Mensaje Institucional *</label>
+                  <textarea
+                    rows={3}
+                    required
+                    value={comContenido}
+                    onChange={(e) => setComContenido(e.target.value)}
+                    placeholder="Redacte el mensaje institucional..."
+                    className="form-input"
+                  />
+                </div>
+                <div>
+                  <button type="submit" className="btn-primary-action">
+                    <Megaphone size={16} /> Publicar Comunicado
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div className="panel-card">
+            <div className="panel-header">
+              <h3>Comunicados Activos en Base de Datos</h3>
+            </div>
+            <div className="ec-table-responsive">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Título y Contenido</th>
+                    <th>Destinatarios</th>
+                    <th>Prioridad</th>
+                    <th>Autor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comunicados.map((c) => (
+                    <tr key={c.id}>
+                      <td>{c.fecha}</td>
+                      <td>
+                        <strong style={{ color: 'var(--ec-text)' }}>{c.titulo}</strong>
+                        <div style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '4px' }}>{c.contenido}</div>
+                      </td>
+                      <td>{c.destinatarioRol}</td>
+                      <td>
+                        <span className="grade-badge alto">{c.importancia}</span>
+                      </td>
+                      <td>{c.autor}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
+
+      {activeTab === 'mipa' && <MipaTelemetriaPanel modo="ambos" />}
+    </DashboardShell>
   );
 };
+
+export default RectorDashboard;

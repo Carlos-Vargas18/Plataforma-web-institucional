@@ -2,16 +2,13 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "observador_estudiante")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class ObservadorEstudiante {
 
@@ -19,36 +16,47 @@ public class ObservadorEstudiante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estudiante_id", nullable = false)
-    private Estudiante estudiante;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "matricula_id", nullable = false)
+    private Matricula matricula;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "docente_id", nullable = false)
-    private Docente docente;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Usuario autor;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime fecha;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "periodo_id", nullable = false)
+    private PeriodoAcademico periodo;
 
-    @Column(nullable = false, length = 40)
-    private String tipo; // FELICITACION, FALTA_LEVE, FALTA_GRAVE, CITACION_ACUDIENTE, SEGUIMIENTO_PSICOPEDAGOGICO
+    @Builder.Default
+    @Column(name = "fecha_suceso", nullable = false)
+    private LocalDate fechaSuceso = LocalDate.now();
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String descripcion;
+    @Column(name = "tipo_anotacion", nullable = false, length = 30)
+    private String tipoAnotacion;
 
-    @Column(name = "compromisos_acordados", columnDefinition = "TEXT")
+    @Builder.Default
+    @Column(name = "categoria_falta", length = 20)
+    private String categoriaFalta = "NO_APLICA";
+
+    @Column(name = "descripcion_hechos", nullable = false, columnDefinition = "TEXT")
+    private String descripcionHechos;
+
+    @Column(name = "descargos_estudiante", columnDefinition = "TEXT")
+    private String descargosEstudiante;
+
+    @Column(name = "compromisos_acordados", nullable = false, columnDefinition = "TEXT")
     private String compromisosAcordados;
 
     @Builder.Default
-    @Column(name = "firmado_por_estudiante")
-    private boolean firmadoPorEstudiante = false;
+    @Column(name = "firmado_estudiante", nullable = false)
+    private Boolean firmadoEstudiante = false;
 
     @Builder.Default
-    @Column(name = "firmado_por_tutor")
-    private boolean firmadoPorTutor = false;
+    @Column(name = "firmado_acudiente", nullable = false)
+    private Boolean firmadoAcudiente = false;
 
     @Builder.Default
-    @Column(name = "requiere_presencia_padres")
-    private boolean requierePresenciaPadres = false;
+    @Column(name = "fecha_creacion", nullable = false, updatable = false)
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
 }

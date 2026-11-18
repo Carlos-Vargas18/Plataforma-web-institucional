@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-container": "#eaeef5",
+          "surface-variant": "#dfe3ea",
+          "tertiary-fixed": "#d8e2ff",
+          "secondary-container": "#ced9fe",
+          "tertiary-container": "#0c68db",
+          "primary-fixed": "#dce1ff",
+          "surface-bright": "#f7f9ff",
+          "on-primary-fixed-variant": "#003ab1",
+          "surface-container-high": "#e4e8ef",
+          "on-secondary": "#ffffff",
+          "background": "#f7f9ff",
+          "on-error": "#ffffff",
+          "outline-variant": "#c3c5d9",
+          "on-tertiary": "#ffffff",
+          "on-tertiary-fixed": "#001a42",
+          "surface-dim": "#d6dae1",
+          "on-primary-fixed": "#001550",
+          "on-secondary-fixed-variant": "#3b4664",
+          "outline": "#737688",
+          "tertiary-fixed-dim": "#adc6ff",
+          "on-tertiary-fixed-variant": "#004395",
+          "on-surface-variant": "#434656",
+          "primary-fixed-dim": "#b6c4ff",
+          "on-secondary-fixed": "#0e1b36",
+          "secondary-fixed": "#d9e2ff",
+          "surface-container-low": "#f0f4fb",
+          "surface-tint": "#004ee7",
+          "inverse-on-surface": "#edf1f8",
+          "surface": "#f7f9ff",
+          "on-error-container": "#93000a",
+          "secondary-fixed-dim": "#bac6e9",
+          "surface-container-lowest": "#ffffff",
+          "primary-container": "#175cff",
+          "on-tertiary-container": "#ebefff",
+          "on-primary-container": "#edeeff",
+          "inverse-surface": "#2c3136",
+          "inverse-primary": "#b6c4ff",
+          "secondary": "#525e7d",
+          "tertiary": "#0050af",
+          "surface-container-highest": "#dfe3ea",
+          "on-surface": "#171c21",
+          "error-container": "#ffdad6",
+          "primary": "#0045d0",
+          "on-secondary-container": "#535f7d",
+          "on-primary": "#ffffff",
+          "on-background": "#171c21",
+          "error": "#ba1a1a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "space-xs": "0.25rem",
+          "margin": "2rem",
+          "space-md": "1rem",
+          "space-xl": "2rem",
+          "space-sm": "0.5rem",
+          "margin-mobile": "1rem",
+          "gutter-mobile": "1rem",
+          "gutter": "1.5rem"
+        },
+        "fontFamily": {
+          "body-lg": [
+            "Inter"
+          ],
+          "headline-xl": [
+            "Plus Jakarta Sans"
+          ],
+          "display-lg-mobile": [
+            "Plus Jakarta Sans"
+          ],
+          "body-md": [
+            "Inter"
+          ],
+          "metric-display": [
+            "Plus Jakarta Sans"
+          ],
+          "label-md": [
+            "Inter"
+          ],
+          "headline-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "label-sm": [
+            "Inter"
+          ],
+          "headline-md": [
+            "Plus Jakarta Sans"
+          ],
+          "display-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "body-sm": [
+            "Inter"
+          ],
+          "headline-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-xl-mobile": [
+            "Plus Jakarta Sans"
+          ]
+        },
+        "fontSize": {
+          "body-lg": [
+            "16px",
+            {
+              "lineHeight": "26px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "32px",
+            {
+              "lineHeight": "40px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "display-lg-mobile": [
+            "30px",
+            {
+              "lineHeight": "38px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-md": [
+            "14px",
+            {
+              "lineHeight": "22px",
+              "fontWeight": "400"
+            }
+          ],
+          "metric-display": [
+            "28px",
+            {
+              "lineHeight": "34px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "letterSpacing": "0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-lg": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-sm": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-md": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-lg": [
+            "40px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "18px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-sm": [
+            "16px",
+            {
+              "lineHeight": "24px",
+              "letterSpacing": "-0.005em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-xl-mobile": [
+            "24px",
+            {
+              "lineHeight": "32px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "700"
+            }
+          ]
+        }
+      }
+    }
+  };</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-screen w-72 bg-inverse-surface text-inverse-on-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-full overflow-hidden"><div class="px-space-md py-space-md bg-inverse-surface flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">hub</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-inverse-on-surface tracking-tight leading-none">EduConnect OS</span><span class="font-label-sm text-label-sm text-outline-variant mt-0.5 tracking-wider uppercase">Consola de Adm.</span></div></div><div class="flex items-center gap-1"><span class="font-label-sm text-label-sm bg-primary-container/20 text-inverse-primary px-1.5 py-0.5 rounded-full">SuperAdmin</span><button aria-label="Colapsar menú lateral" class="p-1 text-outline-variant hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">menu_open</span></button></div></div><div class="flex-1 overflow-y-auto px-space-sm py-space-sm space-y-space-md"><section><div class="px-space-sm py-1 font-label-sm text-label-sm text-outline-variant tracking-wider uppercase">General</div><nav class="mt-1 space-y-0.5" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="group flex items-center justify-between px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="dashboard" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-sm text-body-sm">Dashboard</span></div></a><a class="group flex items-center justify-between px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="centro-de-notificaciones" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="font-body-sm text-body-sm">Centro de Notificaciones</span></div><span class="px-1.5 py-0.5 font-label-sm text-label-sm rounded-full bg-primary-container text-on-primary">5</span></a></nav></section><section><div class="px-space-sm py-1 font-label-sm text-label-sm text-outline-variant tracking-wider uppercase">Gestión Académica</div><nav class="mt-1 space-y-0.5" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg transition-colors bg-primary-container text-on-primary font-bold shadow-sm" data-path="estudiantes" href="#"><span class="material-symbols-outlined text-[20px]">school</span><span class="font-body-sm text-body-sm">Estudiantes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="docentes" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span class="font-body-sm text-body-sm">Docentes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="usuarios-y-roles" href="#"><span class="material-symbols-outlined text-[20px]">manage_accounts</span><span class="font-body-sm text-body-sm">Usuarios y Roles</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="materias" href="#"><span class="material-symbols-outlined text-[20px]">auto_stories</span><span class="font-body-sm text-body-sm">Materias</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="grupos-y-cursos" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span class="font-body-sm text-body-sm">Grupos y Cursos</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="horarios-escolares" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span class="font-body-sm text-body-sm">Horarios Escolares</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="matriculas" href="#"><span class="material-symbols-outlined text-[20px]">assignment_turned_in</span><span class="font-body-sm text-body-sm">Matrículas</span></a></nav></section><section><div class="px-space-sm py-1 font-label-sm text-label-sm text-outline-variant tracking-wider uppercase">Seguimiento Institucional</div><nav class="mt-1 space-y-0.5" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="asistencia" href="#"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-body-sm text-body-sm">Asistencia</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="calificaciones" href="#"><span class="material-symbols-outlined text-[20px]">grade</span><span class="font-body-sm text-body-sm">Calificaciones</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="observador-estudiantil" href="#"><span class="material-symbols-outlined text-[20px]">visibility</span><span class="font-body-sm text-body-sm">Observador Estudiantil</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="convivencia" href="#"><span class="material-symbols-outlined text-[20px]">handshake</span><span class="font-body-sm text-body-sm">Convivencia</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="custodia-y-fichas-medicas" href="#"><span class="material-symbols-outlined text-[20px]">medical_services</span><span class="font-body-sm text-body-sm">Custodia &amp; Fichas Médicas</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="acudientes" href="#"><span class="material-symbols-outlined text-[20px]">family_restroom</span><span class="font-body-sm text-body-sm">Acudientes</span></a></nav></section><section><div class="px-space-sm py-1 font-label-sm text-label-sm text-outline-variant tracking-wider uppercase">Inteligencia y Sistema</div><nav class="mt-1 space-y-0.5" data-active-classes="bg-primary-container text-on-primary font-bold shadow-sm"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="auditoria-del-sistema" href="#"><span class="material-symbols-outlined text-[20px]">security</span><span class="font-body-sm text-body-sm">Auditoría del Sistema</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="telemetria-de-servidores" href="#"><span class="material-symbols-outlined text-[20px]">dns</span><span class="font-body-sm text-body-sm">Telemetría de Servidores</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="mipa-inteligencia-artificial" href="#"><span class="material-symbols-outlined text-[20px]">neurology</span><span class="font-body-sm text-body-sm">MIPA / IA Institucional</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="reportes-institucionales" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span class="font-body-sm text-body-sm">Reportes Institucionales</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-outline-variant hover:bg-surface-variant/10 hover:text-inverse-on-surface transition-colors" data-path="configuracion-institucional" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-sm text-body-sm">Configuración Institucional</span></a></nav></section></div><div class="p-space-sm bg-inverse-surface/80 flex flex-col gap-space-xs"><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-label-sm text-inverse-primary font-semibold">SuperAdmin Activo</span></div><span class="font-label-sm text-label-sm text-outline-variant">Bogotá-1 • 99.98%</span></div><div class="flex items-center justify-between p-2 rounded-lg bg-surface-variant/5 text-inverse-on-surface"><div class="flex items-center gap-space-sm overflow-hidden"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col min-w-0"><span class="font-label-md text-label-md font-semibold text-inverse-on-surface truncate">Ing. Carlos Mendoza</span><span class="font-label-sm text-label-sm text-outline-variant truncate">Admin General TI</span></div></div><div class="flex items-center gap-0.5"><button class="p-1 text-outline-variant hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-lg transition-colors" title="Bloquear terminal" type="button"><span class="material-symbols-outlined text-[18px]">lock</span></button><button class="p-1 text-outline-variant hover:text-error hover:bg-surface-variant/10 rounded-lg transition-colors" title="Cerrar sesión" type="button"><span class="material-symbols-outlined text-[18px]">logout</span></button></div></div></div></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 z-40 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-xl flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md flex-1 max-w-2xl"><div class="hidden xl:flex items-center gap-1 text-on-surface-variant font-label-md text-label-md"><span class="hover:text-on-surface cursor-pointer transition-colors">Administración General</span><span class="material-symbols-outlined text-[16px]">chevron_right</span><span class="text-on-surface font-semibold">Dashboard</span></div><div class="relative flex-1"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline pl-9 pr-12 py-1.5 rounded-lg font-body-sm text-body-sm shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Buscar módulos, usuarios, bitácoras o directivas... ⌘K" type="text"/><span class="absolute right-2.5 top-1/2 -translate-y-1/2 font-label-sm text-label-sm text-outline bg-surface-container px-1.5 py-0.5 rounded">⌘K</span></div></div><div class="flex items-center gap-space-sm"><div class="hidden md:flex items-center gap-1.5 bg-surface-container px-3 py-1.5 rounded-lg text-on-surface"><span class="material-symbols-outlined text-primary text-[18px]">account_balance</span><span class="font-label-md text-label-md font-medium">Ciclo 2025-I | Sede Central</span><span class="material-symbols-outlined text-[16px] text-outline">arrow_drop_down</span></div><button class="hidden lg:flex items-center gap-1 bg-surface-container-lowest text-on-surface px-3 py-1.5 rounded-lg font-label-md text-label-md shadow-[0_1px_3px_0_rgba(7,20,47,0.04)] hover:bg-surface-container-low transition-colors" type="button"><span class="material-symbols-outlined text-[18px]">terminal</span><span>CLI</span></button><button class="flex items-center gap-1.5 bg-primary-container text-on-primary px-3 py-1.5 rounded-lg font-label-md text-label-md shadow-sm hover:bg-primary transition-all active:scale-[0.98]" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span class="hidden sm:inline">Acción Rápida</span></button><div class="flex items-center gap-1 ml-1"><button aria-label="Notificaciones" class="relative p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button><div class="hidden sm:flex items-center gap-1 bg-secondary-container/40 text-on-secondary-fixed-variant px-2 py-1 rounded-full font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span>Online</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-sm cursor-pointer"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-4rem)] p-space-xl flex-1"><div class="flex flex-col w-full gap-space-lg relative">
+<!-- Header Section with Distinct FinTech / SaaS Tone -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col max-w-3xl">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Ciclo Académico 2025</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-outline">Sistema Central Integrado</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Directorio y Expedientes de Estudiantes</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+        Administración centralizada de matrículas, historial académico, asignación de cursos y documentación oficial de los 3,842 estudiantes matriculados.
+      </p>
+</div>
+<!-- Actions Group -->
+<div class="flex flex-wrap items-center gap-space-sm self-start lg:self-center">
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">upload_file</span>
+<span>Importar nómina (CSV/XLS)</span>
+</button>
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">download</span>
+<span>Exportar listado oficial</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-md hover:bg-primary transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>+ Registrar Nuevo Estudiante</span>
+</button>
+</div>
+</div>
+<!-- Metric Quick Tiles (SaaS Micro-cards with Ambient Accents) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/5 rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Estudiantes Activos</span>
+<div class="w-9 h-9 rounded-lg bg-primary-fixed/60 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-metric-display text-metric-display text-on-surface">3,842</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container/40 text-on-secondary-fixed-variant flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 98.4%
+        </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Total activos matriculados</span>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-tertiary/5 rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Pendientes Matrícula</span>
+<div class="w-9 h-9 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-metric-display text-metric-display text-on-surface">38</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant">
+          Paz y salvo pend.
+        </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Contratos en legalización</span>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-error/5 rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Seguimiento Convivencial</span>
+<div class="w-9 h-9 rounded-lg bg-error-container text-error flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">warning_amber</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-metric-display text-metric-display text-on-surface">14</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-semibold">
+          Prioritarios
+        </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">Actas de compromiso abiertas</span>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-surface-variant/20 rounded-full pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Retiros / Traslados</span>
+<div class="w-9 h-9 rounded-lg bg-surface-container-high text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">swap_horiz</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-metric-display text-metric-display text-on-surface">5</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-surface-container-low text-outline">
+          SIMAT Ok
+        </span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">En el ciclo en curso</span>
+</div>
+</div>
+<!-- Advanced Search & Filter Bar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full bg-surface-container-low text-on-surface placeholder:text-outline pl-11 pr-20 py-2.5 rounded-lg font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all shadow-inner" placeholder="Buscar por nombre, documento (TI/RC), código estudiantil o acudiente... ⌘K" type="text"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 font-label-sm text-label-sm text-outline bg-surface-container px-2 py-0.5 rounded">Filtro rápido</span>
+</div>
+<!-- Dropdown Controls -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-3 pr-8 py-2 rounded-lg cursor-pointer hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20">
+<option>Todos los Grados (T a 11°)</option>
+<option>10° Décimo</option>
+<option>11° Undécimo</option>
+<option>9° Noveno</option>
+<option>8° Octavo</option>
+<option>Transición - Primaria</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[16px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-3 pr-8 py-2 rounded-lg cursor-pointer hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20">
+<option>Todas las Sedes</option>
+<option>Sede Central</option>
+<option>Sede Norte (Campestre)</option>
+<option>Campus Virtual</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[16px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-3 pr-8 py-2 rounded-lg cursor-pointer hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20">
+<option>Estado: Todos</option>
+<option>Activo</option>
+<option>Condicional</option>
+<option>Retirado</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[16px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-surface-container-low text-on-surface font-body-sm text-body-sm pl-3 pr-8 py-2 rounded-lg cursor-pointer hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20">
+<option>Jornada Completa</option>
+<option>Jornada Mañana</option>
+<option>Jornada Tarde</option>
+<option>Nocturna / Fin de Sem.</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-outline text-[16px]">expand_more</span>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-lg transition-colors" title="Restablecer filtros" type="button">
+<span class="material-symbols-outlined text-[20px]">filter_alt_off</span>
+</button>
+</div>
+</div>
+<!-- Main SaaS Density Data Table Wrapper -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Bulk Contextual Info Bar -->
+<div class="px-space-md py-2.5 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Mostrando 1 - 6 de 3,842 estudiantes</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-fixed text-on-primary-fixed">Filtro aplicado: Sede Central</span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span>Columnas visibles: 8/8</span>
+<button class="hover:text-primary transition-colors flex items-center gap-0.5" type="button">
+<span class="material-symbols-outlined text-[16px]">view_column</span> Personalizar
+        </button>
+</div>
+</div>
+<!-- High-Density Responsive Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm">
+<thead class="bg-surface-container text-on-surface-variant font-label-md text-label-md uppercase tracking-wider text-xs">
+<tr>
+<th class="py-3 px-space-md w-12 text-center" scope="col">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</th>
+<th class="py-3 px-space-md" scope="col">Estudiante</th>
+<th class="py-3 px-space-md" scope="col">Grado / Grupo</th>
+<th class="py-3 px-space-md" scope="col">Sede &amp; Jornada</th>
+<th class="py-3 px-space-md" scope="col">Acudiente Principal</th>
+<th class="py-3 px-space-md text-center" scope="col">PGA</th>
+<th class="py-3 px-space-md" scope="col">Documentos</th>
+<th class="py-3 px-space-md" scope="col">Matrícula</th>
+<th class="py-3 px-space-md text-right" scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody class="text-on-surface">
+<!-- Row 1 (Selected Row triggers drawer) -->
+<tr class="hover:bg-surface-container-low cursor-pointer transition-colors bg-surface-bright" onclick="toggleStudentDrawer(true, 'Valeria Sofía Ramos', 'COD-2025-0419', '10°-A', 'Sede Central', 'O+', 'Polen / Penicilina', '4.85', 'Oficializada')">
+<td class="py-3.5 px-space-md text-center" onclick="event.stopPropagation()">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" data-alt="Close up professional portrait of a Hispanic teenage high school student named Valeria smiling with dark braided hair wearing a clean institutional navy blazer against an academic library background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARm8rKCbV93QkFdMd2rI7WbJAzr34DJRkRvNYIzwinPhmJWSiKMymN56Y1RNH06h6NMicrVVacy2T8OXcFwWzM4G6wc-MToIzdT_iL3KVLqgWqQrS8hLPiboueqqK_2_dD3r_RgeK5r4R90xZyO_IahaUe5R328PUNXh80JRpU4VVdckq0JqokdYzJpRi8xFBfFbBxTC7eAqFb1Y9Xy6QARwCdVGj6S37rGZn7qK8"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate hover:text-primary">Valeria Sofía Ramos P.</span>
+<div class="flex items-center gap-1.5 text-outline">
+<span class="font-label-sm text-label-sm font-mono text-outline">COD-2025-0419</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">v.ramos@educonnect.edu.co</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-primary">10°-A</span>
+<span class="block font-label-sm text-label-sm text-outline">Media Académica</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium">Sede Central</span>
+<span class="block font-label-sm text-label-sm text-outline">Única (7:00 - 15:30)</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium truncate block">Dra. Claudia Patricia Peña</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[13px]">call</span> +57 (311) 849-2041
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-headline-sm text-headline-sm bg-primary-fixed text-on-primary-fixed font-bold">
+                4.85
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-high text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Completa (8/8)
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-secondary-container/50 text-on-secondary-fixed-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Oficializada
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right" onclick="event.stopPropagation()">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" onclick="toggleStudentDrawer(true, 'Valeria Sofía Ramos', 'COD-2025-0419', '10°-A', 'Sede Central', 'O+', 'Polen / Penicilina', '4.85', 'Oficializada')" title="Ver Ficha Rápida" type="button">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Editar estudiante" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-outline hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Más opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low cursor-pointer transition-colors" onclick="toggleStudentDrawer(true, 'Mateo Gómez Arismendy', 'COD-2025-1022', '11°-B', 'Sede Central', 'A+', 'Ninguna reportada', '4.10', 'Oficializada')">
+<td class="py-3.5 px-space-md text-center" onclick="event.stopPropagation()">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" data-alt="Portrait of a male young adult student with short curly brown hair wearing an institutional grey polo shirt looking attentive and confident inside a bright school corridor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD57tpG_6tT8kvWQPvScAZDYkYoLSMq0lTlx81sXX1XAtAsHVimEgGA1qRTAivrRwLd8htspRT04kb6-47Ik3JTehJcktlO63zNxBzYeTykuxAmOiKs5ikb9rARnY47B5jihHBWFFO5IbPeXvLDjOOMlKJBmp7j2aHnGaRtxkyqwneSq9tcC5ixC0o4VZh-G54b4DfT70pTa8xL2InZWZBpBQvMIBRiaUf87phrU48"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate hover:text-primary">Mateo Gómez Arismendy</span>
+<div class="flex items-center gap-1.5 text-outline">
+<span class="font-label-sm text-label-sm font-mono text-outline">COD-2025-1022</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">m.gomez@educonnect.edu.co</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">11°-B</span>
+<span class="block font-label-sm text-label-sm text-outline">Técnico Bachiller</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium">Sede Central</span>
+<span class="block font-label-sm text-label-sm text-outline">Mañana (6:30 - 12:45)</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium truncate block">Roberto Gómez Villa</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[13px]">call</span> +57 (300) 412-8876
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-headline-sm text-headline-sm bg-surface-container text-on-surface font-bold">
+                4.10
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-high text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Completa (8/8)
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-secondary-container/50 text-on-secondary-fixed-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Oficializada
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right" onclick="event.stopPropagation()">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" onclick="toggleStudentDrawer(true, 'Mateo Gómez Arismendy', 'COD-2025-1022', '11°-B', 'Sede Central', 'A+', 'Ninguna reportada', '4.10', 'Oficializada')" title="Ver Ficha Rápida" type="button">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Editar estudiante" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-outline hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Más opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low cursor-pointer transition-colors" onclick="toggleStudentDrawer(true, 'Mariana Lucía Correa Duarte', 'COD-2025-3381', '7°-C', 'Sede Norte', 'B+', 'Asma estacional', '3.65', 'En trámite')">
+<td class="py-3.5 px-space-md text-center" onclick="event.stopPropagation()">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" data-alt="Portrait of a young middle school female student with wavy hair and glasses smiling gently dressed in a white school collared shirt with soft studio illumination" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjqDdX6-PZX3Fa5TX_M7mzemhioNar6NcPvKSr1yXbIBvx0IJPl9HVxZNUXymvYOuOSlIHUbFUA300TMkd4wEvQ5s5wTpQJ31x-ss0P3udQ6s-6-3xXxYqIqb1BKdv8eOef4syZigAkuPuEFOXnFAxhvTsXJNVkLQOD9bwgAdLJjObNxv2FWU7Stru6wC9MPQ7N2phzKMdu-tItj1vwaAZ0HthHzbhWjxA9H9GNnM"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate hover:text-primary">Mariana Lucía Correa D.</span>
+<div class="flex items-center gap-1.5 text-outline">
+<span class="font-label-sm text-label-sm font-mono text-outline">COD-2025-3381</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">m.correa@educonnect.edu.co</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">7°-C</span>
+<span class="block font-label-sm text-label-sm text-outline">Básica Secundaria</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium">Sede Norte</span>
+<span class="block font-label-sm text-label-sm text-outline">Tarde (12:30 - 18:30)</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium truncate block">Diana Duarte Moreno</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[13px]">call</span> +57 (315) 772-9100
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-headline-sm text-headline-sm bg-surface-container text-on-surface font-bold">
+                3.65
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-tertiary-fixed text-on-tertiary-fixed-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Faltan 2 (EPS/Vac)
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-high text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> En trámite
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right" onclick="event.stopPropagation()">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" onclick="toggleStudentDrawer(true, 'Mariana Lucía Correa Duarte', 'COD-2025-3381', '7°-C', 'Sede Norte', 'B+', 'Asma estacional', '3.65', 'En trámite')" title="Ver Ficha Rápida" type="button">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Editar estudiante" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-outline hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Más opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low cursor-pointer transition-colors" onclick="toggleStudentDrawer(true, 'Samuel David Cárdenas', 'COD-2025-0098', '9°-A', 'Sede Central', 'O-', 'Rinitis aguda', '4.92', 'Oficializada')">
+<td class="py-3.5 px-space-md text-center" onclick="event.stopPropagation()">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" data-alt="Portrait of an intelligent teenage boy with neat dark hair and a navy blue sweater holding a digital tablet in an academic research room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7oVRQB66koyFX4WL8Ew_7w01Wnu7SDUBS4NVS-bndVA4wq1LPcunlGK50Hfn-jWlra23f9TN1S56y1MoiVytaU-PmH4pY0QWz2UI0hSecdHBTDVH7i_oZEZz-SdcuPoBidj4EuzLdhxKd0VY1QiZ53tY8qZ8G3-qSg4z6J45M7ZLkVLWhnHZbv4LsbOTYSWiW2Ifz3ciHshg9xfH9s5GbNwHmOumlTHv8bjLPmp0"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate hover:text-primary">Samuel David Cárdenas</span>
+<div class="flex items-center gap-1.5 text-outline">
+<span class="font-label-sm text-label-sm font-mono text-outline">COD-2025-0098</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">s.cardenas@educonnect.edu.co</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-primary">9°-A</span>
+<span class="block font-label-sm text-label-sm text-outline">Básica Secundaria</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium">Sede Central</span>
+<span class="block font-label-sm text-label-sm text-outline">Única (7:00 - 15:30)</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium truncate block">Álvaro Cárdenas León</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[13px]">call</span> +57 (310) 555-1928
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-headline-sm text-headline-sm bg-primary-fixed text-on-primary-fixed font-bold">
+                4.92
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-high text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Completa (8/8)
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-secondary-container/50 text-on-secondary-fixed-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Oficializada
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right" onclick="event.stopPropagation()">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" onclick="toggleStudentDrawer(true, 'Samuel David Cárdenas', 'COD-2025-0098', '9°-A', 'Sede Central', 'O-', 'Rinitis aguda', '4.92', 'Oficializada')" title="Ver Ficha Rápida" type="button">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Editar estudiante" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-outline hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Más opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low cursor-pointer transition-colors" onclick="toggleStudentDrawer(true, 'Gabriela Meza Quintana', 'COD-2025-4509', '6°-B', 'Campus Virtual', 'AB+', 'Alergia a mariscos', '4.38', 'Oficializada')">
+<td class="py-3.5 px-space-md text-center" onclick="event.stopPropagation()">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" data-alt="Portrait of a young female school girl with neat ponytail wearing a crisp white polo shirt sitting behind a modern computer monitor in an e-learning classroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsdkCGNabonnYW5EYZFrQekyZfhruzcGaoxmmC_eqWI3v8JUvCgGXx6QAllwB04-8Y0AzXV2yJRV-iXx7HvuKb0tI5U1gy_477MZrV6T_FYlqg00jvWA_NS7Yafm_J8KMrlt4OXZIQ470S85ml0AsEg0Xyd0jiMDePAJMec4cJuPTpNpBJgPeJ-ziQajsYoE-VYCfGOjdX9WpvTR60lK91jBkrqkdLNCtepdhFt80"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate hover:text-primary">Gabriela Meza Quintana</span>
+<div class="flex items-center gap-1.5 text-outline">
+<span class="font-label-sm text-label-sm font-mono text-outline">COD-2025-4509</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">g.meza@educonnect.edu.co</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">6°-B</span>
+<span class="block font-label-sm text-label-sm text-outline">Secundaria E-Learning</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium">Campus Virtual</span>
+<span class="block font-label-sm text-label-sm text-outline">Flexible Asincrónico</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium truncate block">Elena Quintana Silva</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[13px]">call</span> +57 (318) 293-4411
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-headline-sm text-headline-sm bg-surface-container text-on-surface font-bold">
+                4.38
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-high text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Completa (8/8)
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-secondary-container/50 text-on-secondary-fixed-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Oficializada
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right" onclick="event.stopPropagation()">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" onclick="toggleStudentDrawer(true, 'Gabriela Meza Quintana', 'COD-2025-4509', '6°-B', 'Campus Virtual', 'AB+', 'Alergia a mariscos', '4.38', 'Oficializada')" title="Ver Ficha Rápida" type="button">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Editar estudiante" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-outline hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Más opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-container-low cursor-pointer transition-colors" onclick="toggleStudentDrawer(true, 'Nicolás Esteban Beltrán', 'COD-2025-2210', '10°-C', 'Sede Central', 'O+', 'Ninguna', '3.15', 'En seguimiento')">
+<td class="py-3.5 px-space-md text-center" onclick="event.stopPropagation()">
+<input class="w-4 h-4 rounded text-primary focus:ring-primary/20 cursor-pointer accent-primary" type="checkbox"/>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-space-sm">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm flex-shrink-0" data-alt="Close up portrait photo of a Latin high school boy wearing institutional navy uniform jacket with focused expression in a science laboratory" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCssriggmUziq2rdv_G9Q2rKVUMvyzpYSe7ISxLgOQ6Sr7aspJjTWF7phS0nrJATBdYhWHvorcn6fFGxqSDT2XVKz7k9CzvcMR5-xdup0zhpbNcM8DOAEmfYTv_rAGd34_iCio_KvF2kNFb_iDdfCs9rAs31127NjD0qkLhnB82meqGHi-VxJXyftyQ0HIePVe5RNhMx2qHVVQOXm495hNZoM6KAWZixn3uvb_4U2M"/>
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate hover:text-primary">Nicolás Esteban Beltrán</span>
+<div class="flex items-center gap-1.5 text-outline">
+<span class="font-label-sm text-label-sm font-mono text-outline">COD-2025-2210</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">n.beltran@educonnect.edu.co</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">10°-C</span>
+<span class="block font-label-sm text-label-sm text-outline">Media Académica</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium">Sede Central</span>
+<span class="block font-label-sm text-label-sm text-outline">Única (7:00 - 15:30)</span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm font-medium truncate block">Sonia Beltrán Torres</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[13px]">call</span> +57 (312) 604-1830
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-center">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-headline-sm text-headline-sm bg-error-container text-on-error-container font-bold">
+                3.15
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-surface-container-high text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Completa (8/8)
+              </span>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-error-container text-on-error-container">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Condicional
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right" onclick="event.stopPropagation()">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" onclick="toggleStudentDrawer(true, 'Nicolás Esteban Beltrán', 'COD-2025-2210', '10°-C', 'Sede Central', 'O+', 'Ninguna', '3.15', 'Condicional')" title="Ver Ficha Rápida" type="button">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Editar estudiante" type="button">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-outline hover:text-on-surface hover:bg-surface-container rounded transition-colors" title="Más opciones" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / SaaS Pagination Engine -->
+<div class="px-space-md py-3.5 bg-surface-container-lowest flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-outline">Filas por página:</span>
+<select class="bg-surface-container-low text-on-surface font-label-sm text-label-sm rounded-lg px-2.5 py-1 focus:outline-none focus:ring-1 focus:ring-primary">
+<option>10</option>
+<option selected="">25</option>
+<option>50</option>
+<option>100</option>
+</select>
+</div>
+<span class="hidden sm:inline font-body-sm text-body-sm text-outline">Mostrando 1 - 25 de 3,842</span>
+</div>
+<!-- Pagination Buttons -->
+<div class="flex items-center gap-1 self-end sm:self-center">
+<button class="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container disabled:opacity-40 transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">first_page</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container disabled:opacity-40 transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<div class="flex items-center gap-1 mx-1 font-label-md text-label-md">
+<button class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-bold flex items-center justify-center shadow-sm" type="button">1</button>
+<button class="w-8 h-8 rounded-lg text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" type="button">2</button>
+<button class="w-8 h-8 rounded-lg text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" type="button">3</button>
+<span class="px-1 text-outline font-bold">...</span>
+<button class="w-8 h-8 rounded-lg text-on-surface hover:bg-surface-container flex items-center justify-center transition-colors" type="button">154</button>
+</div>
+<button class="p-1.5 rounded-lg text-on-surface hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface hover:text-primary hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">last_page</span>
+</button>
+</div>
+</div>
+</div>
+<!-- SLIDE-OVER DRAWER: DETALLE RÁPIDO DE ESTUDIANTE -->
+<div class="fixed inset-y-0 right-0 z-50 w-full max-w-lg bg-surface-container-lowest shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out" id="studentDrawer">
+<!-- Drawer Header -->
+<div class="p-space-lg bg-inverse-surface text-inverse-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-inverse-on-surface font-semibold tracking-tight">Expediente Rápido</h2>
+<span class="font-label-sm text-label-sm text-outline-variant">Matrícula Vigente • Periodo 2025</span>
+</div>
+</div>
+<button class="p-1.5 text-outline-variant hover:text-inverse-on-surface hover:bg-surface-variant/10 rounded-lg transition-colors" onclick="toggleStudentDrawer(false)" title="Cerrar panel" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Drawer Content Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-space-lg flex flex-col gap-space-md">
+<!-- Profile Card -->
+<div class="flex items-start gap-space-md p-space-md bg-surface-container-low rounded-xl">
+<img class="w-16 h-16 rounded-xl object-cover shadow-sm flex-shrink-0" data-alt="Detailed portrait photo of a high school student in school uniform with high definition clarity and soft indoor light" id="drawerAvatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7NL7nalbByn2EgVPGOXVp4zZXAqcv8wPKjEMsKzqUuMN34-U7I81qaxMEzh4OeViaNkzSiJCipQ0QkYkkOw8kEDILRHk0JA5tE3Vo1O9n_iMzcaaHMjedagbe0l0v7q5l_S4ZvbVuO0lHfPEg0xWCI1QsDEcXnjMMKdPh_6mwM1gbEl_Xdk8nswzrCpo7xbDUgvJhVMS7mneHpsxyhRQKza2-5y9zxAdJmIY3FJ4"/>
+<div class="flex flex-col min-w-0">
+<span class="self-start inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm font-semibold bg-secondary-container/50 text-on-secondary-fixed-variant mb-1" id="drawerStatusBadge">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span> Oficializada
+          </span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface truncate" id="drawerName">Valeria Sofía Ramos</h3>
+<div class="flex items-center gap-2 text-outline font-label-sm text-label-sm mt-0.5">
+<span class="font-mono text-primary font-bold" id="drawerCode">COD-2025-0419</span>
+<span>•</span>
+<span id="drawerGrade">10°-A</span>
+<span>•</span>
+<span id="drawerCampus">Sede Central</span>
+</div>
+</div>
+</div>
+<!-- Quick Metrics Ribbon inside Drawer -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-3 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Promedio PGA</span>
+<span class="font-headline-md text-headline-md font-bold text-primary" id="drawerPGA">4.85</span>
+</div>
+<span class="material-symbols-outlined text-primary text-[28px]">insights</span>
+</div>
+<div class="p-3 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline uppercase font-semibold">Asistencia</span>
+<span class="font-headline-md text-headline-md font-bold text-on-surface">97.8%</span>
+</div>
+<span class="material-symbols-outlined text-secondary text-[28px]">fact_check</span>
+</div>
+</div>
+<!-- Emergency & Health Data Block -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Ficha Médica &amp; Alergias</span>
+<span class="material-symbols-outlined text-error text-[18px]">medical_services</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm pt-1">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">Grupo Sanguíneo &amp; RH</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface" id="drawerBlood">O+</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline">Alergias Conocidas</span>
+<span class="font-body-sm text-body-sm font-semibold text-error truncate" id="drawerAllergies">Polen / Penicilina</span>
+</div>
+</div>
+<div class="flex flex-col mt-2 pt-2 bg-surface-container-low p-2.5 rounded-lg">
+<span class="font-label-sm text-label-sm text-outline">EPS Aseguradora</span>
+<span class="font-body-sm text-body-sm font-medium text-on-surface">Sura Medicina Prepagada (Póliza #8829-CO)</span>
+</div>
+</div>
+<!-- Guardians & Emergency Contact Section -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold">Acudientes y Contacto SOS</span>
+<span class="material-symbols-outlined text-primary text-[18px]">family_restroom</span>
+</div>
+<div class="space-y-2.5">
+<div class="flex items-start justify-between p-2.5 bg-surface-container-low rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Dra. Claudia Patricia Peña (Madre)</span>
+<span class="font-body-sm text-body-sm text-outline">Acudiente Principal / Responsable Económico</span>
+<span class="font-label-sm text-label-sm text-primary font-mono mt-1">+57 (311) 849-2041</span>
+</div>
+<a class="p-2 bg-primary-container text-on-primary rounded-lg shadow-sm hover:bg-primary transition-colors" href="tel:3118492041">
+<span class="material-symbols-outlined text-[16px]">call</span>
+</a>
+</div>
+<div class="flex items-start justify-between p-2.5 bg-surface-container-low rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Ing. Carlos Mario Ramos (Padre)</span>
+<span class="font-body-sm text-body-sm text-outline">Contacto Alterno de Emergencia</span>
+<span class="font-label-sm text-label-sm text-primary font-mono mt-1">+57 (314) 220-9182</span>
+</div>
+<a class="p-2 bg-surface-container text-on-surface hover:text-primary rounded-lg transition-colors" href="tel:3142209182">
+<span class="material-symbols-outlined text-[16px]">call</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Documental Status Track -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-bold mb-1">Checklist Documentación Oficial</span>
+<div class="space-y-1.5 text-body-sm">
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span>Tarjeta de Identidad (TI)</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-mono">PDF Validador</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span>Certificado de Calificaciones 9°</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-mono">Autenticado</span>
+</div>
+<div class="flex items-center justify-between p-2 rounded bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span>Paz y Salvo Colegio Anterior</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline font-mono">Al día</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Drawer Footer Quick Access Actions -->
+<div class="p-space-md bg-surface-container-high flex flex-col gap-space-xs">
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">qr_code_2</span>
+<span>Carnet Digital QR</span>
+</button>
+<button class="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md shadow-sm hover:bg-surface-container transition-all" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">visibility</span>
+<span>Ver Observador</span>
+</button>
+</div>
+<button class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-md hover:bg-primary-container transition-all active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-[18px]">folder_shared</span>
+<span>Abrir Expediente Completo (SIMAT)</span>
+</button>
+</div>
+</div>
+<!-- Drawer Backdrop Overlay -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-40 hidden transition-opacity" id="drawerBackdrop" onclick="toggleStudentDrawer(false)"></div>
+</div>
+<!-- Inline Interactive Micro-Interaction Script -->
+<script>
+  function toggleStudentDrawer(show, name, code, grade, campus, blood, allergies, pga, status) {
+    const drawer = document.getElementById('studentDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    
+    if (show) {
+      if (name) document.getElementById('drawerName').innerText = name;
+      if (code) document.getElementById('drawerCode').innerText = code;
+      if (grade) document.getElementById('drawerGrade').innerText = grade;
+      if (campus) document.getElementById('drawerCampus').innerText = campus;
+      if (blood) document.getElementById('drawerBlood').innerText = blood;
+      if (allergies) document.getElementById('drawerAllergies').innerText = allergies;
+      if (pga) document.getElementById('drawerPGA').innerText = pga;
+      
+      const badge = document.getElementById('drawerStatusBadge');
+      if (status && badge) {
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${status === 'Condicional' ? 'bg-error' : 'bg-primary-container'}"></span> ${status}`;
+      }
+
+      backdrop.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        drawer.classList.remove('translate-x-full');
+      });
+    } else {
+      drawer.classList.add('translate-x-full');
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+      }, 300);
+    }
+  }
+
+  // Keyboard shortcut support (ESC to close drawer)
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      toggleStudentDrawer(false);
+    }
+  });
+</script></main></div></body></html>

@@ -5,10 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "grados")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Grado {
 
@@ -16,15 +14,12 @@ public class Grado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 20)
-    private String codigo;
-
-    @Column(nullable = false, unique = true, length = 80)
+    @Column(nullable = false, unique = true, length = 30)
     private String nombre;
 
     @Column(nullable = false, length = 30)
-    private String nivel; // PREESCOLAR, PRIMARIA, SECUNDARIA, MEDIA
+    private String nivel;
 
-    @Column(name = "orden_jerarquico", nullable = false, unique = true)
-    private Integer ordenJerarquico;
+    @Column(name = "numero_orden", nullable = false, unique = true)
+    private Integer numeroOrden;
 }

@@ -2,16 +2,13 @@ package com.educonnect.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comunicados")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Comunicado {
 
@@ -19,31 +16,39 @@ public class Comunicado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 200)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Usuario autor;
+
+    @Column(nullable = false, length = 180)
     private String titulo;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String contenido;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "remitente_id", nullable = false)
-    private Usuario remitente;
+    @Builder.Default
+    @Column(name = "destinatario_rol", nullable = false, length = 30)
+    private String destinatarioRol = "TODOS";
 
-    @Column(name = "dirigido_a", nullable = false, length = 30)
-    private String dirigidoA; // TODOS, TUTORES, ESTUDIANTES, DOCENTES
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grado_id")
-    private Grado grado;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "grupo_especifico_id")
+    private Grupo grupoEspecifico;
 
     @Builder.Default
-    @Column(name = "es_urgente")
-    private boolean esUrgente = false;
+    @Column(nullable = false, length = 20)
+    private String importancia = "NORMAL";
 
-    @Column(name = "adjunto_url", columnDefinition = "TEXT")
-    private String adjuntoUrl;
+    @Column(name = "archivo_adjunto_url")
+    private String archivoAdjuntoUrl;
 
-    @CreationTimestamp
-    @Column(name = "fecha_publicacion", updatable = false)
-    private LocalDateTime fechaPublicacion;
+    @Builder.Default
+    @Column(name = "fecha_publicacion", nullable = false)
+    private LocalDateTime fechaPublicacion = LocalDateTime.now();
+
+    @Column(name = "fecha_expiracion")
+    private LocalDate fechaExpiracion;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean activo = true;
 }

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"secondary-fixed-dim":"#bac6e9","inverse-on-surface":"#edf1f8","outline-variant":"#c3c5d9","on-error":"#ffffff","surface-container-highest":"#dfe3ea","on-surface-variant":"#434656","on-tertiary-fixed":"#001a42","on-tertiary-fixed-variant":"#004395","on-surface":"#171c21","secondary-fixed":"#d9e2ff","primary-fixed":"#dce1ff","error":"#ba1a1a","surface-container":"#eaeef5","on-primary":"#ffffff","on-secondary":"#ffffff","error-container":"#ffdad6","surface-container-lowest":"#ffffff","on-tertiary-container":"#ebefff","primary-fixed-dim":"#b6c4ff","primary":"#0045d0","background":"#f7f9ff","secondary-container":"#ced9fe","on-tertiary":"#ffffff","surface-variant":"#dfe3ea","on-error-container":"#93000a","surface-dim":"#d6dae1","on-secondary-container":"#535f7d","surface":"#f7f9ff","tertiary-fixed-dim":"#adc6ff","outline":"#737688","on-primary-container":"#edeeff","surface-bright":"#f7f9ff","on-primary-fixed":"#001550","surface-tint":"#004ee7","surface-container-high":"#e4e8ef","on-secondary-fixed-variant":"#3b4664","primary-container":"#175cff","tertiary-fixed":"#d8e2ff","on-secondary-fixed":"#0e1b36","inverse-surface":"#2c3136","tertiary-container":"#0c68db","on-primary-fixed-variant":"#003ab1","inverse-primary":"#b6c4ff","tertiary":"#0050af","on-background":"#171c21","secondary":"#525e7d","surface-container-low":"#f0f4fb"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter":"1.5rem","gutter-mobile":"1rem","margin-mobile":"1rem","margin":"2rem","space-md":"1rem","space-xl":"2rem","space-xs":"0.25rem","space-sm":"0.5rem","space-lg":"1.5rem"},"fontFamily":{"display-lg-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"metric-display":["Plus Jakarta Sans"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"headline-xl":["Plus Jakarta Sans"],"label-sm":["Inter"],"headline-md":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-md":["Inter"]},"fontSize":{"display-lg-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"metric-display":["28px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"label-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-xl-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}]}}}}</script></head><body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed"><aside class="fixed left-0 top-0 h-full w-72 bg-inverse-surface text-inverse-on-surface z-50 flex flex-col shadow-[0_1px_8px_rgba(0,0,0,0.08)] overflow-hidden"><div class="p-space-lg flex flex-col gap-space-sm bg-inverse-surface"><div class="flex items-center gap-space-sm"><div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary font-headline-lg text-headline-lg shadow-sm"><span class="material-symbols-outlined text-[24px]">school</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm tracking-tight text-surface-container-lowest leading-none">EduConnect</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary-fixed-dim mt-1">Executive Core</span></div></div><div class="mt-space-sm p-space-sm rounded-lg bg-surface-container-highest/10 flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-fixed"><span class="material-symbols-outlined text-[18px]">verified_user</span></div><div class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm text-surface-container-lowest truncate">Rectoría General</span><span class="font-body-sm text-[11px] text-outline-variant truncate">Dra. Elena Valenzuela</span></div></div></div><nav class="flex-1 px-space-md py-space-sm overflow-y-auto space-y-space-md" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm"><div class="space-y-space-xs"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant">Panel Institucional</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="dashboard-estrategico" href="#"><span class="material-symbols-outlined text-[20px]">insights</span><span class="font-body-md text-body-md">Dashboard Estratégico</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="metricas-institucionales" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span class="font-body-md text-body-md">Métricas Institucionales</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="rendimiento-academico" href="#"><span class="material-symbols-outlined text-[20px]">leaderboard</span><span class="font-body-md text-body-md">Rendimiento Académico</span></a></div><div class="space-y-space-xs"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant">Gobierno Institucional</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="resoluciones-rectorales" href="#"><span class="material-symbols-outlined text-[20px]">gavel</span><span class="font-body-md text-body-md">Resoluciones Rectorales</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="actos-administrativos" href="#"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md">Actos Administrativos</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="consejo-directivo" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span class="font-body-md text-body-md">Consejo Directivo</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="comisiones-de-evaluacion-y-promocion" href="#"><span class="material-symbols-outlined text-[20px]">how_to_reg</span><span class="font-body-md text-body-md">Comisiones de Eval. y Promoción</span></a></div><div class="space-y-space-xs"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant">Seguimiento</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="rendimiento-por-nivel" href="#"><span class="material-symbols-outlined text-[20px]">stacked_bar_chart</span><span class="font-body-md text-body-md">Rendimiento por Nivel</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="indicadores-de-docentes" href="#"><span class="material-symbols-outlined text-[20px]">badge</span><span class="font-body-md text-body-md">Indicadores de Docentes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="indicadores-de-estudiantes" href="#"><span class="material-symbols-outlined text-[20px]">person_search</span><span class="font-body-md text-body-md">Indicadores de Estudiantes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="asistencia-institucional" href="#"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-body-md text-body-md">Asistencia Institucional</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="alertas-institucionales" href="#"><span class="material-symbols-outlined text-[20px]">notification_important</span><span class="font-body-md text-body-md">Alertas Institucionales</span></a></div><div class="space-y-space-xs"><div class="px-space-sm py-1 font-label-sm text-label-sm uppercase tracking-wider text-outline-variant">Sistema</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="auditoria" href="#"><span class="material-symbols-outlined text-[20px]">history</span><span class="font-body-md text-body-md">Auditoría</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="mipa-inteligencia-institucional" href="#"><span class="material-symbols-outlined text-[20px]">psychology</span><span class="font-body-md text-body-md">MIPA / Inteligencia Institucional</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px]">summarize</span><span class="font-body-md text-body-md">Reportes</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-surface-container-highest hover:bg-surface-container-highest/10 hover:text-surface-container-lowest transition-colors" data-path="configuracion-de-rectoria" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-body-md text-body-md">Configuración de Rectoría</span></a></div></nav><div class="p-space-md bg-inverse-surface shadow-[0_-1px_6px_rgba(0,0,0,0.1)] flex items-center justify-between"><div class="flex items-center gap-space-xs text-outline-variant"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-label-sm text-label-sm text-surface-container-highest">Sincronización Ministerial</span></div><span class="font-label-sm text-[10px] text-outline-variant">v4.2 Activo</span></div></aside><div class="pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(7,20,47,0.04)] z-40 px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md flex-1 max-w-2xl"><div class="relative flex items-center bg-surface-container px-space-sm py-1.5 rounded-lg text-on-surface-variant"><span class="material-symbols-outlined text-[18px] mr-1 text-primary">calendar_today</span><span class="font-label-md text-label-md text-on-surface">Periodo 2025-I</span><span class="material-symbols-outlined text-[16px] ml-1 text-outline">arrow_drop_down</span></div><div class="flex-1 relative flex items-center bg-surface-container-low rounded-lg px-space-md py-1.5 focus-within:ring-2 focus-within:ring-primary/20 transition-all"><span class="material-symbols-outlined text-outline text-[20px] mr-2">search</span><input class="w-full bg-transparent text-on-surface placeholder:text-outline focus:outline-none font-body-sm text-body-sm" placeholder="Buscar directivas, resoluciones o actas..." type="text"/><kbd class="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-[10px]">⌘K</kbd></div></div><div class="flex items-center gap-space-md"><div class="hidden xl:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low rounded-full"><span class="material-symbols-outlined text-[16px] text-tertiary-container">cloud_done</span><span class="font-label-sm text-label-sm text-on-surface-variant">Ministerio: Sincronizado</span></div><div class="flex items-center gap-space-xs"><button class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md shadow-sm hover:opacity-95 transition-opacity" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span class="hidden sm:inline">Emitir Resolución</span></button><button class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error"></span></button></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="flex flex-col text-right hidden md:flex"><span class="font-label-md text-label-md text-on-surface leading-tight">Dra. Elena Valenzuela</span><span class="font-label-sm text-label-sm text-on-surface-variant">Rectora General</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface flex-1 px-gutter py-margin"><div class="flex flex-col w-full space-y-space-xl">
+<!-- 1. BANNER DE BIENVENIDA Y LIDERAZGO EJECUTIVO -->
+<section class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-lg shadow-sm">
+<div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
+<div class="absolute right-96 -bottom-24 h-56 w-56 rounded-full bg-tertiary-container/5 blur-2xl pointer-events-none"></div>
+<div class="relative flex flex-col xl:flex-row xl:items-center xl:justify-between gap-space-lg">
+<div class="flex flex-col space-y-space-sm max-w-3xl">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Gobierno Escolar Activo
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px] text-primary">verified</span>
+            Acreditación Internacional IB Vigente
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+            Quórum Consejo Directivo Completo (9/9)
+          </span>
+</div>
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+            Bienvenida, Dra. Elena Valenzuela
+          </h1>
+<p class="font-body-lg text-body-lg text-secondary mt-1">
+            Rectoría General &amp; Dirección Estratégica • Periodo Lectivo 2025-I
+          </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs pt-1">
+<button class="px-3 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm shadow-sm transition-all hover:bg-primary" type="button">
+            Ciclo Actual 2025-I
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-sm text-label-sm transition-all hover:bg-surface-container-high hover:text-on-surface" type="button">
+            Comparativa Interanual
+          </button>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-sm text-label-sm transition-all hover:bg-surface-container-high hover:text-on-surface" type="button">
+            Corte Evaluativo 1
+          </button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm shrink-0">
+<button class="inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded-lg bg-surface-container-lowest text-on-surface border border-outline-variant/40 hover:bg-surface-container-low transition-colors shadow-sm font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">assignment_turned_in</span>
+<span>Generar Informe de Rendición de Cuentas</span>
+</button>
+<button class="inline-flex items-center justify-center gap-2 px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-md hover:shadow-primary/30 hover:scale-[1.01] active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>Emitir Resolución Rectoral</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 2. MATRIZ DE RESUMEN INSTITUCIONAL & KPIS ESTRATÉGICOS -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-md hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">diversity_3</span>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+          +6.4%
+        </span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-secondary block">Total Matriculados</span>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-metric-display text-metric-display text-on-surface">3,842</span>
+<span class="font-body-sm text-body-sm text-outline">estudiantes</span>
+</div>
+</div>
+<div class="pt-2">
+<div class="flex justify-between items-center text-label-sm font-label-sm text-secondary mb-1">
+<span>Cobertura de Cupos</span>
+<span class="font-semibold text-on-surface">98.2%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 98.2%;"></div>
+</div>
+<div class="mt-2.5 flex items-center justify-between text-outline text-[11px] font-label-sm">
+<span>Meta Inst.: 3,610</span>
+<span class="text-primary font-medium">Capacidad Máx: 3,910</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-md hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[22px]">workspace_premium</span>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary-container bg-primary-fixed/60 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+          +0.18 pt
+        </span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-secondary block">Rendimiento Académico General</span>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-metric-display text-metric-display text-on-surface">4.52</span>
+<span class="font-body-sm text-body-sm text-outline">/ 5.0</span>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md inline-block">Nivel Sobresaliente</span>
+<span class="font-body-sm text-[11px] text-secondary mt-1">vs 4.34 (2024-II)</span>
+</div>
+<div class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-12 h-12 -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="90.4, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-label-sm text-[10px] font-bold text-on-surface">90%</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-md hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[22px]">event_available</span>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+          Récord Anual
+        </span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-secondary block">Asistencia y Permanencia</span>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-metric-display text-metric-display text-on-surface">97.4%</span>
+<span class="font-body-sm text-body-sm text-outline">retención</span>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-body-sm text-[11px] text-secondary">Riesgo de Deserción:</span>
+<span class="font-label-sm text-label-sm text-emerald-600 font-semibold">0.8% (Mitigado por MIPA)</span>
+</div>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+<span class="font-label-sm text-[10px] uppercase font-bold tracking-wider">Óptimo</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-md hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-lg bg-error-container/40 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-error bg-error-container/60 px-2 py-0.5 rounded-full font-semibold">
+          Atención Prioritaria
+        </span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-secondary block">Alertas Institucionales Críticas</span>
+<div class="flex items-baseline gap-2 mt-0.5">
+<span class="font-metric-display text-metric-display text-on-surface">4</span>
+<span class="font-body-sm text-body-sm text-outline">casos en radar</span>
+</div>
+</div>
+<div class="pt-2 flex flex-col space-y-1">
+<div class="flex items-center justify-between text-body-sm text-[12px] text-secondary">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>2 Convivencia Tipo II</span>
+<span class="text-on-surface font-medium">Seguimiento</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-[12px] text-secondary">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-error"></span>2 Inasistencia Crítica</span>
+<span class="text-on-surface font-medium">Grado 10°</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. NÚCLEO DE VISIÓN ANALÍTICA (8 cols + 4 cols) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- COLUMNA IZQUIERDA (8 COLS) -->
+<div class="lg:col-span-8 flex flex-col space-y-space-lg">
+<!-- A) Gráfica Ejecutiva de Rendimiento por Nivel -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Métricas Académicas Clave</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-0.5">
+              Evolución y Rendimiento Consolidado por Nivel
+            </h2>
+</div>
+<div class="flex items-center gap-1 p-1 bg-surface-container rounded-lg">
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest shadow-xs text-on-surface font-label-sm text-label-sm" type="button">Promedio Ponderado</button>
+<button class="px-2.5 py-1 rounded text-secondary hover:text-on-surface font-label-sm text-label-sm" type="button">Desviación Estándar</button>
+</div>
+</div>
+<!-- Niveles resumen pills -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm pt-2">
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-body-sm text-[12px] text-secondary">Primaria Regular</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold mt-0.5">4.68</span>
+<span class="font-label-sm text-[10px] text-emerald-600 mt-1 flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">north_east</span>+0.12 vs 2024</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-body-sm text-[12px] text-secondary">Básica Secundaria</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold mt-0.5">4.45</span>
+<span class="font-label-sm text-[10px] text-primary flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">drag_handle</span>Meta Estable</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-body-sm text-[12px] text-secondary">Media Académica</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold mt-0.5">4.58</span>
+<span class="font-label-sm text-[10px] text-emerald-600 mt-1 flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">north_east</span>+0.21 vs 2024</span>
+</div>
+<div class="p-space-sm rounded-lg bg-primary-fixed/30 flex flex-col">
+<span class="font-body-sm text-[12px] text-primary font-medium">Diploma IB</span>
+<span class="font-headline-md text-headline-md text-primary font-bold mt-0.5">4.72</span>
+<span class="font-label-sm text-[10px] text-tertiary-container font-semibold mt-1">Nivel Superior IB</span>
+</div>
+</div>
+<!-- SVG Gráfico Comparativo Avanzado -->
+<div class="relative w-full h-64 mt-2 pt-4">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 760 220">
+<!-- Gridlines horizontales -->
+<line class="text-surface-container" stroke="currentColor" stroke-dasharray="4,4" stroke-width="1" x1="40" x2="740" y1="20" y2="20"></line>
+<line class="text-surface-container" stroke="currentColor" stroke-dasharray="4,4" stroke-width="1" x1="40" x2="740" y1="70" y2="70"></line>
+<line class="text-surface-container" stroke="currentColor" stroke-dasharray="4,4" stroke-width="1" x1="40" x2="740" y1="120" y2="120"></line>
+<line class="text-surface-container" stroke="currentColor" stroke-dasharray="4,4" stroke-width="1" x1="40" x2="740" y1="170" y2="170"></line>
+<!-- Y Axis Labels -->
+<text class="font-label-sm text-[10px] fill-outline" text-anchor="end" x="30" y="24">5.0</text>
+<text class="font-label-sm text-[10px] fill-outline" text-anchor="end" x="30" y="74">4.5</text>
+<text class="font-label-sm text-[10px] fill-outline" text-anchor="end" x="30" y="124">4.0</text>
+<text class="font-label-sm text-[10px] fill-outline" text-anchor="end" x="30" y="174">3.5</text>
+<!-- Curva 2024-I (Gris suave) -->
+<path d="M 80 105 C 180 110, 260 120, 360 115 C 460 110, 560 98, 680 90" fill="none" stroke="#BAC6E9" stroke-dasharray="5,5" stroke-width="2.5"></path>
+<!-- Curva 2024-II (Azul secundario) -->
+<path d="M 80 95 C 180 98, 260 90, 360 85 C 460 82, 560 75, 680 68" fill="none" stroke="#525E7D" stroke-width="2.5"></path>
+<!-- Curva 2025-I Proyectada & Consolidada (Azul Eléctrico Luminoso) -->
+<path d="M 80 75 C 180 70, 260 62, 360 58 C 460 50, 560 42, 680 34" fill="none" stroke="#175CFF" stroke-width="3.5"></path>
+<!-- Gradient Area under 2025-I -->
+<defs>
+<lineargradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#175CFF" stop-opacity="0.18"></stop>
+<stop offset="100%" stop-color="#175CFF" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<path d="M 80 75 C 180 70, 260 62, 360 58 C 460 50, 560 42, 680 34 L 680 170 L 80 170 Z" fill="url(#areaGradient)"></path>
+<!-- Marcadores interactivos -->
+<circle cx="80" cy="75" fill="#175CFF" r="4.5" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle cx="360" cy="58" fill="#175CFF" r="4.5" stroke="#FFFFFF" stroke-width="2"></circle>
+<circle cx="680" cy="34" fill="#175CFF" r="5" stroke="#FFFFFF" stroke-width="2.5"></circle>
+<!-- X Axis Labels -->
+<text class="font-label-sm text-[11px] fill-secondary font-medium" text-anchor="middle" x="80" y="200">Primaria (1°-5°)</text>
+<text class="font-label-sm text-[11px] fill-secondary font-medium" text-anchor="middle" x="360" y="200">Secundaria (6°-9°)</text>
+<text class="font-label-sm text-[11px] fill-secondary font-medium" text-anchor="middle" x="680" y="200">Media &amp; Bachillerato IB</text>
+</svg>
+</div>
+<!-- Leyenda de la gráfica -->
+<div class="flex flex-wrap items-center justify-between pt-2 border-t border-surface-container/60 gap-space-sm text-body-sm text-[12px]">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-1.5 text-on-surface font-medium">
+<span class="w-3 h-3 rounded-full bg-primary-container inline-block"></span>
+              2025-I Consolidado (Actual)
+            </span>
+<span class="flex items-center gap-1.5 text-secondary">
+<span class="w-3 h-1 bg-secondary inline-block rounded"></span>
+              2024-II Cierre
+            </span>
+<span class="flex items-center gap-1.5 text-outline">
+<span class="w-3 h-1 border-b border-dashed border-secondary-fixed-dim inline-block"></span>
+              2024-I Histórico
+            </span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-container bg-tertiary-fixed/30 px-2 py-0.5 rounded">
+            Meta Ministerial Superada (+8.4%)
+          </span>
+</div>
+</div>
+<!-- B) Panel de Comisiones de Evaluación y Promoción -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">how_to_reg</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+                Comisiones de Evaluación y Promoción
+              </h2>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5">
+              Estado de deliberaciones y dictámenes del Primer Corte Evaluativo
+            </p>
+</div>
+<a class="inline-flex items-center gap-1 font-label-md text-label-md text-primary hover:text-tertiary transition-colors" href="#">
+<span>Ver Actas de Comisiones en Pleno</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+<!-- Item 1 -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col justify-between space-y-space-sm">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Grado 9°</span>
+<span class="font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Dictamen Favorable</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                Aprobación del 98% de la cohorte. Ningún estudiante en riesgo crítico de repitencia.
+              </p>
+</div>
+<div class="pt-2 text-outline text-[11px] font-label-sm flex items-center justify-between">
+<span>Acta Ref: #CP-09-2025</span>
+<span class="text-on-surface font-semibold">Listo p/ Firma</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col justify-between space-y-space-sm">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Grado 11° IB</span>
+<span class="font-label-sm text-label-sm text-primary-container bg-primary-fixed/60 px-2 py-0.5 rounded-full">24 Postulaciones</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                Candidatos a Beca de Excelencia Nacional y Exoneración de Derechos de Grado 2025.
+              </p>
+</div>
+<div class="pt-2 text-outline text-[11px] font-label-sm flex items-center justify-between">
+<span>Consejo Académico</span>
+<span class="text-primary font-semibold">En Votación</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col justify-between space-y-space-sm">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Grado 7°</span>
+<span class="font-label-sm text-label-sm text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full">Plan de Refuerzo</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                Activación de tutorías personalizadas en Ciencias Naturales y Álgebra Temprana.
+              </p>
+</div>
+<div class="pt-2 text-outline text-[11px] font-label-sm flex items-center justify-between">
+<span>Plazo: 22 de Abril</span>
+<span class="text-amber-700 font-semibold">En Proceso</span>
+</div>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_clock</span>
+<span class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-semibold">Fecha Límite Rectoral:</strong> Refrendación y firma digital de actas de promoción anticipada vence en <strong>4 días</strong>.
+            </span>
+</div>
+<button class="px-3 py-1 bg-surface-container-lowest rounded-md text-primary font-label-sm text-label-sm shadow-xs hover:bg-primary hover:text-on-primary transition-all" type="button">
+            Firmar en Lote (14 Actas)
+          </button>
+</div>
+</div>
+</div>
+<!-- COLUMNA DERECHA (4 COLS) -->
+<div class="lg:col-span-4 flex flex-col space-y-space-lg">
+<!-- A) Resumen de Resoluciones Rectorales y Actos Administrativos -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">gavel</span>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">
+              Actos Administrativos
+            </h2>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-surface-container text-secondary font-medium">Año 2025</span>
+</div>
+<div class="flex flex-col space-y-space-sm">
+<!-- Resolucion 1 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-primary">Res. 042-2025</span>
+<span class="font-label-sm text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Vigente • Firmada</span>
+</div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface mt-1">
+              Adopción de Nuevas Mallas Curriculares STEM &amp; Inteligencia Artificial
+            </p>
+<div class="flex items-center justify-between mt-2 text-outline text-[11px]">
+<span>Registrada: 12 Mar 2025</span>
+<a class="text-primary hover:underline font-label-sm" href="#">Descargar PDF</a>
+</div>
+</div>
+<!-- Resolucion 2 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors border-l-4 border-l-primary">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Res. 043-2025</span>
+<span class="font-label-sm text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded-full font-semibold">Pendiente de Firma</span>
+</div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface mt-1">
+              Aprobación de Salidas Pedagógicas y Laboratorios de Campo 2025-I
+            </p>
+<div class="flex items-center justify-between mt-2 text-outline text-[11px]">
+<span>Revisada por Asesoría Jurídica</span>
+<button class="text-primary font-semibold hover:underline font-label-sm" type="button">Revisar y Firmar</button>
+</div>
+</div>
+<!-- Resolucion 3 -->
+<div class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">Res. 044-2025</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant bg-surface-container-highest px-2 py-0.5 rounded-full">Publicada</span>
+</div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface mt-1">
+              Conformación Comisión Institucional de Convivencia y Mediación
+            </p>
+<div class="flex items-center justify-between mt-2 text-outline text-[11px]">
+<span>Notificada a Comunidad</span>
+<a class="text-primary hover:underline font-label-sm" href="#">Ver Folio #189</a>
+</div>
+</div>
+</div>
+<button class="w-full py-2.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">menu_book</span>
+<span>Libro Digital de Resoluciones (Foliado)</span>
+</button>
+</div>
+<!-- B) Radar de Alertas y Gobernanza Institucional -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm flex flex-col space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-[20px]">radar</span>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">
+              Radar de Gobernanza
+            </h2>
+</div>
+<span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+</div>
+<div class="flex flex-col space-y-space-sm">
+<div class="p-space-sm rounded-lg bg-amber-50/60 flex flex-col space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-amber-900">Bienestar &amp; Carga Docente</span>
+<span class="font-label-sm text-[10px] text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded font-medium">Grado 10°B</span>
+</div>
+<p class="font-body-sm text-body-sm text-amber-950">
+              Desbalance de 4 horas lectivas detectado en el área de Físico-Matemáticas tras incapacidad médica docente.
+            </p>
+</div>
+<div class="p-space-sm rounded-lg bg-error-container/20 flex flex-col space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-error">Vencimiento Radicación PEI</span>
+<span class="font-label-sm text-[10px] text-error font-bold">6 días hábiles</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Radicación de la actualización curricular anual ante el Ministerio / Secretaría de Educación Distrital.
+            </p>
+</div>
+</div>
+<button class="w-full py-2.5 rounded-lg bg-error text-on-error font-label-md text-label-md flex items-center justify-center gap-1.5 hover:bg-error/90 transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+<span>Convocar Comité Extraordinario</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 4. FRISIO INFERIOR: INDICADORES ESTRATÉGICOS & CONSEJO DIRECTIVO -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Panel 1: Consejo Directivo -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">account_balance</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Consejo Directivo</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">75% Ejecutado</span>
+</div>
+<div>
+<div class="flex justify-between items-baseline mb-1">
+<span class="font-metric-display text-metric-display text-on-surface">9 / 12</span>
+<span class="font-body-sm text-body-sm text-secondary">Acuerdos Cumplidos</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 75%;"></div>
+</div>
+</div>
+<p class="font-body-sm text-[12px] text-secondary">
+        3 en desarrollo: Dotación de Laboratorio Nanotecnológico y Fondo de Becas Talento 2025.
+      </p>
+</div>
+<!-- Panel 2: Clima y Cumplimiento Docente -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">assignment_turned_in</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Cuerpo Pedagógico</span>
+</div>
+<span class="font-label-sm text-label-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-semibold">Excelente</span>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<span class="font-metric-display text-metric-display text-on-surface">98.9%</span>
+<span class="font-body-sm text-body-sm text-secondary block">Cumplimiento de Malla</span>
+</div>
+<div class="text-right">
+<span class="font-metric-display text-metric-display text-primary">4.88</span>
+<span class="font-body-sm text-body-sm text-secondary block">Satisfacción Docente</span>
+</div>
+</div>
+<p class="font-body-sm text-[12px] text-secondary">
+        134 docentes activos, 100% de microcurrículos cargados en EduConnect Cloud.
+      </p>
+</div>
+<!-- Panel 3: MIPA / Inteligencia Predictiva -->
+<div class="bg-gradient-to-br from-primary-container to-tertiary-container text-on-primary rounded-xl p-space-md shadow-md flex flex-col justify-between space-y-space-sm relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 w-32 h-32 bg-surface-container-lowest/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between relative z-10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-surface-container-lowest text-[22px]">psychology</span>
+<span class="font-headline-sm text-headline-sm text-surface-container-lowest">MIPA Analytics IA</span>
+</div>
+<span class="font-label-sm text-label-sm bg-surface-container-lowest/20 text-surface-container-lowest px-2 py-0.5 rounded-full font-semibold">
+          En Tiempo Real
+        </span>
+</div>
+<div class="relative z-10">
+<p class="font-body-sm text-body-sm text-on-primary-container leading-relaxed">
+          Módulo de Inteligencia Predictiva Escolar activo. No se registran clústeres de deserción escolar para el cierre del periodo 2025-I.
+        </p>
+</div>
+<div class="relative z-10 pt-1">
+<a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-surface-container-lowest hover:underline" href="#">
+<span>Abrir Panel MIPA Completo</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+</div></main></div></body></html>
