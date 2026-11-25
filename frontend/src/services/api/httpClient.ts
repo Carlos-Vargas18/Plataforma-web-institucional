@@ -1,5 +1,46 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 const TOKEN_STORAGE_KEY = 'educonnect_jwt_token';
+const SERVER_URL_STORAGE_KEY = 'educonnect_backend_url';
+const DEFAULT_MOBILE_BACKEND_ORIGIN = 'https://sized-pros-helps-investor.trycloudflare.com';
+
+export function isNativeMobileRuntime(): boolean {
+  if (typeof window === 'undefined') return false;
+  const cap = (window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor;
+  if (cap?.isNativePlatform?.()) return true;
+  return window.location.protocol === 'capacitor:' || window.location.protocol === 'file:';
+}
+
+export function getServerOrigin(): string {
+  try {
+    const saved = localStorage.getItem(SERVER_URL_STORAGE_KEY);
+    if (saved && saved.trim()) {
+      return saved.trim().replace(/\/+$/, '');
+    }
+  } catch {
+    // Ignore storage access issues
+  }
+  return DEFAULT_MOBILE_BACKEND_ORIGIN;
+}
+
+export function setServerOrigin(origin: string): void {
+  try {
+    const clean = origin.trim().replace(/\/+$/, '');
+    if (clean) {
+      localStorage.setItem(SERVER_URL_STORAGE_KEY, clean);
+    } else {
+      localStorage.removeItem(SERVER_URL_STORAGE_KEY);
+    }
+  } catch {
+    // Ignore storage access issues
+  }
+}
+
+export function getApiBaseUrl(): string {
+  if (isNativeMobileRuntime()) {
+    return `${getServerOrigin()}/api/v1`;
+  }
+  return API_BASE_URL;
+}
 
 export class ApiClientError extends Error {
   status: number;
@@ -39,9 +80,10 @@ export async function httpRequest<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const baseUrl = getApiBaseUrl();
   const url = endpoint.startsWith('http')
     ? endpoint
-    : `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+    : `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
   const token = getStoredToken();
   const headers = new Headers(options.headers || {});
@@ -54,10 +96,18 @@ export async function httpRequest<T>(
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      ...options,
+      headers,
+    });
+  } catch {
+    throw new ApiClientError(
+      `No se pudo conectar con el servidor (${baseUrl}). Verifica que el servidor este encendido y en el mismo Wi-Fi, o actualiza la IP en "Cambiar IP / URL".`,
+      0
+    );
+  }
 
   if (response.status === 401 && !endpoint.includes('/auth/login')) {
     setStoredToken(null);

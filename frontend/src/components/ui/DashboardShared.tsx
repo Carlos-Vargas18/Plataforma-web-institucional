@@ -417,6 +417,15 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
             >
               {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
             </button>
+
+            <button
+              type="button"
+              className="ec-sidebar-mobile-close"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Cerrar menú móvil"
+            >
+              <X size={18} />
+            </button>
           </div>
 
           {!collapsed && (

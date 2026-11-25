@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, getHomeRouteForRole } from '../context/AuthContext';
 import { api } from '../services/api';
+import { isNativeMobileRuntime, getServerOrigin, setServerOrigin } from '../services/api/httpClient';
 import RecuperarClaveModal from './RecuperarClaveModal';
 import {
   GraduationCap,
@@ -35,13 +36,16 @@ interface CreatixEduConnectProps {
 export const CreatixEduConnect: React.FC<CreatixEduConnectProps> = ({ initialView = 'landing' }) => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [currentSection, setCurrentSection] = useState<'landing' | 'plataforma'>(initialView);
+  const isNativeApp = isNativeMobileRuntime();
+  const [currentSection, setCurrentSection] = useState<'landing' | 'plataforma'>(
+    isNativeApp ? 'plataforma' : initialView
+  );
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [ctaEmail, setCtaEmail] = useState('');
 
   useEffect(() => {
-    setCurrentSection(initialView);
-  }, [initialView]);
+    setCurrentSection(isNativeApp ? 'plataforma' : initialView);
+  }, [initialView, isNativeApp]);
 
   // Estado del formulario de Login
   const [email, setEmail] = useState('');
@@ -50,6 +54,8 @@ export const CreatixEduConnect: React.FC<CreatixEduConnectProps> = ({ initialVie
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [showRecuperarModal, setShowRecuperarModal] = useState(false);
+  const [showServerConfig, setShowServerConfig] = useState(false);
+  const [serverOriginInput, setServerOriginInput] = useState(() => getServerOrigin());
 
   // Estado interactivo para Servicios y Preview de Paneles
   const [activeService, setActiveService] = useState(0);
@@ -188,23 +194,37 @@ export const CreatixEduConnect: React.FC<CreatixEduConnectProps> = ({ initialVie
     setErrorMsg('');
   };
 
-  if (currentSection === 'plataforma') {
+  if (currentSection === 'plataforma' || isNativeApp) {
     return (
       <div className="ec-auth-shell">
-        <div style={{ maxWidth: '1060px', width: '100%', marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-          <button
-            type="button"
-            onClick={() => setCurrentSection('landing')}
-            className="btn-secondary-action"
-            style={{ borderRadius: '999px' }}
-          >
-            <ArrowLeft size={16} />
-            <span>Volver al Portal Institucional</span>
-          </button>
+        <div
+          className="ec-auth-topbar"
+          style={{
+            maxWidth: '1060px',
+            width: '100%',
+            marginBottom: '1rem',
+            display: 'flex',
+            justifyContent: isNativeApp ? 'center' : 'space-between',
+            alignItems: 'center',
+            gap: '0.75rem',
+            flexWrap: 'wrap',
+          }}
+        >
+          {!isNativeApp && (
+            <button
+              type="button"
+              onClick={() => setCurrentSection('landing')}
+              className="btn-secondary-action"
+              style={{ borderRadius: '999px' }}
+            >
+              <ArrowLeft size={16} />
+              <span>Volver al Portal Institucional</span>
+            </button>
+          )}
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.78rem', fontWeight: 700, color: 'var(--ec-primary-dark)', background: '#ffffff', padding: '0.4rem 0.85rem', borderRadius: '999px', border: '1px solid var(--ec-border)' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--ec-success)' }} />
-            <span>Autenticación JWT + BCrypt Activa</span>
+            <span>{isNativeApp ? 'App Móvil Institucional · JWT Activo' : 'Autenticación JWT + BCrypt Activa'}</span>
           </div>
         </div>
 
@@ -367,6 +387,47 @@ export const CreatixEduConnect: React.FC<CreatixEduConnectProps> = ({ initialVie
               <span>Cifrado TLS · Control RBAC</span>
               <span>Decreto 1290 · Ley 1620</span>
             </div>
+
+            {isNativeApp && (
+              <div style={{ marginTop: '0.85rem', padding: '0.75rem', borderRadius: '12px', background: 'var(--ec-surface-low)', border: '1px solid var(--ec-border)', fontSize: '0.76rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ color: 'var(--ec-text-muted)' }}>
+                    Servidor: <strong style={{ color: 'var(--ec-text)' }}>{getServerOrigin()}</strong>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowServerConfig((v) => !v)}
+                    style={{ background: 'transparent', color: 'var(--ec-primary)', fontWeight: 700, fontSize: '0.76rem' }}
+                  >
+                    {showServerConfig ? 'Cerrar' : 'Cambiar IP / URL'}
+                  </button>
+                </div>
+                {showServerConfig && (
+                  <div style={{ marginTop: '0.6rem', display: 'flex', gap: '0.45rem' }}>
+                    <input
+                      type="url"
+                      value={serverOriginInput}
+                      onChange={(e) => setServerOriginInput(e.target.value)}
+                      placeholder="https://sized-pros-helps-investor.trycloudflare.com"
+                      className="form-input"
+                      style={{ flex: 1, fontSize: '0.85rem', padding: '0.45rem 0.65rem' }}
+                    />
+                    <button
+                      type="button"
+                      className="btn-primary-action"
+                      style={{ padding: '0.45rem 0.8rem', fontSize: '0.78rem', borderRadius: '8px' }}
+                      onClick={() => {
+                        setServerOrigin(serverOriginInput);
+                        setShowServerConfig(false);
+                        setErrorMsg(`Servidor actualizado con éxito a ${getServerOrigin()}`);
+                      }}
+                    >
+                      Guardar
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* LADO DERECHO: PANEL OSCURO INSTITUCIONAL STITCH */}

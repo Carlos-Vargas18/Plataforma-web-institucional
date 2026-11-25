@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth, getHomeRouteForRole } from '../../context/AuthContext';
+import { isNativeMobileRuntime } from '../../services/api/httpClient';
 import { ProtectedRoute } from '../guards/ProtectedRoute';
 import CreatixEduConnect from '../../components/CreatixEduConnect';
 import AdminDashboard from '../../components/AdminDashboard';
@@ -13,6 +14,7 @@ import EduBot from '../../components/EduBot';
 
 export const AppRouter: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
+  const isNativeApp = isNativeMobileRuntime();
 
   return (
     <>
@@ -23,7 +25,7 @@ export const AppRouter: React.FC = () => {
             isAuthenticated && user ? (
               <Navigate to={getHomeRouteForRole(user.rol)} replace />
             ) : (
-              <CreatixEduConnect initialView="landing" />
+              <CreatixEduConnect initialView={isNativeApp ? 'plataforma' : 'landing'} />
             )
           }
         />

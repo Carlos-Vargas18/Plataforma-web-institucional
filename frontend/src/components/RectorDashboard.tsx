@@ -287,7 +287,7 @@ export const RectorDashboard: React.FC = () => {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
             <div className="panel-card" style={{ marginBottom: 0 }}>
               <div className="panel-header">
                 <h3>Estado Actual de Periodos Evaluativos</h3>

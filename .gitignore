@@ -11,6 +11,7 @@ backend/target/
 build/
 *.jar
 *.war
+*.tsbuildinfo
 
 # Logs
 logs/
@@ -27,6 +28,7 @@ pnpm-debug.log*
 # Configuración de agentes y herramientas locales
 .agent/
 .agents/
+.codex/
 skills-lock.json
 
 # IDEs y editores

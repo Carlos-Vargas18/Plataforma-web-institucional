@@ -548,7 +548,7 @@ export const AdminDashboard: React.FC = () => {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
                 <div className="panel-card" style={{ marginBottom: 0 }}>
                   <div className="panel-header">
                     <h3>Rendimiento Académico y Asistencia Global</h3>
@@ -1139,7 +1139,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             <div className="ec-modal-body">
               <form onSubmit={handleSaveUsuario} style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '0.75rem' }}>
+                <div className="ec-grid-stack-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '0.75rem' }}>
                   <div>
                     <label className="form-label">Tipo Doc.</label>
                     <select
@@ -1164,7 +1164,7 @@ export const AdminDashboard: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <div className="ec-grid-stack-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                   <div>
                     <label className="form-label">Nombres *</label>
                     <input
@@ -1218,7 +1218,7 @@ export const AdminDashboard: React.FC = () => {
                     />
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <div className="ec-grid-stack-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                   <div>
                     <label className="form-label">Rol Institucional</label>
                     <select

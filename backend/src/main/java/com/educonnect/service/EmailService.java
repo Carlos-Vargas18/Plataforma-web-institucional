@@ -54,6 +54,7 @@ public class EmailService {
 
             helper.setText(html, true);
             mailSender.send(message);
+            log.info("Correo de recuperación OTP enviado exitosamente a {}", destinatarioEmail);
             return true;
         } catch (Exception ex) {
             log.warn("No fue posible despachar correo SMTP a {}: {}", destinatarioEmail, ex.getMessage());
@@ -63,6 +64,7 @@ public class EmailService {
 
     public boolean enviarNotificacionBienvenida(String destinatarioEmail, String nombreUsuario, String rol) {
         if (mailUsername == null || mailUsername.isBlank() || mailPassword == null || mailPassword.isBlank()) {
+            log.info("Servicio SMTP no configurado mediante variables de entorno (MAIL_USERNAME/MAIL_PASSWORD). Correo de bienvenida omitido para {}", destinatarioEmail);
             return false;
         }
         try {
@@ -91,6 +93,7 @@ public class EmailService {
 
             helper.setText(html, true);
             mailSender.send(message);
+            log.info("Correo de bienvenida enviado exitosamente a {}", destinatarioEmail);
             return true;
         } catch (Exception ex) {
             log.warn("No fue posible enviar correo de bienvenida a {}: {}", destinatarioEmail, ex.getMessage());

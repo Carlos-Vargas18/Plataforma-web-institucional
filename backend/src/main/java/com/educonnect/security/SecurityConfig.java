@@ -34,7 +34,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173}")
+    @Value("${app.cors.allowed-origins:http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://localhost,https://localhost,capacitor://localhost}")
     private String allowedOriginsConfig;
 
     @Bean
@@ -143,11 +143,21 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        List<String> origins = Arrays.stream(allowedOriginsConfig.split(","))
+        List<String> originPatterns = new java.util.ArrayList<>(Arrays.stream(allowedOriginsConfig.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
-                .toList();
-        configuration.setAllowedOrigins(origins);
+                .toList());
+        originPatterns.add("http://localhost:*");
+        originPatterns.add("http://127.0.0.1:*");
+        originPatterns.add("http://192.168.*:*");
+        originPatterns.add("http://10.*:*");
+        originPatterns.add("http://172.*:*");
+        originPatterns.add("https://*.trycloudflare.com");
+        originPatterns.add("https://*.lhr.life");
+        originPatterns.add("https://*.loca.lt");
+        originPatterns.add("https://*.ngrok-free.app");
+        originPatterns.add("https://*.ngrok.io");
+        configuration.setAllowedOriginPatterns(originPatterns);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
         configuration.setAllowCredentials(true);

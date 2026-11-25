@@ -1314,7 +1314,7 @@ export const DocenteDashboard: React.FC = () => {
                   <label className="form-label">Estudiante *</label>
                   <input type="text" className="form-input" value={citacionAlumno} onChange={(e) => setCitacionAlumno(e.target.value)} required />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
+                <div className="ec-grid-stack-mobile" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
                   <div>
                     <label className="form-label">Fecha *</label>
                     <input type="date" className="form-input" value={citacionFecha} onChange={(e) => setCitacionFecha(e.target.value)} required />

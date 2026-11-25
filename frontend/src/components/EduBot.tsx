@@ -81,15 +81,23 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
   };
 
   return (
-    <div className="no-print" style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 9000 }}>
+    <div
+      className="no-print"
+      style={{
+        position: 'fixed',
+        bottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))',
+        right: '1rem',
+        zIndex: 9000,
+      }}
+    >
       {!isOpen ? (
         <button
           type="button"
           onClick={() => setIsOpen(true)}
           aria-label="Abrir asistente EduBot"
           style={{
-            width: '60px',
-            height: '60px',
+            width: '54px',
+            height: '54px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
             color: '#ffffff',
@@ -101,14 +109,13 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
             cursor: 'pointer',
           }}
         >
-          <MessageSquare size={26} />
+          <MessageSquare size={24} />
         </button>
       ) : (
         <div
           style={{
-            width: '380px',
-            maxWidth: 'calc(100vw - 2rem)',
-            height: '520px',
+            width: 'min(380px, calc(100vw - 1.5rem))',
+            height: 'min(520px, calc(100dvh - 5.5rem))',
             background: '#ffffff',
             border: '1px solid var(--ec-border)',
             borderRadius: '22px',
