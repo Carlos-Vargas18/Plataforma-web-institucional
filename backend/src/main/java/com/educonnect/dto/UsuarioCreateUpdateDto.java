@@ -1,7 +1,7 @@
 package com.educonnect.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
@@ -12,7 +12,7 @@ public class UsuarioCreateUpdateDto {
     private String documento;
 
     @NotBlank(message = "El correo electrónico es obligatorio")
-    @Email(message = "Formato de correo inválido")
+    @Pattern(regexp = ".*@.*", message = "El correo debe contener el símbolo @")
     private String email;
 
     private String password;
@@ -39,5 +39,6 @@ public class UsuarioCreateUpdateDto {
     private String especialidad;
     private String tituloProfesional;
     private Long estudianteAcudidoId;
+    private java.util.List<Long> estudiantesAcudidosIds;
     private String parentesco;
 }

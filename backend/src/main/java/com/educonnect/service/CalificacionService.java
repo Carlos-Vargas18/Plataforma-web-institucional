@@ -172,8 +172,11 @@ public class CalificacionService {
                 }
             }
             if (estudianteId != null) {
-                Optional<Estudiante> estPorUsuario = estudianteRepository.findByUsuario_Id(estudianteId);
-                Long realEstId = estPorUsuario.map(Estudiante::getId).orElse(estudianteId);
+                Long realEstId = idsAutorizados.contains(estudianteId)
+                        ? estudianteId
+                        : estudianteRepository.findByUsuario_Id(estudianteId)
+                                .map(Estudiante::getId)
+                                .orElse(estudianteId);
                 if (!idsAutorizados.contains(realEstId)) {
                     throw new ForbiddenAccessException("Acceso denegado: el estudiante consultado no está vinculado a su cuenta de acudiente.");
                 }

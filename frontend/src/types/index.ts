@@ -63,6 +63,8 @@ export interface UsuarioDto {
   grupo?: string;
   grupoId?: number;
   especialidad?: string;
+  estudiantesAcudidosIds?: number[];
+  parentesco?: string;
   ultimoAcceso?: string;
   fechaCreacion?: string;
 }

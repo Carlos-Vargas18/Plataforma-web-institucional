@@ -415,7 +415,7 @@ export const CreatixEduConnect: React.FC<CreatixEduConnectProps> = ({ initialVie
                       type="url"
                       value={serverOriginInput}
                       onChange={(e) => setServerOriginInput(e.target.value)}
-                      placeholder="https://sized-pros-helps-investor.trycloudflare.com"
+                      placeholder="https://combination-clothes-contemporary-lewis.trycloudflare.com"
                       className="form-input"
                       style={{ flex: 1, fontSize: '0.85rem', padding: '0.45rem 0.65rem' }}
                     />

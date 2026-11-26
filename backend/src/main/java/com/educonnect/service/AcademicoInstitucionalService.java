@@ -335,7 +335,14 @@ public class AcademicoInstitucionalService {
             throw new BusinessException("Conflicto de horario: el grupo " + grupo.getCodigoGrupo() + " ya tiene una clase asignada el " + dia + " en ese bloque horario.");
         }
         if (horarioRepository.existsByAnioLectivo_IdAndDocente_IdAndDiaSemanaAndBloqueOrden(anio.getId(), docente.getId(), dia, bloqueOrden)) {
-            throw new BusinessException("Conflicto de horario: el docente " + docente.getUsuario().getNombreCompleto() + " ya dicta clase en otro grupo el " + dia + " en esa misma franja.");
+            HorarioEscolar existenteDoc = horarioRepository.findByDocente_IdOrderByBloqueOrdenAsc(docente.getId()).stream()
+                    .filter(h -> dia.equalsIgnoreCase(h.getDiaSemana()) && Integer.valueOf(bloqueOrden).equals(h.getBloqueOrden()))
+                    .findFirst()
+                    .orElse(null);
+            String detalle = existenteDoc != null
+                    ? " en el grupo " + existenteDoc.getGrupo().getCodigoGrupo() + " (salón " + existenteDoc.getAula() + ", " + existenteDoc.getMateria().getNombre() + ")"
+                    : "";
+            throw new BusinessException("Conflicto de horario: el docente " + docente.getUsuario().getNombreCompleto() + " ya tiene esa hora ocupada" + detalle + " el " + dia + ".");
         }
 
         String aula = Objects.toString(payload.getOrDefault("aula", grupo.getSalonAula()), "Aula 101").trim();

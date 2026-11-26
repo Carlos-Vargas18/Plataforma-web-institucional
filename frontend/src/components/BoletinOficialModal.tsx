@@ -120,11 +120,11 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.88)',
-        backdropFilter: 'blur(8px)',
+        backgroundColor: 'rgba(0, 0, 0, 0.78)',
         zIndex: 9999,
         overflowY: 'auto',
-        padding: '2rem 1rem',
+        WebkitOverflowScrolling: 'touch',
+        padding: 'calc(1rem + env(safe-area-inset-top, 0px)) 0.75rem calc(1.25rem + env(safe-area-inset-bottom, 0px))',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
@@ -138,7 +138,7 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
           width: '100%',
           maxWidth: '940px',
           borderRadius: '20px',
-          padding: '2.5rem',
+          padding: 'clamp(1rem, 3vw, 2.5rem)',
           boxShadow: '0 25px 60px rgba(0,0,0,0.6)',
         }}
       >
@@ -149,16 +149,18 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: '1.75rem',
+            flexWrap: 'wrap',
+            gap: '0.75rem',
+            marginBottom: '1.5rem',
             paddingBottom: '1rem',
-            borderBottom: '1px solid #FFFFFF',
+            borderBottom: '1px solid var(--ec-border, #e2e8f0)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--ec-boletin-ink, #000000)', fontWeight: 700 }}>
-            <ShieldCheck size={20} />
-            <span>Documento Académico Verificado en Servidor ({codigoVerif})</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--ec-boletin-ink, #000000)', fontWeight: 700, fontSize: '0.88rem' }}>
+            <ShieldCheck size={20} style={{ flexShrink: 0 }} />
+            <span>Documento Académico Verificado ({codigoVerif})</span>
           </div>
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
             <button
               type="button"
               onClick={() => window.print()}
@@ -196,6 +198,8 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '1rem',
             borderBottom: '2px solid #000000',
             paddingBottom: '1.25rem',
             marginBottom: '1.25rem',
@@ -282,7 +286,8 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
         </div>
 
         {/* Tabla de Valoraciones Decreto 1290 */}
-        <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1.5rem' }}>
+        <div className="ec-table-responsive" style={{ marginBottom: '1.5rem' }}>
+        <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: 'var(--ec-boletin-paper, #FFFFFF)' }}>
               <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>Área / Asignatura</th>
@@ -343,6 +348,7 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
             ))}
           </tbody>
         </table>
+        </div>
 
         {observacionGeneral && (
           <div

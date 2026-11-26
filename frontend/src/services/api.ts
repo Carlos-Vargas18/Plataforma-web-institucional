@@ -53,6 +53,9 @@ export interface UsuarioCreatePayload {
   grupoCodigo?: string;
   especialidad?: string;
   tituloProfesional?: string;
+  estudianteAcudidoId?: number;
+  estudiantesAcudidosIds?: number[];
+  parentesco?: string;
 }
 
 function normalizeUserResponse(raw: Record<string, unknown>): User {

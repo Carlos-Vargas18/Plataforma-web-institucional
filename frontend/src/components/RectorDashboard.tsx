@@ -187,7 +187,7 @@ export const RectorDashboard: React.FC = () => {
         { id: 'comunicados', label: 'Circulares Oficiales', icon: <Megaphone size={18} /> },
         {
           id: 'mipa',
-          label: 'Telemetría y MIPA',
+          label: 'Alertas MIPA',
           icon: <Activity size={18} />,
           badge: resumen.alertasRiesgoMipa || undefined,
           badgeTone: (resumen.alertasRiesgoMipa || 0) > 0 ? 'danger' : 'default',
@@ -356,7 +356,7 @@ export const RectorDashboard: React.FC = () => {
               </div>
 
               <button type="button" onClick={() => setActiveTab('mipa')} className="btn-primary-action" style={{ width: '100%' }}>
-                Abrir Consola MIPA y Telemetría
+                Abrir Consola MIPA
               </button>
             </div>
           </div>
@@ -747,7 +747,7 @@ export const RectorDashboard: React.FC = () => {
         </>
       )}
 
-      {activeTab === 'mipa' && <MipaTelemetriaPanel modo="ambos" />}
+      {activeTab === 'mipa' && <MipaTelemetriaPanel modo="mipa" />}
     </DashboardShell>
   );
 };

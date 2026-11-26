@@ -97,6 +97,8 @@ export const DocenteDashboard: React.FC = () => {
   const [asistenciaMap, setAsistenciaMap] = useState<
     Record<number, 'PRESENTE' | 'TARDE' | 'EXCUSA_MEDICA' | 'AUSENTE'>
   >({});
+  const [asistenciaObsMap, setAsistenciaObsMap] = useState<Record<number, string>>({});
+  const [asistenciaFecha, setAsistenciaFecha] = useState<string>(() => new Date().toISOString().split('T')[0]);
   const [asistenciaHistory, setAsistenciaHistory] = useState<AsistenciaDto[]>([]);
   const [solicitudesNota, setSolicitudesNota] = useState<SolicitudNotaDto[]>([]);
   const [observaciones, setObservaciones] = useState<ObservacionDto[]>([]);
@@ -346,18 +348,19 @@ export const DocenteDashboard: React.FC = () => {
     }
   };
 
-  const toggleAsistenciaEstado = (matriculaId: number) => {
-    const orden: Array<'PRESENTE' | 'TARDE' | 'EXCUSA_MEDICA' | 'AUSENTE'> = [
-      'PRESENTE',
-      'TARDE',
-      'EXCUSA_MEDICA',
-      'AUSENTE',
-    ];
-    setAsistenciaMap((prev) => {
-      const actual = prev[matriculaId] || 'PRESENTE';
-      const sig = orden[(orden.indexOf(actual) + 1) % orden.length];
-      return { ...prev, [matriculaId]: sig };
+  const setAsistenciaEstado = (
+    matriculaId: number,
+    estado: 'PRESENTE' | 'TARDE' | 'EXCUSA_MEDICA' | 'AUSENTE'
+  ) => {
+    setAsistenciaMap((prev) => ({ ...prev, [matriculaId]: estado }));
+  };
+
+  const marcarTodosPresentes = () => {
+    const next: Record<number, 'PRESENTE' | 'TARDE' | 'EXCUSA_MEDICA' | 'AUSENTE'> = {};
+    gradeRows.forEach((row) => {
+      next[row.matriculaId] = 'PRESENTE';
     });
+    setAsistenciaMap(next);
   };
 
   const handleGuardarAsistencia = async () => {
@@ -365,24 +368,33 @@ export const DocenteDashboard: React.FC = () => {
     savingPlanilla.current = true;
     setSaving(true);
     try {
-      const hoy = new Date().toISOString().split('T')[0];
+      const fechaRegistro = asistenciaFecha || new Date().toISOString().split('T')[0];
       await api.guardarPlanillaAsistencias(gradeRows.map((row) => {
         const estado = asistenciaMap[row.matriculaId] || 'PRESENTE';
+        const obsPersonalizada = (asistenciaObsMap[row.matriculaId] || '').trim();
         return {
           matriculaId: row.matriculaId,
           estudianteId: row.estudianteId,
           cargaAcademicaId: selectedCargaId,
-          fecha: hoy,
+          fecha: fechaRegistro,
           estado,
           minutosRetraso: estado === 'TARDE' ? 10 : 0,
-          observacion: estado === 'AUSENTE' ? 'Inasistencia reportada en clase' : 'Control diario de aula',
+          observacion:
+            obsPersonalizada ||
+            (estado === 'AUSENTE'
+              ? 'Inasistencia reportada en clase'
+              : estado === 'TARDE'
+              ? 'Llegada tarde al aula'
+              : estado === 'EXCUSA_MEDICA'
+              ? 'Soporte de excusa médica'
+              : 'Asistencia normal'),
         };
       }));
       const actualizado = await api.getAsistencias();
       setAsistenciaHistory(actualizado);
       setStatusMessage({
         type: 'success',
-        text: 'Registro de asistencia de la sesión guardado en PostgreSQL.',
+        text: `Asistencia del ${fechaRegistro} guardada correctamente (${gradeRows.length} estudiantes).`,
       });
     } catch (err) {
       setStatusMessage({
@@ -781,89 +793,202 @@ export const DocenteDashboard: React.FC = () => {
           )}
 
           {/* PESTAÑA 2: ASISTENCIA A CLASE */}
-          {currentTab === 'asistencia_materia' && (
-            <div className="panel-card">
-              <div className="panel-header">
-                <div>
-                  <h3>Control de Asistencia a Clase</h3>
-                  <p style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '0.2rem' }}>
-                    Asignatura: <strong>{cargaSeleccionadaObj?.materia} ({cargaSeleccionadaObj?.grupo})</strong> — Haz clic sobre el estado para alternar.
-                  </p>
+          {currentTab === 'asistencia_materia' && (() => {
+            const totalPresentes = gradeRows.filter((r) => (asistenciaMap[r.matriculaId] || 'PRESENTE') === 'PRESENTE').length;
+            const totalRetardos = gradeRows.filter((r) => asistenciaMap[r.matriculaId] === 'TARDE').length;
+            const totalExcusas = gradeRows.filter((r) => asistenciaMap[r.matriculaId] === 'EXCUSA_MEDICA').length;
+            const totalAusentes = gradeRows.filter((r) => asistenciaMap[r.matriculaId] === 'AUSENTE').length;
+
+            const opcionesEstado: Array<{
+              value: 'PRESENTE' | 'TARDE' | 'EXCUSA_MEDICA' | 'AUSENTE';
+              label: string;
+              bg: string;
+              border: string;
+              color: string;
+            }> = [
+              { value: 'PRESENTE', label: 'Presente', bg: 'var(--ec-success-bg)', border: 'var(--ec-success-border)', color: 'var(--ec-success)' },
+              { value: 'TARDE', label: 'Retardo', bg: 'var(--ec-warning-bg)', border: 'var(--ec-warning-border)', color: 'var(--ec-warning)' },
+              { value: 'EXCUSA_MEDICA', label: 'Excusa', bg: 'var(--ec-info-bg)', border: 'var(--ec-info-border)', color: 'var(--ec-info)' },
+              { value: 'AUSENTE', label: 'Ausente', bg: 'var(--ec-danger-bg)', border: 'var(--ec-danger-border)', color: 'var(--ec-danger)' },
+            ];
+
+            const resolverSalonCarga = (grupo?: string, materia?: string) => {
+              if (!grupo) return '';
+              const exacto = horarios.find(
+                (h) => h.grupo === grupo && (!materia || h.materia === materia) && h.aula
+              );
+              const porGrupo = horarios.find((h) => h.grupo === grupo && h.aula);
+              return exacto?.aula || porGrupo?.aula || '';
+            };
+            const salonActual = resolverSalonCarga(cargaSeleccionadaObj?.grupo, cargaSeleccionadaObj?.materia);
+
+            return (
+              <div className="panel-card">
+                <div className="panel-header" style={{ flexWrap: 'wrap', gap: '0.85rem' }}>
+                  <div>
+                    <h3>Toma de Asistencia a Clase</h3>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '0.2rem' }}>
+                      Grupo actual: <strong>{cargaSeleccionadaObj?.grupo || '—'}</strong>
+                      {salonActual ? <> · Salón: <strong>{salonActual}</strong></> : null}
+                      {' '}· Asignatura: <strong>{cargaSeleccionadaObj?.materia || '—'}</strong> ({gradeRows.length} estudiantes)
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', fontWeight: 600, color: 'var(--ec-text-muted)' }}>
+                      <span>Grupo / Salón:</span>
+                      <select
+                        className="form-input"
+                        value={selectedCargaId}
+                        onChange={(e) => handleSeleccionarCargaOPeriodo(Number(e.target.value), selectedPeriodoId)}
+                        style={{ padding: '0.4rem 0.65rem', fontSize: '0.84rem', width: 'auto', minWidth: '220px' }}
+                      >
+                        {cargas.map((c) => {
+                          const salon = resolverSalonCarga(c.grupo, c.materia);
+                          return (
+                            <option key={c.id} value={c.id}>
+                              Grupo {c.grupo} — {c.materia}{salon ? ` (${salon})` : ''}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', fontWeight: 600, color: 'var(--ec-text-muted)' }}>
+                      <span>Fecha:</span>
+                      <input
+                        type="date"
+                        className="form-input"
+                        value={asistenciaFecha}
+                        onChange={(e) => setAsistenciaFecha(e.target.value)}
+                        style={{ padding: '0.4rem 0.6rem', fontSize: '0.84rem', width: 'auto' }}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      className="btn-secondary-action"
+                      onClick={marcarTodosPresentes}
+                    >
+                      <CheckCircle size={15} />
+                      <span>Todos Presentes</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-primary-action"
+                      disabled={saving}
+                      onClick={() => void handleGuardarAsistencia()}
+                    >
+                      <Save size={15} />
+                      <span>{saving ? 'Guardando...' : 'Guardar Asistencia'}</span>
+                    </button>
+                  </div>
                 </div>
 
-                <button
-                  type="button"
-                  className="btn-primary-action"
-                  disabled={saving}
-                  onClick={() => void handleGuardarAsistencia()}
+                {/* Resumen rápido del llamado a lista */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '0.6rem',
+                    padding: '0.75rem 1.25rem',
+                    borderBottom: '1px solid var(--ec-border)',
+                    background: 'var(--ec-surface-low)',
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                  }}
                 >
-                  <Save size={15} />
-                  <span>{saving ? 'Guardando...' : 'Guardar Asistencia en Servidor'}</span>
-                </button>
+                  <span style={{ padding: '0.3rem 0.7rem', borderRadius: '999px', background: 'var(--ec-success-bg)', color: 'var(--ec-success)', border: '1px solid var(--ec-success-border)' }}>
+                    Presentes: {totalPresentes}
+                  </span>
+                  <span style={{ padding: '0.3rem 0.7rem', borderRadius: '999px', background: 'var(--ec-warning-bg)', color: 'var(--ec-warning)', border: '1px solid var(--ec-warning-border)' }}>
+                    Retardos: {totalRetardos}
+                  </span>
+                  <span style={{ padding: '0.3rem 0.7rem', borderRadius: '999px', background: 'var(--ec-info-bg)', color: 'var(--ec-info)', border: '1px solid var(--ec-info-border)' }}>
+                    Excusas: {totalExcusas}
+                  </span>
+                  <span style={{ padding: '0.3rem 0.7rem', borderRadius: '999px', background: 'var(--ec-danger-bg)', color: 'var(--ec-danger)', border: '1px solid var(--ec-danger-border)' }}>
+                    Ausentes: {totalAusentes}
+                  </span>
+                </div>
+
+                <div className="ec-table-responsive">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Estudiante</th>
+                        <th>Grupo</th>
+                        <th>Marcar Asistencia</th>
+                        <th>Observación (opcional)</th>
+                        <th>Fallas Acumuladas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gradeRows.map((a) => {
+                        const estado = asistenciaMap[a.matriculaId] || 'PRESENTE';
+                        const fallasPrevias = asistenciaHistory.filter(
+                          (h) => h.estudianteId === a.estudianteId && h.estado === 'AUSENTE'
+                        ).length;
+
+                        return (
+                          <tr key={a.matriculaId}>
+                            <td>
+                              <div style={{ fontWeight: 700, color: 'var(--ec-text)' }}>{a.nombre}</div>
+                              <div style={{ fontSize: '0.74rem', color: 'var(--ec-text-muted)' }}>Código {a.codigo}</div>
+                            </td>
+                            <td><span className="grade-badge alto">{a.grupo}</span></td>
+                            <td>
+                              <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
+                                {opcionesEstado.map((op) => {
+                                  const active = estado === op.value;
+                                  return (
+                                    <button
+                                      key={op.value}
+                                      type="button"
+                                      onClick={() => setAsistenciaEstado(a.matriculaId, op.value)}
+                                      style={{
+                                        background: active ? op.bg : 'var(--ec-canvas)',
+                                        border: `1.5px solid ${active ? op.border : 'var(--ec-border)'}`,
+                                        color: active ? op.color : 'var(--ec-text-muted)',
+                                        padding: '0.38rem 0.7rem',
+                                        borderRadius: '8px',
+                                        fontWeight: active ? 800 : 600,
+                                        fontSize: '0.78rem',
+                                      }}
+                                    >
+                                      {op.label}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </td>
+                            <td style={{ minWidth: '180px' }}>
+                              <input
+                                type="text"
+                                className="form-input"
+                                placeholder="Nota o motivo..."
+                                value={asistenciaObsMap[a.matriculaId] || ''}
+                                onChange={(e) =>
+                                  setAsistenciaObsMap((prev) => ({
+                                    ...prev,
+                                    [a.matriculaId]: e.target.value,
+                                  }))
+                                }
+                                style={{ padding: '0.38rem 0.6rem', fontSize: '0.8rem' }}
+                              />
+                            </td>
+                            <td>
+                              <span className={`grade-badge ${fallasPrevias > 0 ? 'bajo' : 'superior'}`}>
+                                {fallasPrevias} {fallasPrevias === 1 ? 'falla' : 'fallas'}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-
-              <div className="ec-table-responsive">
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>Código</th>
-                      <th>Estudiante</th>
-                      <th>Grupo</th>
-                      <th>Estado de Asistencia Hoy</th>
-                      <th>Fallas Históricas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gradeRows.map((a) => {
-                      const estado = asistenciaMap[a.matriculaId] || 'PRESENTE';
-                      const fallasPrevias = asistenciaHistory.filter(
-                        (h) => h.estudianteId === a.estudianteId && h.estado === 'AUSENTE'
-                      ).length;
-
-                      const tone =
-                        estado === 'PRESENTE'
-                          ? { bg: 'var(--ec-success-bg)', border: 'var(--ec-success-border)', color: 'var(--ec-success)', label: 'Presente en Aula' }
-                          : estado === 'TARDE'
-                          ? { bg: 'var(--ec-warning-bg)', border: 'var(--ec-warning-border)', color: 'var(--ec-warning)', label: 'Retardo' }
-                          : estado === 'EXCUSA_MEDICA'
-                          ? { bg: 'var(--ec-info-bg)', border: 'var(--ec-info-border)', color: 'var(--ec-info)', label: 'Excusa Médica' }
-                          : { bg: 'var(--ec-danger-bg)', border: 'var(--ec-danger-border)', color: 'var(--ec-danger)', label: 'Inasistencia' };
-
-                      return (
-                        <tr key={a.matriculaId}>
-                          <td>
-                            <code style={{ background: 'var(--ec-surface-low)', padding: '0.2rem 0.45rem', borderRadius: '6px', fontSize: '0.78rem' }}>
-                              {a.codigo}
-                            </code>
-                          </td>
-                          <td style={{ fontWeight: 700, color: 'var(--ec-text)' }}>{a.nombre}</td>
-                          <td><span className="grade-badge alto">{a.grupo}</span></td>
-                          <td>
-                            <button
-                              type="button"
-                              onClick={() => toggleAsistenciaEstado(a.matriculaId)}
-                              style={{
-                                background: tone.bg,
-                                border: `1px solid ${tone.border}`,
-                                color: tone.color,
-                                padding: '0.42rem 0.9rem',
-                                borderRadius: '9px',
-                                fontWeight: 700,
-                                fontSize: '0.8rem',
-                              }}
-                            >
-                              {tone.label}
-                            </button>
-                          </td>
-                          <td>{fallasPrevias} inasistencias</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* PESTAÑA 3: SOLICITUDES DE CAMBIO DE NOTA */}
           {currentTab === 'solicitudes_nota' && (

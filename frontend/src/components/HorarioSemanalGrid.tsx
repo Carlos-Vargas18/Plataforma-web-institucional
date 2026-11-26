@@ -1,5 +1,5 @@
-import React, { useId, useRef, useState } from 'react';
-import { Calendar, Clock, MapPin, User, Plus, Trash2, Printer } from 'lucide-react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { Calendar, Clock, MapPin, User, Plus, Trash2, Printer, AlertTriangle } from 'lucide-react';
 import { HorarioBloqueDto } from '../types';
 
 interface HorarioSemanalGridProps {
@@ -19,6 +19,15 @@ interface HorarioSemanalGridProps {
   gruposDisponibles?: string[];
   materiasDisponibles?: string[];
   docentesDisponibles?: string[];
+  gruposInfo?: Array<{ codigoGrupo?: string; nombre?: string; salonAula?: string; salon?: string }>;
+  cargas?: Array<{
+    materia?: string;
+    materiaNombre?: string;
+    docente?: string;
+    docenteNombre?: string;
+    grupo?: string;
+    grupoCodigo?: string;
+  }>;
 }
 
 const DIAS = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'];
@@ -41,8 +50,10 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
   onAddBloque,
   onDeleteBloque,
   gruposDisponibles = ['10-A', '10-B', '11-A'],
-  materiasDisponibles = ['Cálculo y Trigonometría', 'Física Mecánica', 'Química Inorgánica', 'Ingeniería de Software y Algoritmos'],
+  materiasDisponibles = ['Cálculo y Trigonometría', 'Física Mecánica', 'Química Inorgánica', 'Tecnología e Informática'],
   docentesDisponibles = ['Roberto Arturo Silva Pineda', 'Elena Marcela Gómez Castro'],
+  gruposInfo = [],
+  cargas = [],
 }) => {
   const formId = useId();
   const savingBlock = useRef(false);
@@ -56,9 +67,88 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [submitting, setSubmitting] = useState<boolean>(false);
 
+  const docentesPorMateria = useMemo(() => {
+    const matNorm = nuevaMateria.trim().toLowerCase();
+    const desdeCargas = cargas
+      .filter((c) => ((c.materia || c.materiaNombre || '').trim().toLowerCase() === matNorm))
+      .map((c) => (c.docente || c.docenteNombre || '').trim())
+      .filter(Boolean);
+    const desdeBloques = bloques
+      .filter((b) => ((b.materia || '').trim().toLowerCase() === matNorm))
+      .map((b) => (b.docente || '').trim())
+      .filter(Boolean);
+    const unicos = Array.from(new Set([...desdeCargas, ...desdeBloques]));
+    return unicos.length > 0 ? unicos : docentesDisponibles;
+  }, [nuevaMateria, cargas, bloques, docentesDisponibles]);
+
+  useEffect(() => {
+    if (docentesPorMateria.length > 0 && !docentesPorMateria.includes(nuevoDocente)) {
+      setNuevoDocente(docentesPorMateria[0]);
+    }
+  }, [docentesPorMateria, nuevoDocente]);
+
+  const resolverSalonGrupo = useMemo(() => {
+    const info = gruposInfo.find((g) => (g.codigoGrupo || g.nombre) === nuevoGrupo);
+    if (info && (info.salonAula || info.salon)) {
+      return info.salonAula || info.salon || 'Aula 101';
+    }
+    const bloqueGrupo = bloques.find((b) => b.grupo === nuevoGrupo && b.aula);
+    return bloqueGrupo?.aula || '';
+  }, [gruposInfo, bloques, nuevoGrupo]);
+
+  useEffect(() => {
+    if (resolverSalonGrupo) {
+      setNuevaAula(resolverSalonGrupo);
+    }
+  }, [resolverSalonGrupo]);
+
   const bloquesFiltrados = bloques.filter((b) =>
     filtroGrupo === 'TODOS' ? true : b.grupo === filtroGrupo
   );
+
+  const conflictosEnVivo = useMemo(() => {
+    if (!editable) return [] as string[];
+    const horaInicioSel = nuevaHora.substring(0, 5);
+    const diaSel = nuevoDia.toUpperCase().replace('É', 'E');
+    const aulaNorm = nuevaAula.trim().toLowerCase();
+    const docenteNorm = nuevoDocente.trim().toLowerCase();
+
+    const enMismaFranja = bloques.filter((b) => {
+      const bDia = (b.dia || b.diaSemana || '').toUpperCase().replace('É', 'E');
+      const bHora = (b.horaInicio || b.hora || '').substring(0, 5);
+      return bDia === diaSel && bHora === horaInicioSel;
+    });
+
+    const alertas: string[] = [];
+    const choqueDocente = enMismaFranja.find(
+      (b) => (b.docente || '').trim().toLowerCase() === docenteNorm
+    );
+    if (choqueDocente) {
+      alertas.push(
+        `El docente ${nuevoDocente} ya tiene esa hora ocupada (${nuevaHora} del ${nuevoDia}) en el grupo ${choqueDocente.grupo} — salón ${choqueDocente.aula} (${choqueDocente.materia}).`
+      );
+    }
+
+    const choqueGrupo = enMismaFranja.find((b) => b.grupo === nuevoGrupo);
+    if (choqueGrupo) {
+      alertas.push(
+        `El grupo ${nuevoGrupo} ya tiene clase de ${choqueGrupo.materia} con ${choqueGrupo.docente} el ${nuevoDia} (${nuevaHora}) en ${choqueGrupo.aula}.`
+      );
+    }
+
+    if (aulaNorm) {
+      const choqueAula = enMismaFranja.find(
+        (b) => (b.aula || '').trim().toLowerCase() === aulaNorm && b.grupo !== nuevoGrupo
+      );
+      if (choqueAula) {
+        alertas.push(
+          `El salón "${nuevaAula.trim()}" ya está ocupado el ${nuevoDia} (${nuevaHora}) por el grupo ${choqueAula.grupo} con ${choqueAula.docente}.`
+        );
+      }
+    }
+
+    return alertas;
+  }, [editable, bloques, nuevoGrupo, nuevoDia, nuevaHora, nuevoDocente, nuevaAula]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,6 +224,34 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
             background: 'var(--ec-surface-low)',
           }}
         >
+          {conflictosEnVivo.length > 0 && (
+            <div
+              role="alert"
+              style={{
+                background: 'var(--ec-warning-bg)',
+                border: '1px solid var(--ec-warning-border)',
+                color: 'var(--ec-warning)',
+                padding: '0.75rem 1rem',
+                borderRadius: '10px',
+                marginBottom: '1rem',
+                fontSize: '0.84rem',
+                fontWeight: 600,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.35rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontWeight: 800 }}>
+                <AlertTriangle size={16} />
+                <span>Alerta de Cruce de Horario Detectado</span>
+              </div>
+              {conflictosEnVivo.map((alerta, i) => (
+                <div key={i} style={{ paddingLeft: '1.45rem' }}>
+                  • {alerta}
+                </div>
+              ))}
+            </div>
+          )}
           {errorMsg && (
             <div
               style={{
@@ -201,7 +319,7 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
             <div>
               <label className="form-label" htmlFor={`${formId}-teacher`}>Docente</label>
               <select id={`${formId}-teacher`} value={nuevoDocente} onChange={(e) => setNuevoDocente(e.target.value)} className="form-input">
-                {docentesDisponibles.map((d) => (
+                {docentesPorMateria.map((d) => (
                   <option key={d} value={d}>
                     {d}
                   </option>
@@ -220,7 +338,7 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
                 required
               />
             </div>
-            <button type="submit" disabled={submitting} className="btn-primary-action" style={{ justifyContent: 'center' }}>
+            <button type="submit" disabled={submitting || conflictosEnVivo.length > 0} className="btn-primary-action" style={{ justifyContent: 'center' }}>
               <Plus size={16} />
               {submitting ? 'Guardando...' : 'Asignar Bloque'}
             </button>

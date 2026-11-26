@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 const TOKEN_STORAGE_KEY = 'educonnect_jwt_token';
 const SERVER_URL_STORAGE_KEY = 'educonnect_backend_url';
-const DEFAULT_MOBILE_BACKEND_ORIGIN = 'https://sized-pros-helps-investor.trycloudflare.com';
+const DEFAULT_MOBILE_BACKEND_ORIGIN = 'https://combination-clothes-contemporary-lewis.trycloudflare.com';
 
 export function isNativeMobileRuntime(): boolean {
   if (typeof window === 'undefined') return false;

@@ -116,6 +116,19 @@ public class AdminService {
         String nombre = u.getPrimerNombre() + (u.getSegundoNombre() != null && !u.getSegundoNombre().isBlank() ? " " + u.getSegundoNombre() : "");
         String apellido = u.getPrimerApellido() + (u.getSegundoApellido() != null && !u.getSegundoApellido().isBlank() ? " " + u.getSegundoApellido() : "");
 
+        List<Long> estudiantesAcudidosIds = null;
+        String parentesco = null;
+        if (u.getRol() == Rol.TUTOR) {
+            List<EstudianteTutor> vinculos = estudianteTutorRepository.findByTutor_Usuario_Id(u.getId());
+            estudiantesAcudidosIds = vinculos.stream()
+                    .filter(v -> v.getEstudiante() != null && v.getEstudiante().getUsuario() != null)
+                    .map(v -> v.getEstudiante().getUsuario().getId())
+                    .toList();
+            if (!vinculos.isEmpty()) {
+                parentesco = vinculos.get(0).getParentesco();
+            }
+        }
+
         return UsuarioResponseDto.builder()
                 .id(u.getId())
                 .tipoDocumento(u.getTipoDocumento())
@@ -135,6 +148,8 @@ public class AdminService {
                 .grupo(grupoCodigo)
                 .grupoId(grupoId)
                 .especialidad(especialidad)
+                .estudiantesAcudidosIds(estudiantesAcudidosIds)
+                .parentesco(parentesco)
                 .ultimoAcceso(u.getUltimoAcceso())
                 .fechaCreacion(u.getFechaCreacion())
                 .build();
@@ -143,10 +158,23 @@ public class AdminService {
     @Transactional
     public UsuarioResponseDto crearUsuario(UsuarioCreateUpdateDto dto) {
         String emailClean = dto.getEmail().trim().toLowerCase();
+        if (!emailClean.contains("@")) {
+            throw new BusinessException("El correo electrónico debe contener el símbolo @.");
+        }
         if (usuarioRepository.existsByEmail(emailClean)) {
             throw new BusinessException("El correo electrónico ya está registrado en la plataforma.");
         }
-        if (usuarioRepository.existsByDocumento(dto.getDocumento().trim())) {
+        String docClean = dto.getDocumento().trim();
+        if (docClean.length() < 5) {
+            throw new BusinessException("El número de documento debe tener al menos 5 caracteres.");
+        }
+        if (dto.getTipoDocumento() != null) {
+            String tipoDoc = dto.getTipoDocumento().trim().toUpperCase();
+            if (("CC".equals(tipoDoc) || "TI".equals(tipoDoc) || "RC".equals(tipoDoc)) && !docClean.matches("\\d+")) {
+                throw new BusinessException("El número de documento para " + tipoDoc + " solo debe contener dígitos.");
+            }
+        }
+        if (usuarioRepository.existsByDocumento(docClean)) {
             throw new BusinessException("El número de documento ya está registrado en la plataforma.");
         }
 
@@ -161,6 +189,9 @@ public class AdminService {
         if (primerNombre == null || primerNombre.isBlank()) {
             throw new BusinessException("El nombre del usuario es obligatorio.");
         }
+        if (primerNombre.matches(".*\\d.*") || (segundoNombre != null && segundoNombre.matches(".*\\d.*"))) {
+            throw new BusinessException("Los nombres no pueden contener números.");
+        }
 
         String primerApellido = dto.getPrimerApellido();
         String segundoApellido = dto.getSegundoApellido();
@@ -172,11 +203,17 @@ public class AdminService {
         if (primerApellido == null || primerApellido.isBlank()) {
             primerApellido = "Institucional";
         }
+        if (primerApellido.matches(".*\\d.*") || (segundoApellido != null && segundoApellido.matches(".*\\d.*"))) {
+            throw new BusinessException("Los apellidos no pueden contener números.");
+        }
 
         if (dto.getPassword() == null || dto.getPassword().isBlank()) {
             throw new BusinessException("La contraseña inicial es obligatoria.");
         }
         String rawPassword = dto.getPassword().trim();
+        if (rawPassword.length() < 6) {
+            throw new BusinessException("La contraseña debe tener al menos 6 caracteres.");
+        }
 
         Usuario usuario = Usuario.builder()
                 .tipoDocumento(dto.getTipoDocumento() != null && !dto.getTipoDocumento().isBlank() ? dto.getTipoDocumento().toUpperCase() : "CC")
@@ -238,17 +275,7 @@ public class AdminService {
                     .telefonoEmergencia(guardado.getTelefono() != null ? guardado.getTelefono() : "3000000000")
                     .autorizadoRecoger(true)
                     .build());
-
-            if (dto.getEstudianteAcudidoId() != null) {
-                estudianteRepository.findById(dto.getEstudianteAcudidoId()).ifPresent(est -> {
-                    estudianteTutorRepository.save(EstudianteTutor.builder()
-                            .estudiante(est)
-                            .tutor(tutor)
-                            .parentesco(dto.getParentesco() != null ? dto.getParentesco().toUpperCase() : "ACUDIENTE_LEGAL")
-                            .esAcudientePrincipal(true)
-                            .build());
-                });
-            }
+            sincronizarEstudiantesTutor(tutor, dto);
         }
 
         emailService.enviarNotificacionBienvenida(guardado.getEmail(), guardado.getNombreCompleto(), guardado.getRol().name());
@@ -317,8 +344,54 @@ public class AdminService {
                 }
             }
         }
+        if (actualizado.getRol() == Rol.TUTOR && (dto.getEstudiantesAcudidosIds() != null || dto.getEstudianteAcudidoId() != null)) {
+            Tutor tutor = tutorRepository.findByUsuario_Id(actualizado.getId())
+                    .orElseGet(() -> tutorRepository.save(Tutor.builder()
+                            .usuario(actualizado)
+                            .ocupacion("Acudiente Registrado")
+                            .telefonoEmergencia(actualizado.getTelefono() != null ? actualizado.getTelefono() : "3000000000")
+                            .autorizadoRecoger(true)
+                            .build()));
+            sincronizarEstudiantesTutor(tutor, dto);
+        }
         Docente doc = docenteRepository.findByUsuario_Id(actualizado.getId()).orElse(null);
         return mapUsuarioToDto(actualizado, mat, doc);
+    }
+
+    private void sincronizarEstudiantesTutor(Tutor tutor, UsuarioCreateUpdateDto dto) {
+        Set<Long> idsSolicitados = new LinkedHashSet<>();
+        if (dto.getEstudiantesAcudidosIds() != null) {
+            for (Long idEst : dto.getEstudiantesAcudidosIds()) {
+                if (idEst != null) idsSolicitados.add(idEst);
+            }
+        }
+        if (dto.getEstudianteAcudidoId() != null) {
+            idsSolicitados.add(dto.getEstudianteAcudidoId());
+        }
+
+        List<EstudianteTutor> existentes = estudianteTutorRepository.findByTutor_Id(tutor.getId());
+        if (!existentes.isEmpty()) {
+            estudianteTutorRepository.deleteAll(existentes);
+        }
+
+        String parentesco = (dto.getParentesco() != null && !dto.getParentesco().isBlank())
+                ? dto.getParentesco().trim().toUpperCase()
+                : "ACUDIENTE_LEGAL";
+
+        boolean primero = true;
+        for (Long rawId : idsSolicitados) {
+            Optional<Estudiante> estOpt = estudianteRepository.findByUsuario_Id(rawId)
+                    .or(() -> estudianteRepository.findById(rawId));
+            if (estOpt.isPresent()) {
+                estudianteTutorRepository.save(EstudianteTutor.builder()
+                        .estudiante(estOpt.get())
+                        .tutor(tutor)
+                        .parentesco(parentesco)
+                        .esAcudientePrincipal(primero)
+                        .build());
+                primero = false;
+            }
+        }
     }
 
     @Transactional
@@ -489,10 +562,12 @@ public class AdminService {
             List<CargaAcademica> cargasMateria = cargas.stream()
                     .filter(c -> c.getMateria() != null && m.getId().equals(c.getMateria().getId()))
                     .toList();
-            String docentePrincipal = cargasMateria.stream()
+            List<String> docentesAsignados = cargasMateria.stream()
                     .filter(c -> c.getDocente() != null && c.getDocente().getUsuario() != null)
                     .map(c -> c.getDocente().getUsuario().getNombreCompleto())
-                    .findFirst().orElse("Sin asignar");
+                    .distinct()
+                    .toList();
+            String docentePrincipal = docentesAsignados.isEmpty() ? "Sin asignar" : String.join(", ", docentesAsignados);
             String gruposAsignados = String.join(", ", cargasMateria.stream()
                     .filter(c -> c.getGrupo() != null)
                     .map(c -> c.getGrupo().getCodigoGrupo())

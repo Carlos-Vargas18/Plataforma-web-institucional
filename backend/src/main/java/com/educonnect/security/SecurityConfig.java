@@ -85,7 +85,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/admin/**").hasAnyRole("ADMIN", "RECTOR", "COORDINADOR", "DIRECTOR_GRUPO", "DOCENTE")
                 .requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "RECTOR", "COORDINADOR")
 
-                // Rectoría
+                // Rectoría (permite a Coordinación gestionar auditoría de solicitudes de cambio de nota)
+                .requestMatchers("/api/v1/rector/solicitudes-notas", "/api/v1/rector/solicitudes-notas/**").hasAnyRole("RECTOR", "ADMIN", "COORDINADOR")
                 .requestMatchers("/api/v1/rector/**").hasAnyRole("RECTOR", "ADMIN")
 
                 // Coordinación y Convivencia Escolar (Ley 1620)
@@ -128,8 +129,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/estudiante/**").hasAnyRole("ESTUDIANTE", "TUTOR", "DOCENTE", "DIRECTOR_GRUPO", "COORDINADOR", "RECTOR", "ADMIN")
                 .requestMatchers("/api/v1/tutor/**").hasAnyRole("TUTOR", "COORDINADOR", "RECTOR", "ADMIN")
 
-                // Telemetría y Motor MIPA
-                .requestMatchers("/api/v1/telemetria/**", "/api/v1/mipa/**").hasAnyRole("ADMIN", "RECTOR", "COORDINADOR", "DIRECTOR_GRUPO")
+                // Telemetría (solo Administrador) y Motor MIPA
+                .requestMatchers("/api/v1/telemetria/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/mipa/**").hasAnyRole("ADMIN", "RECTOR", "COORDINADOR", "DIRECTOR_GRUPO")
 
                 // EduBot
                 .requestMatchers("/api/v1/edubot/**").authenticated()

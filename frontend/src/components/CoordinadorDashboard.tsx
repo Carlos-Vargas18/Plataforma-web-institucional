@@ -10,6 +10,7 @@ import {
   HorarioBloqueDto,
   JustificacionDto,
   ObservacionDto,
+  SolicitudNotaDto,
 } from '../types';
 import HorarioSemanalGrid from './HorarioSemanalGrid';
 import BoletinOficialModal from './BoletinOficialModal';
@@ -33,12 +34,13 @@ import {
   Activity,
   Megaphone,
   FileCheck,
+  XCircle,
 } from 'lucide-react';
 
 export const CoordinadorDashboard: React.FC = () => {
   const { user, logout } = useAuth();
   const [currentTab, setCurrentTab] = useState<
-    'convivencia' | 'citaciones' | 'justificaciones' | 'auditoria' | 'horarios' | 'observador' | 'comunicados' | 'mipa'
+    'convivencia' | 'citaciones' | 'justificaciones' | 'auditoria' | 'auditoria_notas' | 'horarios' | 'observador' | 'comunicados' | 'mipa'
   >('convivencia');
 
   const [loading, setLoading] = useState(true);
@@ -52,6 +54,7 @@ export const CoordinadorDashboard: React.FC = () => {
   const [horarios, setHorarios] = useState<HorarioBloqueDto[]>([]);
   const [observaciones, setObservaciones] = useState<ObservacionDto[]>([]);
   const [comunicados, setComunicados] = useState<ComunicadoDto[]>([]);
+  const [solicitudesNota, setSolicitudesNota] = useState<SolicitudNotaDto[]>([]);
 
   const [horarioGrupoFilter, setHorarioGrupoFilter] = useState('10-A');
 
@@ -92,7 +95,7 @@ export const CoordinadorDashboard: React.FC = () => {
   const cargarDatos = useCallback(async () => {
     setLoading(true);
     try {
-      const [grpData, calData, casData, citData, justData, horData, obsData, comData] = await Promise.all([
+      const [grpData, calData, casData, citData, justData, horData, obsData, comData, solData] = await Promise.all([
         api.getGrupos(),
         api.getCalificaciones(),
         api.getCasosConvivencia(),
@@ -101,6 +104,7 @@ export const CoordinadorDashboard: React.FC = () => {
         api.getHorarios(),
         api.getObservaciones(),
         api.getComunicados(),
+        api.getSolicitudesCambioNota(),
       ]);
       setGrupos(grpData);
       setCalificaciones(calData);
@@ -110,6 +114,7 @@ export const CoordinadorDashboard: React.FC = () => {
       setHorarios(horData);
       setObservaciones(obsData);
       setComunicados(comData);
+      setSolicitudesNota(solData);
       if (grpData.length > 0 && !grpData.some((g) => g.codigoGrupo === horarioGrupoFilter)) {
         setHorarioGrupoFilter(grpData[0].codigoGrupo || grpData[0].nombre);
       }
@@ -342,6 +347,24 @@ export const CoordinadorDashboard: React.FC = () => {
   const casosActivos = casos.filter((c) => c.estado !== 'CERRADO').length;
   const excusasPendientes = justificaciones.filter((j) => j.estado === 'PENDIENTE_REVISION').length;
 
+  const solicitudesPendientesNota = solicitudesNota.filter((s) => s.estado === 'PENDIENTE').length;
+
+  const handleResolverSolicitudNota = async (id: number, decision: 'APROBADA' | 'RECHAZADA') => {
+    try {
+      await api.resolverSolicitudCambioNota(id, decision);
+      setStatusMessage({
+        type: 'success',
+        text: `Solicitud #${id} ${decision === 'APROBADA' ? 'aprobada y calificación actualizada' : 'rechazada'} correctamente.`,
+      });
+      await cargarDatos();
+    } catch (err) {
+      setStatusMessage({
+        type: 'error',
+        text: err instanceof Error ? err.message : 'No fue posible resolver la solicitud de modificación.',
+      });
+    }
+  };
+
   const navGroups: SidebarNavGroup[] = [
     {
       category: 'CONVIVENCIA & SEGUIMIENTO',
@@ -356,6 +379,7 @@ export const CoordinadorDashboard: React.FC = () => {
       category: 'ACADÉMICO',
       items: [
         { id: 'auditoria', label: 'Auditoría Planillas', icon: <FileSpreadsheet size={18} /> },
+        { id: 'auditoria_notas', label: 'Auditoría de Notas', icon: <CheckCircle size={18} />, badge: solicitudesPendientesNota || undefined, badgeTone: solicitudesPendientesNota > 0 ? 'danger' : 'default' },
         { id: 'horarios', label: 'Horarios y Aulas', icon: <Clock size={18} /> },
       ],
     },
@@ -363,7 +387,7 @@ export const CoordinadorDashboard: React.FC = () => {
       category: 'COMUNICACIÓN & IA',
       items: [
         { id: 'comunicados', label: 'Comunicados Oficiales', icon: <Megaphone size={18} /> },
-        { id: 'mipa', label: 'Alertas MIPA & Telemetría', icon: <Activity size={18} /> },
+        { id: 'mipa', label: 'Alertas MIPA', icon: <Activity size={18} /> },
       ],
     },
   ];
@@ -996,6 +1020,89 @@ export const CoordinadorDashboard: React.FC = () => {
             </div>
           )}
 
+          {/* TAB 5B: AUDITORÍA DE SOLICITUDES DE CAMBIO DE NOTA */}
+          {currentTab === 'auditoria_notas' && (
+            <div className="panel-card">
+              <div className="panel-header">
+                <div>
+                  <h3>Auditoría de Notas (Solicitudes de Modificación)</h3>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '0.2rem' }}>
+                    Revisión, aprobación o rechazo de solicitudes docentes de cambio de calificación
+                  </p>
+                </div>
+                <span className="grade-badge alto">{solicitudesPendientesNota} pendientes</span>
+              </div>
+
+              {solicitudesNota.length === 0 ? (
+                <EmptyOrLoadingState
+                  loading={loading}
+                  emptyMessage="No existen solicitudes pendientes ni históricas de cambio de nota."
+                />
+              ) : (
+                <div className="ec-table-responsive">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Docente</th>
+                        <th>Estudiante / Grupo</th>
+                        <th>Asignatura / Periodo</th>
+                        <th>Nota Anterior</th>
+                        <th>Nueva Definitiva</th>
+                        <th>Justificación</th>
+                        <th>Estado / Decisión</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {solicitudesNota.map((s) => (
+                        <tr key={s.id}>
+                          <td>{s.fecha}</td>
+                          <td>{s.docente}</td>
+                          <td>
+                            <strong style={{ color: 'var(--ec-text)' }}>{s.estudiante}</strong>
+                            <div style={{ fontSize: '0.76rem', color: 'var(--ec-text-muted)' }}>Grupo {s.grupo}</div>
+                          </td>
+                          <td>{s.materia} ({s.periodo})</td>
+                          <td>{Number(s.notaAnterior).toFixed(1)}</td>
+                          <td>
+                            <strong style={{ color: 'var(--ec-primary)' }}>{Number(s.notaNueva).toFixed(1)}</strong>
+                          </td>
+                          <td style={{ maxWidth: '260px' }}>{s.motivo}</td>
+                          <td>
+                            {s.estado === 'PENDIENTE' ? (
+                              <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                                <button
+                                  type="button"
+                                  onClick={() => void handleResolverSolicitudNota(s.id, 'APROBADA')}
+                                  className="btn-primary-action"
+                                  style={{ padding: '0.35rem 0.7rem', fontSize: '0.78rem' }}
+                                >
+                                  <CheckCircle size={14} /> Aprobar
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => void handleResolverSolicitudNota(s.id, 'RECHAZADA')}
+                                  className="btn-danger-action"
+                                  style={{ padding: '0.35rem 0.7rem', fontSize: '0.78rem' }}
+                                >
+                                  <XCircle size={14} /> Rechazar
+                                </button>
+                              </div>
+                            ) : (
+                              <span className={`grade-badge ${s.estado === 'APROBADA' ? 'superior' : 'bajo'}`}>
+                                {s.estado}
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* TAB 6: HORARIOS INSTITUCIONALES */}
           {currentTab === 'horarios' && (
             <div className="panel-card">
@@ -1033,6 +1140,7 @@ export const CoordinadorDashboard: React.FC = () => {
                   onAddBloque={handleAgregarBloqueHorario}
                   onDeleteBloque={handleEliminarBloqueHorario}
                   gruposDisponibles={grupos.map((g) => g.codigoGrupo || g.nombre)}
+                  gruposInfo={grupos}
                 />
               </div>
             </div>
@@ -1139,8 +1247,8 @@ export const CoordinadorDashboard: React.FC = () => {
             </div>
           )}
 
-          {/* TAB 8: ALERTAS MIPA & TELEMETRÍA */}
-          {currentTab === 'mipa' && <MipaTelemetriaPanel userRole={user?.rol} />}
+          {/* TAB 8: ALERTAS MIPA */}
+          {currentTab === 'mipa' && <MipaTelemetriaPanel modo="mipa" userRole={user?.rol} />}
         </>
       )}
 

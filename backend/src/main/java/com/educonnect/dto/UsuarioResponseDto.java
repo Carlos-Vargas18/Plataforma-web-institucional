@@ -31,6 +31,8 @@ public class UsuarioResponseDto {
     private String grupo;
     private Long grupoId;
     private String especialidad;
+    private java.util.List<Long> estudiantesAcudidosIds;
+    private String parentesco;
     private LocalDateTime ultimoAcceso;
     private LocalDateTime fechaCreacion;
 }
