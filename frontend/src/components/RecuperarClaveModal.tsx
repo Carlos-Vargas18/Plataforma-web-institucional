@@ -1,3 +1,4 @@
+import { useDialogFocus } from './ui/useDialogFocus';
 import React, { useState, useEffect } from 'react';
 import {
   KeyRound,
@@ -26,6 +27,7 @@ const RecuperarClaveModal: React.FC<RecuperarClaveModalProps> = ({
   onClose,
   initialEmail = '',
 }) => {
+  const dialog = useDialogFocus(isOpen, onClose);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [email, setEmail] = useState(initialEmail);
   const [codigo, setCodigo] = useState('');
@@ -132,6 +134,7 @@ const RecuperarClaveModal: React.FC<RecuperarClaveModalProps> = ({
 
   return (
     <div
+      {...dialog}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-recuperar-titulo"
@@ -221,12 +224,12 @@ const RecuperarClaveModal: React.FC<RecuperarClaveModalProps> = ({
             </p>
             <div style={{ marginBottom: '1.25rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
-                <label className="form-label" style={{ margin: 0 }}>Correo institucional registrado</label>
+                <label htmlFor="recovery-email" className="form-label" style={{ margin: 0 }}>Correo institucional registrado</label>
                 <span style={{ fontSize: '0.74rem', color: 'var(--ec-text-muted)', fontWeight: 600 }}>Requerido</span>
               </div>
               <div style={{ position: 'relative' }}>
                 <Mail size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
-                <input
+                <input id="recovery-email" name="recovery-email"
                   type="email"
                   required
                   value={email}
@@ -318,10 +321,10 @@ const RecuperarClaveModal: React.FC<RecuperarClaveModalProps> = ({
         {step === 3 && (
           <form onSubmit={handleRestablecerPassword}>
             <div style={{ marginBottom: '1rem' }}>
-              <label className="form-label">Nueva Contraseña Institucional</label>
+              <label htmlFor="recovery-password" className="form-label">Nueva Contraseña Institucional</label>
               <div style={{ position: 'relative' }}>
                 <Lock size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
-                <input
+                <input id="recovery-password" name="recovery-password"
                   type={showPass ? 'text' : 'password'}
                   required
                   minLength={6}

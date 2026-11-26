@@ -10,57 +10,57 @@
   --font-mono: 'Space Grotesk', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* --- Colores de Marca (Stitch Electric Blue & Institutional Navy) --- */
-  --ec-primary: #175cff;
-  --ec-primary-dark: #0045d0;
-  --ec-primary-hover: #0c44ea;
-  --ec-primary-soft: #eef4ff;
-  --ec-primary-tint: rgba(23, 92, 255, 0.12);
-  --ec-primary-border: rgba(23, 92, 255, 0.28);
-  --ec-primary-gradient: linear-gradient(135deg, #175cff 0%, #0045d0 100%);
+  --ec-primary: #000000;
+  --ec-primary-dark: #000000;
+  --ec-primary-hover: #000000;
+  --ec-primary-soft: #FFFFFF;
+  --ec-primary-tint: rgba(0, 0, 0, 0.12);
+  --ec-primary-border: rgba(0, 0, 0, 0.28);
+  --ec-primary-gradient: linear-gradient(135deg, #000000 0%, #000000 100%);
 
   /* --- Superficies Claras (Dashboards & Ventanas Internas Stitch) --- */
-  --ec-bg: #f7f9ff;
-  --ec-surface-low: #f0f4fb;
-  --ec-surface-card: #ffffff;
-  --ec-surface-container: #eaeef5;
-  --ec-surface-high: #e4e8ef;
-  --ec-border: #dce3f0;
-  --ec-border-strong: #c3c5d9;
+  --ec-bg: #FFFFFF;
+  --ec-surface-low: #FFFFFF;
+  --ec-surface-card: #FFFFFF;
+  --ec-surface-container: #FFFFFF;
+  --ec-surface-high: #FFFFFF;
+  --ec-border: #FFFFFF;
+  --ec-border-strong: #FFFFFF;
 
   /* --- Textos sobre Superficie Clara --- */
-  --ec-text: #171c21;
-  --ec-text-secondary: #434656;
-  --ec-text-muted: #64748b;
-  --ec-text-subtle: #94a3b8;
+  --ec-text: #000000;
+  --ec-text-secondary: #000000;
+  --ec-text-muted: #000000;
+  --ec-text-subtle: #FFFFFF;
 
   /* --- Sidebar Oscura Institucional --- */
-  --ec-sidebar-bg: #0f172a;
-  --ec-sidebar-surface: #16223b;
+  --ec-sidebar-bg: #000000;
+  --ec-sidebar-surface: #000000;
   --ec-sidebar-border: rgba(255, 255, 255, 0.08);
-  --ec-sidebar-text: #cbd5e1;
-  --ec-sidebar-muted: #94a3b8;
+  --ec-sidebar-text: #FFFFFF;
+  --ec-sidebar-muted: #FFFFFF;
   --ec-sidebar-hover: rgba(255, 255, 255, 0.07);
 
   /* --- Deep Midnight Navy (Landing Page & Cards Destacadas) --- */
-  --ec-deep-base: #050d21;
-  --ec-deep-navy: #07142f;
-  --ec-deep-surface: #0a1c40;
-  --ec-deep-card: rgba(11, 28, 68, 0.72);
-  --ec-deep-border: rgba(59, 130, 246, 0.18);
+  --ec-deep-base: #000000;
+  --ec-deep-navy: #000000;
+  --ec-deep-surface: #000000;
+  --ec-deep-card: rgba(0, 0, 0, 0.72);
+  --ec-deep-border: rgba(0, 0, 0, 0.18);
 
   /* --- Semántica de Estado --- */
-  --ec-success: #059669;
-  --ec-success-bg: #ecfdf5;
-  --ec-success-border: #a7f3d0;
-  --ec-warning: #d97706;
-  --ec-warning-bg: #fffbeb;
-  --ec-warning-border: #fde68a;
-  --ec-danger: #dc2626;
-  --ec-danger-bg: #fef2f2;
-  --ec-danger-border: #fecaca;
-  --ec-info: #0284c7;
-  --ec-info-bg: #f0f9ff;
-  --ec-info-border: #bae6fd;
+  --ec-success: #000000;
+  --ec-success-bg: #FFFFFF;
+  --ec-success-border: #FFFFFF;
+  --ec-warning: #FFFFFF;
+  --ec-warning-bg: #FFFFFF;
+  --ec-warning-border: #FFFFFF;
+  --ec-danger: #000000;
+  --ec-danger-bg: #FFFFFF;
+  --ec-danger-border: #FFFFFF;
+  --ec-info: #000000;
+  --ec-info-bg: #FFFFFF;
+  --ec-info-border: #FFFFFF;
 
   /* --- Espaciados --- */
   --ec-space-xs: 0.25rem;
@@ -79,12 +79,12 @@
   --ec-radius-pill: 9999px;
 
   /* --- Sombras --- */
-  --ec-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --ec-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
-  --ec-shadow-md: 0 8px 24px rgba(15, 23, 42, 0.07);
-  --ec-shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.12);
-  --ec-shadow-primary: 0 8px 20px -4px rgba(23, 92, 255, 0.35);
-  --ec-shadow-electric: 0 0 35px -5px rgba(23, 92, 255, 0.45);
+  --ec-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --ec-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --ec-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.07);
+  --ec-shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.12);
+  --ec-shadow-primary: 0 8px 20px -4px rgba(0, 0, 0, 0.35);
+  --ec-shadow-electric: 0 0 35px -5px rgba(0, 0, 0, 0.45);
 
   /* --- Aliases de compatibilidad --- */
   --primary: var(--ec-primary);
@@ -100,13 +100,79 @@
   --border-light: var(--ec-border);
   --text-dark: var(--ec-text);
   --text-muted: var(--ec-text-muted);
-  --text-light: #f8fafc;
-  --text-light-muted: #94a3b8;
-  --accent-gold: #f59e0b;
-  --accent-emerald: #10b981;
-  --accent-rose: #f43f5e;
+  --text-light: #FFFFFF;
+  --text-light-muted: #FFFFFF;
+  --accent-gold: #FFFFFF;
+  --accent-emerald: #FFFFFF;
+  --accent-rose: #000000;
   --radius-card: var(--ec-radius-lg);
   --radius-pill: var(--ec-radius-pill);
   --radius-sm: var(--ec-radius-md);
   --font-main: var(--font-body);
+}
+
+/* The canvas and its inverse are shared across public and authenticated routes. */
+:root {
+  --ec-bg: var(--ec-canvas);
+  --ec-surface-card: var(--ec-canvas);
+  --ec-surface-low: var(--ec-canvas);
+  --ec-surface-container: var(--ec-canvas);
+  --ec-surface-high: var(--ec-canvas);
+  --ec-text: var(--ec-ink);
+  --ec-text-secondary: var(--ec-ink);
+  --ec-text-muted: var(--ec-ink);
+  --ec-text-subtle: var(--ec-ink);
+  --ec-border: var(--ec-ink);
+  --ec-border-strong: var(--ec-ink);
+  --ec-primary: var(--ec-ink);
+  --ec-primary-dark: var(--ec-ink);
+  --ec-primary-hover: var(--ec-ink);
+  --ec-primary-soft: var(--ec-canvas);
+  --ec-primary-tint: var(--ec-canvas);
+  --ec-primary-border: var(--ec-ink);
+  --ec-primary-gradient: linear-gradient(var(--ec-ink), var(--ec-ink));
+  --ec-action-bg: var(--ec-ink);
+  --ec-action-ink: var(--ec-canvas);
+  --ec-focus: var(--ec-ink);
+  --ec-inverse: #FFFFFF;
+  --ec-sidebar-bg: var(--ec-canvas);
+  --ec-sidebar-surface: var(--ec-canvas);
+  --ec-sidebar-text: var(--ec-ink);
+  --ec-sidebar-muted: var(--ec-ink);
+  --ec-sidebar-border: var(--ec-ink);
+  --ec-sidebar-hover: var(--ec-canvas);
+  --ec-success: var(--ec-ink);
+  --ec-success-bg: var(--ec-canvas);
+  --ec-success-border: var(--ec-ink);
+  --ec-warning: var(--ec-ink);
+  --ec-warning-bg: var(--ec-canvas);
+  --ec-warning-border: var(--ec-ink);
+  --ec-danger: var(--ec-ink);
+  --ec-danger-bg: var(--ec-canvas);
+  --ec-danger-border: var(--ec-ink);
+  --ec-info: var(--ec-ink);
+  --ec-info-bg: var(--ec-canvas);
+  --ec-info-border: var(--ec-ink);
+  --ec-motion-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ec-motion-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ec-chart-solid: var(--ec-ink);
+  --ec-chart-pattern: repeating-linear-gradient(135deg, var(--ec-ink) 0 3px, var(--ec-canvas) 3px 6px);
+  --ec-card-blue: #E1EDFF;
+  --ec-card-blue-accent: #2058A8;
+  --ec-card-green: #DDF8EA;
+  --ec-card-green-accent: #176B47;
+  --ec-card-amber: #FFF3CD;
+  --ec-card-amber-accent: #785308;
+  --ec-card-purple: #EFE6FF;
+  --ec-card-purple-accent: #67419D;
+  --ec-card-rose: #FFE8ED;
+  --ec-card-rose-accent: #A23153;
+  --ec-card-cyan: #E0F5FC;
+  --ec-card-cyan-accent: #16617C;
+}
+
+:root {
+  color-scheme: light;
+  --ec-canvas: #FFFFFF;
+  --ec-ink: #000000;
 }

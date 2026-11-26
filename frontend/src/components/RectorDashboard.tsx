@@ -326,29 +326,29 @@ export const RectorDashboard: React.FC = () => {
             <div className="ec-radar-dark-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '1rem' }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                  <span style={{ fontWeight: 700, fontSize: '1rem', color: '#ffffff' }}>Radar de Gobierno & Alertas</span>
-                  <span style={{ background: 'rgba(244,63,94,0.2)', color: '#fda4af', border: '1px solid rgba(244,63,94,0.35)', padding: '0.2rem 0.6rem', borderRadius: '999px', fontSize: '0.72rem', fontWeight: 700 }}>
+                  <span style={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF' }}>Radar de Gobierno & Alertas</span>
+                  <span style={{ background: 'rgba(0,0,0,0.2)', color: '#FFFFFF', border: '1px solid rgba(0,0,0,0.35)', padding: '0.2rem 0.6rem', borderRadius: '999px', fontSize: '0.72rem', fontWeight: 700 }}>
                     {(resumen.alertasRiesgoMipa ?? 0) + pendientesCount} pendientes
                   </span>
                 </div>
-                <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '1rem', lineHeight: 1.5 }}>
+                <p style={{ fontSize: '0.82rem', color: '#FFFFFF', marginBottom: '1rem', lineHeight: 1.5 }}>
                   Resumen de acciones prioritarias detectadas directamente desde los registros institucionales.
                 </p>
 
                 <div style={{ display: 'grid', gap: '0.7rem' }}>
                   <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '12px', padding: '0.85rem', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#ffffff' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#FFFFFF' }}>
                       {pendientesCount} Solicitudes de corrección de notas
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: '#cbd5e1', marginTop: '0.2rem' }}>
+                    <div style={{ fontSize: '0.75rem', color: '#FFFFFF', marginTop: '0.2rem' }}>
                       Pendientes de aprobación o rechazo rectoral.
                     </div>
                   </div>
                   <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '12px', padding: '0.85rem', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#ffffff' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#FFFFFF' }}>
                       {resumen.alertasRiesgoMipa ?? 0} Alertas MIPA en nivel Alto/Crítico
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: '#cbd5e1', marginTop: '0.2rem' }}>
+                    <div style={{ fontSize: '0.75rem', color: '#FFFFFF', marginTop: '0.2rem' }}>
                       Estudiantes que requieren intervención preventiva.
                     </div>
                   </div>

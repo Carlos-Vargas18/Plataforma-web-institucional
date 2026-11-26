@@ -81,6 +81,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/auth/me").authenticated()
 
                 // Administración y configuración institucional
+                .requestMatchers("/api/v1/admin/usuarios", "/api/v1/admin/usuarios/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/v1/admin/**").hasAnyRole("ADMIN", "RECTOR", "COORDINADOR", "DIRECTOR_GRUPO", "DOCENTE")
                 .requestMatchers("/api/v1/admin/**").hasAnyRole("ADMIN", "RECTOR", "COORDINADOR")
 

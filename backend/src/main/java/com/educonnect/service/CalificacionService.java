@@ -43,14 +43,14 @@ public class CalificacionService {
                     || !carga.getDocente().getUsuario().getId().equals(editor.getId())) {
                 throw new ForbiddenAccessException("No tiene autorización para modificar calificaciones de una materia asignada a otro docente.");
             }
-        } else if (editor.getRol() != Rol.ADMIN && editor.getRol() != Rol.RECTOR && editor.getRol() != Rol.COORDINADOR) {
+        } else if (!editor.getRol().esAdministrador() && editor.getRol() != Rol.RECTOR && editor.getRol() != Rol.COORDINADOR) {
             throw new ForbiddenAccessException("Su rol no tiene autorización para registrar o alterar calificaciones.");
         }
 
         PeriodoAcademico periodo = periodoAcademicoRepository.findById(req.getPeriodoId())
                 .orElseThrow(() -> new ResourceNotFoundException("El periodo académico especificado no existe."));
 
-        if (Boolean.TRUE.equals(periodo.getCerrado()) && editor.getRol() != Rol.ADMIN && editor.getRol() != Rol.RECTOR) {
+        if (Boolean.TRUE.equals(periodo.getCerrado()) && !editor.getRol().esAdministrador() && editor.getRol() != Rol.RECTOR) {
             throw new BusinessException("El " + periodo.getNombre() + " se encuentra cerrado oficialmente. Debe radicar una Solicitud de Reapertura/Modificación ante Rectoría.");
         }
 
@@ -74,6 +74,10 @@ public class CalificacionService {
         if (carga.getGrupo() != null && matricula.getGrupo() != null
                 && !carga.getGrupo().getId().equals(matricula.getGrupo().getId())) {
             throw new BusinessException("El estudiante no pertenece al grupo correspondiente a esta carga académica.");
+        }
+
+        if (!Objects.equals(periodo.getAnioLectivo().getId(), matricula.getAnioLectivo().getId())) {
+            throw new BusinessException("El periodo y la matrícula deben pertenecer al mismo año lectivo.");
         }
 
         BigDecimal definitiva = calcularDefinitivaDecreto1290(
@@ -106,6 +110,11 @@ public class CalificacionService {
 
         Calificacion guardada = calificacionRepository.save(calificacion);
         return mapCalificacionToMap(guardada);
+    }
+
+    @Transactional
+    public List<Map<String, Object>> guardarPlanilla(List<CalificacionRequest> registros, String email) {
+        return registros.stream().map(registro -> registrarOActualizarNota(registro, email)).toList();
     }
 
     public BigDecimal calcularDefinitivaDecreto1290(BigDecimal cognitiva, BigDecimal procedimental, BigDecimal actitudinal) {
@@ -204,17 +213,21 @@ public class CalificacionService {
         Usuario usuario = usuarioRepository.findByEmail(emailDocente)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
         Docente docente = docenteRepository.findByUsuario_Id(usuario.getId())
-                .orElseGet(() -> docenteRepository.findAll().stream().findFirst()
-                        .orElseThrow(() -> new BusinessException("Solo un docente registrado puede solicitar modificación de notas.")));
+                .orElseThrow(() -> new ForbiddenAccessException("Solo un docente registrado puede solicitar modificación de notas."));
 
         Calificacion calificacion = null;
         if (payload.get("calificacionId") != null) {
-            calificacion = calificacionRepository.findById(Long.valueOf(payload.get("calificacionId").toString())).orElse(null);
+            calificacion = calificacionRepository.findById(Long.valueOf(payload.get("calificacionId").toString()))
+                    .orElseThrow(() -> new ResourceNotFoundException("La calificación especificada no existe."));
+            if (!Objects.equals(calificacion.getCargaAcademica().getDocente().getId(), docente.getId())) {
+                throw new ForbiddenAccessException("Solo puede solicitar cambios de notas de sus cargas académicas.");
+            }
         }
 
-        BigDecimal n1 = new BigDecimal(Objects.toString(payload.getOrDefault("notaNuevaCognitiva", payload.getOrDefault("notaNueva", "4.0"))));
-        BigDecimal n2 = new BigDecimal(Objects.toString(payload.getOrDefault("notaNuevaProcedimental", payload.getOrDefault("notaNueva", "4.0"))));
-        BigDecimal n3 = new BigDecimal(Objects.toString(payload.getOrDefault("notaNuevaActitudinal", payload.getOrDefault("notaNueva", "4.0"))));
+        Object notaComun = payload.getOrDefault("notaNueva", "4.0");
+        BigDecimal n1 = validarNotaPropuesta(payload.getOrDefault("notaNuevaCognitiva", notaComun));
+        BigDecimal n2 = validarNotaPropuesta(payload.getOrDefault("notaNuevaProcedimental", notaComun));
+        BigDecimal n3 = validarNotaPropuesta(payload.getOrDefault("notaNuevaActitudinal", notaComun));
         BigDecimal defNueva = calcularDefinitivaDecreto1290(n1, n2, n3);
         BigDecimal notaAnt = new BigDecimal(Objects.toString(payload.getOrDefault("notaAnterior", calificacion != null ? calificacion.getNotaDefinitivaPeriodo() : "3.0")));
 
@@ -253,10 +266,27 @@ public class CalificacionService {
         return mapSolicitudToMap(guardada);
     }
 
+    private BigDecimal validarNotaPropuesta(Object valor) {
+        try {
+            BigDecimal nota = new BigDecimal(Objects.toString(valor, ""));
+            if (nota.scale() <= 1 && nota.compareTo(BigDecimal.ONE) >= 0
+                    && nota.compareTo(BigDecimal.valueOf(5)) <= 0) {
+                return nota;
+            }
+        } catch (NumberFormatException ignored) {
+            // El mismo mensaje cubre entradas no numéricas y fuera de escala.
+        }
+        throw new BusinessException("La nota propuesta debe estar entre 1.0 y 5.0 y tener como máximo un decimal.");
+    }
+
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> listarSolicitudesModificacion() {
-        return solicitudRepository.findAllByOrderByFechaSolicitudDesc()
-                .stream().map(this::mapSolicitudToMap).toList();
+    public List<Map<String, Object>> listarSolicitudesModificacion(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
+        var solicitudes = usuario.getRol() == Rol.DOCENTE || usuario.getRol() == Rol.DIRECTOR_GRUPO
+                ? solicitudRepository.findByDocente_Usuario_IdOrderByFechaSolicitudDesc(usuario.getId())
+                : solicitudRepository.findAllByOrderByFechaSolicitudDesc();
+        return solicitudes.stream().map(this::mapSolicitudToMap).toList();
     }
 
     public Map<String, Object> mapSolicitudToMap(SolicitudModificacionNota s) {

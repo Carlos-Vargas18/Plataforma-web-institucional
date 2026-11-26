@@ -16,6 +16,7 @@ import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @Service
@@ -101,20 +102,27 @@ public class AcademicoInstitucionalService {
         Matricula matricula = resolverMatricula(payload);
         CargaAcademica carga = resolverCargaAcademica(payload, matricula.getGrupo(), editor);
 
-        if (editor.getRol() == Rol.DOCENTE && carga.getDocente() != null && carga.getDocente().getUsuario() != null
-                && !carga.getDocente().getUsuario().getId().equals(editor.getId())) {
+        if ((editor.getRol() == Rol.DOCENTE || editor.getRol() == Rol.DIRECTOR_GRUPO)
+                && !Objects.equals(carga.getDocente().getUsuario().getId(), editor.getId())) {
             throw new ForbiddenAccessException("No tiene autorización para registrar asistencia en una carga académica ajena.");
+        }
+        if (!Objects.equals(matricula.getGrupo().getId(), carga.getGrupo().getId())) {
+            throw new BusinessException("La matrícula no pertenece al grupo de la carga académica.");
         }
 
         PeriodoAcademico periodo = resolverPeriodoActivo(payload);
-        LocalDate fechaClase = payload.get("fecha") != null && !payload.get("fecha").toString().isBlank()
-                ? LocalDate.parse(payload.get("fecha").toString().substring(0, 10))
-                : LocalDate.now();
+        if (!Objects.equals(matricula.getAnioLectivo().getId(), periodo.getAnioLectivo().getId())) {
+            throw new BusinessException("El periodo y la matrícula deben pertenecer al mismo año lectivo.");
+        }
+        LocalDate fechaClase = fechaAsistencia(payload);
 
         String estadoRaw = Objects.toString(payload.getOrDefault("estadoAsistencia", payload.getOrDefault("estado", "PRESENTE")), "PRESENTE")
                 .trim().toUpperCase();
         if ("EXCUSA".equals(estadoRaw) || "JUSTIFICADA".equals(estadoRaw)) {
             estadoRaw = "EXCUSA_MEDICA";
+        }
+        if (!List.of("PRESENTE", "AUSENTE", "TARDE", "EXCUSA_MEDICA", "PERMISO_INSTITUCIONAL").contains(estadoRaw)) {
+            throw new BusinessException("Seleccione un estado de asistencia válido.");
         }
         String obs = Objects.toString(payload.getOrDefault("observacion", ""), "");
 
@@ -130,20 +138,40 @@ public class AcademicoInstitucionalService {
         asistencia.setEstadoAsistencia(estadoRaw);
         asistencia.setObservacion(obs);
         asistencia.setJustificada("EXCUSA_MEDICA".equals(estadoRaw) || "PERMISO_INSTITUCIONAL".equals(estadoRaw));
-        if ("TARDE".equals(estadoRaw) && (asistencia.getMinutosRetraso() == null || asistencia.getMinutosRetraso() == 0)) {
-            asistencia.setMinutosRetraso(15);
-        }
+        int minutos = "TARDE".equals(estadoRaw)
+                ? Integer.parseInt(Objects.toString(payload.getOrDefault("minutosRetraso", 15))) : 0;
+        if (minutos < 0) throw new BusinessException("Los minutos de retraso no pueden ser negativos.");
+        asistencia.setMinutosRetraso(minutos);
 
         return mapAsistencia(asistenciaRepository.save(asistencia));
+    }
+
+    @Transactional
+    public List<Map<String, Object>> guardarAsistencias(List<Map<String, Object>> registros, String email) {
+        return registros.stream().map(registro -> registrarAsistencia(registro, email)).toList();
+    }
+
+    private LocalDate fechaAsistencia(Map<String, Object> payload) {
+        String fecha = Objects.toString(payload.get("fecha"), "").trim();
+        if (fecha.isEmpty()) return LocalDate.now();
+        try {
+            return LocalDate.parse(fecha);
+        } catch (DateTimeParseException ex) {
+            throw new BusinessException("Ingrese una fecha válida con el formato AAAA-MM-DD.");
+        }
     }
 
     @Transactional(readOnly = true)
     public List<Map<String, Object>> listarJustificaciones(String emailSolicitante) {
         Usuario u = usuarioRepository.findByEmail(emailSolicitante)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
-        List<JustificacionInasistencia> lista = (u.getRol() == Rol.TUTOR)
-                ? justificacionRepository.findByTutor_Usuario_IdOrderByFechaRadicacionDesc(u.getId())
-                : justificacionRepository.findAllByOrderByFechaRadicacionDesc();
+        List<JustificacionInasistencia> lista = switch (u.getRol()) {
+            case TUTOR -> justificacionRepository.findByTutor_Usuario_IdOrderByFechaRadicacionDesc(u.getId());
+            case ESTUDIANTE -> justificacionRepository
+                    .findByAsistencia_Matricula_Estudiante_Usuario_IdOrderByFechaRadicacionDesc(u.getId());
+            case COORDINADOR, ADMIN, RECTOR, ADMINISTRATIVO -> justificacionRepository.findAllByOrderByFechaRadicacionDesc();
+            default -> throw new ForbiddenAccessException("No tiene permiso para consultar excusas.");
+        };
         return lista.stream().map(this::mapJustificacion).toList();
     }
 
@@ -152,24 +180,27 @@ public class AcademicoInstitucionalService {
         Usuario u = usuarioRepository.findByEmail(emailSolicitante)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
 
-        Tutor tutor = tutorRepository.findByUsuario_Id(u.getId())
-                .orElseGet(() -> tutorRepository.findAll().stream().findFirst()
-                        .orElseThrow(() -> new BusinessException("No se encontró perfil de acudiente para radicar la excusa.")));
-
         Asistencia asistencia = null;
         if (payload.get("asistenciaId") != null) {
-            asistencia = asistenciaRepository.findById(Long.valueOf(payload.get("asistenciaId").toString())).orElse(null);
+            asistencia = asistenciaRepository.findById(Long.valueOf(payload.get("asistenciaId").toString()))
+                    .orElseThrow(() -> new ResourceNotFoundException("El registro de asistencia no existe."));
         }
+        Matricula mat = asistencia == null ? resolverMatricula(payload) : asistencia.getMatricula();
+        Estudiante estudiante = mat.getEstudiante();
+        if (u.getRol() == Rol.ESTUDIANTE && !Objects.equals(estudiante.getUsuario().getId(), u.getId())) {
+            throw new ForbiddenAccessException("Solo puede justificar sus propias inasistencias.");
+        }
+        Tutor tutor = estudianteTutorRepository.findByEstudiante_Id(estudiante.getId()).stream()
+                .map(EstudianteTutor::getTutor)
+                .filter(t -> u.getRol() != Rol.TUTOR || Objects.equals(t.getUsuario().getId(), u.getId()))
+                .findFirst()
+                .orElseThrow(() -> new ForbiddenAccessException("No hay un acudiente autorizado para esta matrícula."));
         if (asistencia == null) {
             // Si el acudiente selecciona fecha y estudiante, vinculamos o creamos el registro de inasistencia correspondiente
-            Matricula mat = resolverMatricula(payload);
             CargaAcademica carga = cargaAcademicaRepository.findByGrupo_Id(mat.getGrupo().getId()).stream().findFirst()
-                    .orElseGet(() -> cargaAcademicaRepository.findAll().stream().findFirst()
-                            .orElseThrow(() -> new BusinessException("No existe carga académica para vincular la inasistencia.")));
+                    .orElseThrow(() -> new BusinessException("El grupo no tiene una carga académica para vincular la inasistencia."));
             PeriodoAcademico per = resolverPeriodoActivo(payload);
-            LocalDate fecha = payload.get("fecha") != null && !payload.get("fecha").toString().isBlank()
-                    ? LocalDate.parse(payload.get("fecha").toString().substring(0, 10))
-                    : LocalDate.now();
+            LocalDate fecha = fechaAsistencia(payload);
             asistencia = asistenciaRepository.findByMatricula_IdAndCargaAcademica_IdAndFechaClase(mat.getId(), carga.getId(), fecha)
                     .orElseGet(() -> asistenciaRepository.save(Asistencia.builder()
                             .matricula(mat)
@@ -198,6 +229,9 @@ public class AcademicoInstitucionalService {
                         .tutor(tutor)
                         .fechaRadicacion(LocalDateTime.now())
                         .build());
+        if (u.getRol() == Rol.TUTOR && !Objects.equals(justificacion.getTutor().getId(), tutor.getId())) {
+            throw new ForbiddenAccessException("Solo puede modificar excusas radicadas desde su cuenta.");
+        }
 
         justificacion.setMotivoExcusa(motivo);
         justificacion.setTipoExcusa(tipo);
@@ -261,45 +295,41 @@ public class AcademicoInstitucionalService {
 
         String grupoStr = Objects.toString(payload.getOrDefault("grupo", payload.getOrDefault("grupoCodigo", "10-A")), "10-A").trim();
         Grupo grupo = grupoRepository.findByCodigoGrupo(grupoStr)
-                .orElseGet(() -> grupoRepository.findAll().stream().findFirst()
-                        .orElseThrow(() -> new BusinessException("Grupo no encontrado: " + grupoStr)));
+                .orElseThrow(() -> new ResourceNotFoundException("Grupo no encontrado."));
 
         String matStr = Objects.toString(payload.getOrDefault("materia", ""), "").trim();
         Materia materia = materiaRepository.findAll().stream()
                 .filter(m -> m.getNombre().equalsIgnoreCase(matStr) || m.getCodigoOficial().equalsIgnoreCase(matStr))
                 .findFirst()
-                .orElseGet(() -> materiaRepository.findAll().stream().findFirst()
-                        .orElseThrow(() -> new BusinessException("Materia no encontrada.")));
+                .orElseThrow(() -> new ResourceNotFoundException("Materia no encontrada."));
 
         String docStr = Objects.toString(payload.getOrDefault("docente", ""), "").trim().toLowerCase();
         Docente docente = docenteRepository.findAll().stream()
-                .filter(d -> d.getUsuario() != null && d.getUsuario().getNombreCompleto().toLowerCase().contains(docStr))
+                .filter(d -> d.getUsuario() != null && d.getUsuario().getNombreCompleto().equalsIgnoreCase(docStr))
                 .findFirst()
-                .orElseGet(() -> docenteRepository.findAll().stream().findFirst()
-                        .orElseThrow(() -> new BusinessException("Docente no encontrado.")));
+                .orElseThrow(() -> new ResourceNotFoundException("Docente no encontrado."));
 
         String dia = Objects.toString(payload.getOrDefault("dia", payload.getOrDefault("diaSemana", "LUNES")), "LUNES")
                 .trim().toUpperCase()
                 .replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U");
+        if (!List.of("LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES").contains(dia)) {
+            throw new BusinessException("Seleccione un día de lunes a viernes.");
+        }
 
         String horaStr = Objects.toString(payload.getOrDefault("hora", payload.getOrDefault("horaInicio", "07:00")), "07:00").trim();
         String inicioParte = horaStr.contains("-") ? horaStr.split("-")[0].trim() : horaStr;
         if (inicioParte.length() == 4) inicioParte = "0" + inicioParte;
-        LocalTime horaInicio = LocalTime.parse(inicioParte.substring(0, 5));
+        LocalTime horaInicio;
+        try {
+            horaInicio = LocalTime.parse(inicioParte);
+        } catch (DateTimeParseException ex) {
+            throw new BusinessException("Ingrese una hora válida con el formato HH:mm.");
+        }
         LocalTime horaFin = horaInicio.plusMinutes(60);
 
-        int bloqueOrden = switch (horaInicio.getHour()) {
-            case 7 -> 1;
-            case 8 -> 2;
-            case 9 -> 3;
-            case 10 -> 4;
-            case 11 -> 5;
-            case 12 -> 6;
-            default -> 7;
-        };
-        if (payload.get("bloqueOrden") != null) {
-            try { bloqueOrden = Integer.parseInt(payload.get("bloqueOrden").toString()); } catch (NumberFormatException ignored) {}
-        }
+        int bloqueOrden = List.of(LocalTime.of(7, 0), LocalTime.of(8, 0), LocalTime.of(9, 0),
+                LocalTime.of(10, 30), LocalTime.of(11, 30), LocalTime.of(12, 30)).indexOf(horaInicio) + 1;
+        if (bloqueOrden == 0) throw new BusinessException("Seleccione una franja del horario escolar.");
 
         if (horarioRepository.existsByAnioLectivo_IdAndGrupo_IdAndDiaSemanaAndBloqueOrden(anio.getId(), grupo.getId(), dia, bloqueOrden)) {
             throw new BusinessException("Conflicto de horario: el grupo " + grupo.getCodigoGrupo() + " ya tiene una clase asignada el " + dia + " en ese bloque horario.");
@@ -309,6 +339,9 @@ public class AcademicoInstitucionalService {
         }
 
         String aula = Objects.toString(payload.getOrDefault("aula", grupo.getSalonAula()), "Aula 101").trim();
+        if (aula.isBlank() || aula.length() > 50) {
+            throw new BusinessException("El aula debe tener entre 1 y 50 caracteres.");
+        }
 
         HorarioEscolar bloque = HorarioEscolar.builder()
                 .anioLectivo(anio)
@@ -335,9 +368,22 @@ public class AcademicoInstitucionalService {
     // =========================================================================
 
     @Transactional(readOnly = true)
-    public List<Map<String, Object>> listarComunicados() {
-        return comunicadoRepository.findByActivoTrueOrderByFechaPublicacionDesc()
-                .stream().map(this::mapComunicado).toList();
+    public List<Map<String, Object>> listarComunicados(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
+        return comunicadosVisibles(usuario.getRol()).stream().map(this::mapComunicado).toList();
+    }
+
+    List<Comunicado> comunicadosVisibles(Rol rol) {
+        List<String> destinatarios = switch (rol) {
+            case ESTUDIANTE -> List.of("TODOS", "ESTUDIANTES");
+            case TUTOR -> List.of("TODOS", "TUTORES");
+            case DOCENTE, DIRECTOR_GRUPO -> List.of("TODOS", "DOCENTES");
+            case ADMIN, ADMINISTRATIVO, RECTOR, COORDINADOR -> List.of();
+        };
+        return destinatarios.isEmpty()
+                ? comunicadoRepository.findByActivoTrueOrderByFechaPublicacionDesc()
+                : comunicadoRepository.findByDestinatarioRolInAndActivoTrueOrderByFechaPublicacionDesc(destinatarios);
     }
 
     @Transactional
@@ -393,6 +439,22 @@ public class AcademicoInstitucionalService {
             }
             return observadorRepository.findByMatricula_Estudiante_IdOrderByFechaSucesoDesc(miEst.getId())
                     .stream().map(this::mapObservacion).toList();
+        }
+
+        if (u.getRol() == Rol.TUTOR) {
+            var vinculados = estudianteTutorRepository.findByTutor_Usuario_Id(u.getId()).stream()
+                    .map(EstudianteTutor::getEstudiante).toList();
+            if (estudianteId != null && vinculados.stream().noneMatch(e ->
+                    estudianteId.equals(e.getId()) || estudianteId.equals(e.getUsuario().getId()))) {
+                throw new ForbiddenAccessException("Solo puede consultar el observador de estudiantes vinculados.");
+            }
+            return vinculados.stream()
+                    .filter(e -> estudianteId == null || estudianteId.equals(e.getId())
+                            || estudianteId.equals(e.getUsuario().getId()))
+                    .flatMap(e -> observadorRepository
+                            .findByMatricula_Estudiante_IdOrderByFechaSucesoDesc(e.getId()).stream())
+                    .sorted(Comparator.comparing(ObservadorEstudiante::getFechaSuceso).reversed())
+                    .map(this::mapObservacion).toList();
         }
 
         List<ObservadorEstudiante> lista;
@@ -454,10 +516,17 @@ public class AcademicoInstitucionalService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
         ObservadorEstudiante obs = observadorRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Anotación no encontrada."));
+        Estudiante estudiante = obs.getMatricula().getEstudiante();
         if (u.getRol() == Rol.ESTUDIANTE) {
+            if (!Objects.equals(estudiante.getUsuario().getId(), u.getId())) {
+                throw new ForbiddenAccessException("Solo puede firmar sus propias anotaciones.");
+            }
             obs.setFirmadoEstudiante(true);
-        } else {
+        } else if (u.getRol() == Rol.TUTOR && estudianteTutorRepository
+                .existsByTutor_Usuario_IdAndEstudiante_Id(u.getId(), estudiante.getId())) {
             obs.setFirmadoAcudiente(true);
+        } else {
+            throw new ForbiddenAccessException("Solo puede firmar anotaciones de estudiantes vinculados.");
         }
         return mapObservacion(observadorRepository.save(obs));
     }
@@ -466,9 +535,14 @@ public class AcademicoInstitucionalService {
     public List<Map<String, Object>> listarCitaciones(String emailSolicitante) {
         Usuario u = usuarioRepository.findByEmail(emailSolicitante)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
-        List<CitacionPadre> lista = (u.getRol() == Rol.TUTOR)
-                ? citacionRepository.findByTutor_Usuario_IdOrderByFechaHoraCitaDesc(u.getId())
-                : citacionRepository.findAllByOrderByFechaHoraCitaDesc();
+        List<CitacionPadre> lista = switch (u.getRol()) {
+            case TUTOR -> citacionRepository.findByTutor_Usuario_IdOrderByFechaHoraCitaDesc(u.getId());
+            case DOCENTE, DIRECTOR_GRUPO -> citacionRepository.findByConvocadoPor_IdOrderByFechaHoraCitaDesc(u.getId());
+            case ESTUDIANTE -> estudianteRepository.findByUsuario_Id(u.getId())
+                    .map(e -> citacionRepository.findByEstudiante_IdOrderByFechaHoraCitaDesc(e.getId()))
+                    .orElseGet(List::of);
+            case COORDINADOR, RECTOR, ADMIN, ADMINISTRATIVO -> citacionRepository.findAllByOrderByFechaHoraCitaDesc();
+        };
         return lista.stream().map(this::mapCitacion).toList();
     }
 
@@ -482,8 +556,7 @@ public class AcademicoInstitucionalService {
         Tutor tutor = estudianteTutorRepository.findByEstudiante_Id(est.getId()).stream()
                 .map(EstudianteTutor::getTutor)
                 .findFirst()
-                .orElseGet(() -> tutorRepository.findAll().stream().findFirst()
-                        .orElseThrow(() -> new BusinessException("No hay acudiente registrado para el estudiante.")));
+                .orElseThrow(() -> new BusinessException("No hay acudiente registrado para el estudiante."));
 
         String motivo = Objects.toString(payload.getOrDefault("motivo", payload.getOrDefault("motivoCitacion", "")), "").trim();
         if (motivo.isBlank()) {
@@ -521,14 +594,28 @@ public class AcademicoInstitucionalService {
     }
 
     @Transactional
-    public Map<String, Object> actualizarEstadoCitacion(Long id, Map<String, Object> payload) {
+    public Map<String, Object> actualizarEstadoCitacion(Long id, Map<String, Object> payload, String emailSolicitante) {
+        Usuario solicitante = usuarioRepository.findByEmail(emailSolicitante)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
         CitacionPadre cit = citacionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Citación no encontrada."));
+        boolean autorizado = switch (solicitante.getRol()) {
+            case TUTOR -> Objects.equals(cit.getTutor().getUsuario().getId(), solicitante.getId());
+            case DOCENTE, DIRECTOR_GRUPO -> Objects.equals(cit.getConvocadoPor().getId(), solicitante.getId());
+            case COORDINADOR, RECTOR, ADMIN, ADMINISTRATIVO -> true;
+            default -> false;
+        };
+        if (!autorizado) {
+            throw new ForbiddenAccessException("No tiene permiso para actualizar esta citación.");
+        }
         String nuevoEstado = Objects.toString(payload.getOrDefault("estado", "CONFIRMADA_ACUDIENTE"), "CONFIRMADA_ACUDIENTE").toUpperCase();
         if (nuevoEstado.contains("CONFIRM")) nuevoEstado = "CONFIRMADA_ACUDIENTE";
         else if (nuevoEstado.contains("REALIZ") || nuevoEstado.contains("ASIST")) nuevoEstado = "REALIZADA";
+        if (solicitante.getRol() == Rol.TUTOR && !"CONFIRMADA_ACUDIENTE".equals(nuevoEstado)) {
+            throw new ForbiddenAccessException("El acudiente solo puede confirmar su asistencia.");
+        }
         cit.setEstadoCita(nuevoEstado);
-        if (payload.get("compromisosActa") != null) {
+        if (solicitante.getRol() != Rol.TUTOR && payload.get("compromisosActa") != null) {
             cit.setCompromisosActa(payload.get("compromisosActa").toString());
         }
         return mapCitacion(citacionRepository.save(cit));
@@ -666,17 +753,20 @@ public class AcademicoInstitucionalService {
             List<Matricula> mats = matriculaRepository.findByEstudiante_Id(id);
             if (mats.isEmpty()) mats = matriculaRepository.findByEstudiante_Usuario_Id(id);
             if (!mats.isEmpty()) return mats.get(0);
+            throw new ResourceNotFoundException("No se encontró matrícula para el estudiante indicado.");
         }
         if (payload.get("estudiante") != null || payload.get("estudianteNombre") != null) {
             String nombre = Objects.toString(payload.getOrDefault("estudiante", payload.get("estudianteNombre")), "").trim().toLowerCase();
-            Optional<Matricula> match = matriculaRepository.findAll().stream()
+            if (nombre.isBlank()) throw new BusinessException("Indique el nombre del estudiante.");
+            List<Matricula> coincidencias = matriculaRepository.findAll().stream()
                     .filter(m -> m.getEstudiante() != null && m.getEstudiante().getUsuario() != null
                             && m.getEstudiante().getUsuario().getNombreCompleto().toLowerCase().contains(nombre))
-                    .findFirst();
-            if (match.isPresent()) return match.get();
+                    .toList();
+            if (coincidencias.size() == 1) return coincidencias.getFirst();
+            if (coincidencias.size() > 1) throw new BusinessException("El nombre coincide con varias matrículas. Indique la matrícula exacta.");
+            throw new ResourceNotFoundException("No se encontró matrícula para el estudiante indicado.");
         }
-        return matriculaRepository.findAll().stream().findFirst()
-                .orElseThrow(() -> new BusinessException("No se encontró matrícula activa para el estudiante."));
+        throw new BusinessException("Indique la matrícula o el estudiante.");
     }
 
     private CargaAcademica resolverCargaAcademica(Map<String, Object> payload, Grupo grupo, Usuario editor) {

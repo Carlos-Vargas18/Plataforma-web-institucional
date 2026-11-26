@@ -22,6 +22,18 @@ import {
   UsuarioDto,
 } from '../types';
 
+interface CalificacionPayload {
+  matriculaId?: number;
+  estudianteId?: number;
+  cargaAcademicaId: number;
+  periodoId: number;
+  notaCognitiva: number;
+  notaProcedimental: number;
+  notaActitudinal: number;
+  juicioValorativo?: string;
+  planMejoramiento?: string;
+}
+
 export interface UsuarioCreatePayload {
   tipoDocumento?: string;
   documento: string;
@@ -256,18 +268,8 @@ export const api = {
     return httpClient.get<CalificacionDto[]>(`/calificaciones${qs}`);
   },
 
-  async actualizarCalificacion(data: {
-    matriculaId?: number;
-    estudianteId?: number;
-    cargaAcademicaId: number;
-    periodoId: number;
-    notaCognitiva: number;
-    notaProcedimental: number;
-    notaActitudinal: number;
-    juicioValorativo?: string;
-    planMejoramiento?: string;
-  }): Promise<CalificacionDto> {
-    return httpClient.post<CalificacionDto>('/calificaciones', data);
+  async guardarPlanillaCalificaciones(registros: CalificacionPayload[]): Promise<CalificacionDto[]> {
+    return httpClient.post<CalificacionDto[]>('/calificaciones/planilla', { registros });
   },
 
   // ===========================================================================
@@ -290,8 +292,8 @@ export const api = {
     return this.getAsistencias(estudianteId ? { estudianteId } : undefined);
   },
 
-  async registrarAsistencia(data: Record<string, unknown>): Promise<AsistenciaDto> {
-    return httpClient.post<AsistenciaDto>('/asistencias', data);
+  async guardarPlanillaAsistencias(registros: Record<string, unknown>[]): Promise<AsistenciaDto[]> {
+    return httpClient.post<AsistenciaDto[]>('/asistencias/planilla', { registros });
   },
 
   async getJustificaciones(): Promise<JustificacionDto[]> {

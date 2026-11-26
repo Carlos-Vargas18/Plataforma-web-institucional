@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { AlertaMipaDto } from '../types';
-import { StatusBanner } from './ui/DashboardShared';
+import { KpiValue, StatusBanner } from './ui/DashboardShared';
 
 interface MipaTelemetriaPanelProps {
   modo?: 'telemetria' | 'mipa' | 'ambos';
@@ -129,7 +129,7 @@ const MipaTelemetriaPanel: React.FC<MipaTelemetriaPanelProps> = ({ modo = 'ambos
                 <Cpu size={24} />
               </div>
               <div>
-                <div className="stat-number">{telemetria.usoMemoriaPorcentaje}%</div>
+                <div className="stat-number"><KpiValue value={`${telemetria.usoMemoriaPorcentaje}%`} /></div>
                 <div className="stat-label">
                   Memoria JVM ({telemetria.memoriaUsadaMb} MB / {telemetria.memoriaTotalMb} MB)
                 </div>
@@ -140,7 +140,7 @@ const MipaTelemetriaPanel: React.FC<MipaTelemetriaPanelProps> = ({ modo = 'ambos
                 <Clock size={24} />
               </div>
               <div>
-                <div className="stat-number">{telemetria.tiempoActividadMinutos} min</div>
+                <div className="stat-number"><KpiValue value={telemetria.tiempoActividadMinutos} /> min</div>
                 <div className="stat-label">Tiempo Activo del Servidor</div>
               </div>
             </div>
@@ -149,7 +149,7 @@ const MipaTelemetriaPanel: React.FC<MipaTelemetriaPanelProps> = ({ modo = 'ambos
                 <Database size={24} />
               </div>
               <div>
-                <div className="stat-number">{telemetria.totalEventosRegistrados}</div>
+                <div className="stat-number"><KpiValue value={telemetria.totalEventosRegistrados} /></div>
                 <div className="stat-label">Eventos Auditados en BD</div>
               </div>
             </div>

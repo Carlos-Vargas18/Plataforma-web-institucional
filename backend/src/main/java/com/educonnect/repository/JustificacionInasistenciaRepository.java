@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface JustificacionInasistenciaRepository extends JpaRepository<JustificacionInasistencia, Long> {
     List<JustificacionInasistencia> findAllByOrderByFechaRadicacionDesc();
     List<JustificacionInasistencia> findByTutor_Usuario_IdOrderByFechaRadicacionDesc(Long tutorUsuarioId);
+    List<JustificacionInasistencia> findByAsistencia_Matricula_Estudiante_Usuario_IdOrderByFechaRadicacionDesc(Long usuarioId);
     Optional<JustificacionInasistencia> findByAsistencia_Id(Long asistenciaId);
 }

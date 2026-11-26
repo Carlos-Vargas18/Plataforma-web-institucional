@@ -36,7 +36,6 @@ public class GobiernoYAnaliticaService {
     private final EstudianteTutorRepository estudianteTutorRepository;
     private final UsuarioRepository usuarioRepository;
     private final HorarioEscolarRepository horarioRepository;
-    private final ComunicadoRepository comunicadoRepository;
     private final AdminService adminService;
     private final CalificacionService calificacionService;
     private final AcademicoInstitucionalService academicoService;
@@ -207,17 +206,22 @@ public class GobiernoYAnaliticaService {
 
         Matricula matricula = null;
         if (payload.get("matriculaId") != null) {
-            matricula = matriculaRepository.findById(Long.valueOf(payload.get("matriculaId").toString())).orElse(null);
+            matricula = matriculaRepository.findById(Long.valueOf(payload.get("matriculaId").toString()))
+                    .orElseThrow(() -> new ResourceNotFoundException("Matrícula no encontrada."));
         }
         if (matricula == null && payload.get("estudiante") != null) {
             String estName = payload.get("estudiante").toString().trim().toLowerCase();
-            matricula = matriculaRepository.findAll().stream()
+            if (estName.isBlank()) throw new BusinessException("Indique el estudiante del caso.");
+            var coincidencias = matriculaRepository.findAll().stream()
                     .filter(m -> m.getEstudiante().getUsuario().getNombreCompleto().toLowerCase().contains(estName))
-                    .findFirst().orElse(null);
+                    .toList();
+            if (coincidencias.size() != 1) {
+                throw new BusinessException("Seleccione una matrícula que identifique al estudiante del caso.");
+            }
+            matricula = coincidencias.getFirst();
         }
         if (matricula == null) {
-            matricula = matriculaRepository.findAll().stream().findFirst()
-                    .orElseThrow(() -> new BusinessException("Debe existir al menos un estudiante matriculado."));
+            throw new BusinessException("Indique el estudiante o matrícula del caso.");
         }
 
         String tipo = Objects.toString(payload.getOrDefault("tipoSituacion", payload.getOrDefault("tipoFalta", "TIPO_I")), "TIPO_I")
@@ -363,7 +367,7 @@ public class GobiernoYAnaliticaService {
         Usuario u = usuarioRepository.findByEmail(emailTutor)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
         List<EstudianteTutor> vinculos = estudianteTutorRepository.findByTutor_Usuario_Id(u.getId());
-        if (vinculos.isEmpty() && (u.getRol() == Rol.ADMIN || u.getRol() == Rol.COORDINADOR || u.getRol() == Rol.RECTOR)) {
+        if (vinculos.isEmpty() && (u.getRol().esAdministrador() || u.getRol() == Rol.COORDINADOR || u.getRol() == Rol.RECTOR)) {
             vinculos = estudianteTutorRepository.findAll();
         }
 
@@ -555,10 +559,9 @@ public class GobiernoYAnaliticaService {
         Usuario u = usuarioRepository.findByEmail(emailUsuario)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado."));
         String q = pregunta != null ? pregunta.trim().toLowerCase() : "";
-        DashboardStatsDto stats = adminService.obtenerEstadisticasGenerales();
-
         String respuesta;
         if (q.contains("estad") || q.contains("resumen") || q.contains("cuántos") || q.contains("cuantos") || q.contains("total")) {
+            DashboardStatsDto stats = adminService.obtenerEstadisticasGenerales();
             respuesta = String.format(
                     "📊 **Resumen Institucional Verificado en Base de Datos:**\n- **Estudiantes matriculados:** %d\n- **Docentes activos:** %d\n- **Grupos conformados:** %d\n- **Asignaturas activas:** %d\n- **Promedio institucional Decreto 1290:** %.2f\n- **Asistencia global:** %.1f%%",
                     stats.getTotalEstudiantes(), stats.getTotalDocentes(), stats.getTotalGrupos(), stats.getTotalMaterias(),
@@ -570,7 +573,7 @@ public class GobiernoYAnaliticaService {
             long totalBloques = horarioRepository.count();
             respuesta = "🗓️ **Horarios Escolares:** Actualmente existen **" + totalBloques + " bloques horarios** validados sin colisión en PostgreSQL. Puedes consultarlos e imprimirlos desde la pestaña **Horarios** de tu panel.";
         } else if (q.contains("comunicado") || q.contains("circular") || q.contains("aviso")) {
-            List<Comunicado> coms = comunicadoRepository.findByActivoTrueOrderByFechaPublicacionDesc();
+            List<Comunicado> coms = academicoService.comunicadosVisibles(u.getRol());
             if (coms.isEmpty()) {
                 respuesta = "📢 No hay comunicados institucionales activos en este momento.";
             } else {
@@ -581,6 +584,7 @@ public class GobiernoYAnaliticaService {
             if (u.getRol() == Rol.ESTUDIANTE || u.getRol() == Rol.TUTOR) {
                 respuesta = "🛡️ La información detallada del **Motor Inteligente de Prevención de Abandono (MIPA)** es de acceso reservado para el equipo directivo y de orientación escolar.";
             } else {
+                DashboardStatsDto stats = adminService.obtenerEstadisticasGenerales();
                 respuesta = "🚨 **Estado del Motor MIPA:** Actualmente se registran **" + stats.getAlertasRiesgo() + " alerta(s) de riesgo alto/crítico** pendientes de intervención psicopedagógica.";
             }
         } else {

@@ -71,16 +71,16 @@ Plataforma-web-institucional/
 
 ## ⚙️ 3. Variables de Entorno
 
-Crea un archivo `.env` en la raíz o define las siguientes variables de entorno en tu sistema antes de desplegar en producción (consulta [`.env.example`](file:///C:/Users/maria/Desktop/Plataforma-web-institucional/.env.example) y [`frontend/.env.example`](file:///C:/Users/maria/Desktop/Plataforma-web-institucional/frontend/.env.example)):
+Configura estas variables en el entorno del proceso antes de iniciar el backend. Usa [`.env.example`](.env.example) como plantilla. Vite puede leer las variables del frontend desde [`frontend/.env.example`](frontend/.env.example) al copiarla a `frontend/.env`.
 
 ### Backend (`backend/`)
 | Variable | Descripción | Valor por defecto (Desarrollo) |
 | :--- | :--- | :--- |
 | `SPRING_PROFILES_ACTIVE` | Perfil de ejecución (`local` para H2 modo PostgreSQL, vacío para PostgreSQL/Supabase externo) | `local` |
-| `DB_URL` | Cadena JDBC de PostgreSQL / Supabase Pooler | `jdbc:postgresql://localhost:5432/postgres` |
+| `DB_URL` | Cadena JDBC de PostgreSQL / Supabase Pooler | `jdbc:postgresql://localhost:5432/educonnect_db` |
 | `DB_USERNAME` | Usuario de base de datos PostgreSQL | `postgres` |
 | `DB_PASSWORD` | Contraseña de base de datos PostgreSQL | *(vacío)* |
-| `FLYWAY_ENABLED` | Activa migraciones automáticas Flyway en PostgreSQL | `false` (`true` en prod) |
+| `FLYWAY_ENABLED` | Activa migraciones automáticas Flyway en PostgreSQL | `true`. El perfil `local` lo desactiva para H2. |
 | `JWT_SECRET` | Clave secreta de mínimo 32 caracteres para firmar tokens JWT | *(Clave CSPRNG efímera en dev)* |
 | `JWT_EXPIRATION` | Tiempo de expiración del token JWT en milisegundos | `86400000` (24h) |
 | `CORS_ALLOWED_ORIGINS` | Orígenes permitidos para CORS | `http://localhost:5173,http://localhost:3000` |
@@ -100,7 +100,7 @@ Crea un archivo `.env` en la raíz o define las siguientes variables de entorno 
 
 ### Requisitos Previos
 - **Java JDK 21+**
-- **Node.js 20+** y **npm**
+- **Node.js 20.19+ dentro de la serie 20, o 22.12+**, y **npm**
 - **PostgreSQL 15+** o proyecto en **Supabase** *(opcional en desarrollo local gracias al perfil `local` autogestionado)*
 
 ### Paso 1: Ejecutar el Backend (Spring Boot)
@@ -132,6 +132,13 @@ La aplicación web estará disponible en `http://localhost:5173` (con proxy auto
 
 ---
 
+## Despliegue de la demo
+
+- En Vercel, usa `frontend` como directorio raíz. [`frontend/vercel.json`](frontend/vercel.json) configura Vite, `npm ci`, `npm run build`, la salida `dist` y la reescritura para React Router.
+- Define `VITE_API_BASE_URL` en el entorno **Production** de Vercel con la URL HTTPS de la API pública, terminada en `/api/v1` y sin barra final. Esta variable se incorpora al JavaScript público.
+- Para alojar la API en Render, selecciona un servicio web Docker con directorio raíz `backend` y `./Dockerfile` como ruta del Dockerfile. Usa PostgreSQL o Supabase de demo con `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, `FLYWAY_ENABLED=true` y `JPA_DDL_AUTO=validate` en el entorno del servicio. Deja desactivado el perfil `local` y usa una base de demo con una cuenta de prueba activa. Configura `CORS_ALLOWED_ORIGINS` con el origen exacto del dominio de Vercel, sin barra final.
+- Tras publicar, abre la URL de producción sin iniciar sesión en Vercel. Verifica el acceso con la cuenta de demo y recarga una ruta protegida. Las peticiones de la aplicación deben ir al origen HTTPS de la API.
+
 ## 🧪 5. Ejecución de Pruebas Automatizadas y Compilación
 
 ### Pruebas de Integración y Seguridad del Backend (JUnit 5 + Spring Security MockMvc)
@@ -152,7 +159,7 @@ npm run build
 
 ## 👥 6. Cuentas Institucionales Iniciales (Semilla de Desarrollo)
 
-El inicializador [`DataInitializer.java`](file:///C:/Users/maria/Desktop/Plataforma-web-institucional/backend/src/main/java/com/educonnect/config/DataInitializer.java) y la migración [`V2__seed_data.sql`](file:///C:/Users/maria/Desktop/Plataforma-web-institucional/backend/src/main/resources/db/migration/V2__seed_data.sql) aprovisionan los siguientes usuarios institucionales verificados con hash BCrypt:
+El perfil `local` y las pruebas automatizadas activan el inicializador de cuentas ficticias con BCrypt. En PostgreSQL, Flyway crea el esquema y carga los catálogos base. Las cuentas ficticias quedan desactivadas por defecto fuera del perfil `local`.
 
 | Rol Institucional | Correo Electrónico | Ruta Protegida |
 | :--- | :--- | :--- |
@@ -164,4 +171,4 @@ El inicializador [`DataInitializer.java`](file:///C:/Users/maria/Desktop/Platafo
 | **Estudiante (`ESTUDIANTE`)** | `carlosvargas@educonnect.com` | `/estudiante` |
 | **Padre / Acudiente (`TUTOR`)** | `juan.ramirez@gmail.com` | `/tutor` |
 
-*(En el entorno local de pruebas, todas las cuentas semilla utilizan la clave institucional definida en el inicializador de desarrollo).*
+En el perfil `local` las cuentas de prueba utilizan `APP_SEED_DEFAULT_PASSWORD` o, si no se configura, `123456`. Usa el mismo valor al ejecutar `npm run test:e2e` en una terminal con ambos servicios locales activos. La suite de navegador utiliza Microsoft Edge.

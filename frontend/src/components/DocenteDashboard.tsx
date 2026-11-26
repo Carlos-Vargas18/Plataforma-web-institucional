@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 import {
@@ -78,6 +78,7 @@ export const DocenteDashboard: React.FC = () => {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const savingPlanilla = useRef(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
 
   const [esDirectorGrupo, setEsDirectorGrupo] = useState<boolean>(Boolean(user?.esDirectorGrupo));
@@ -271,7 +272,7 @@ export const DocenteDashboard: React.FC = () => {
   const cargaSeleccionadaObj = cargas.find((c) => c.id === selectedCargaId);
 
   const handleSaveGrades = async () => {
-    if (!selectedCargaId || !selectedPeriodoId) return;
+    if (!selectedCargaId || !selectedPeriodoId || savingPlanilla.current || gradeRows.length === 0) return;
     if (isPeriodoCerrado) {
       setStatusMessage({
         type: 'error',
@@ -280,23 +281,20 @@ export const DocenteDashboard: React.FC = () => {
       return;
     }
 
+    savingPlanilla.current = true;
     setSaving(true);
     try {
-      const nuevosRegistros: CalificacionDto[] = [];
-      for (const row of gradeRows) {
-        const guardado = await api.actualizarCalificacion({
-          matriculaId: row.matriculaId,
-          estudianteId: row.estudianteId,
-          cargaAcademicaId: selectedCargaId,
-          periodoId: selectedPeriodoId,
-          notaCognitiva: row.cognitiva,
-          notaProcedimental: row.procedimental,
-          notaActitudinal: row.actitudinal,
-          juicioValorativo: row.juicioValorativo || undefined,
-          planMejoramiento: row.definitiva < 3.0 ? row.planMejoramiento || 'Plan de nivelación pedagógica Decreto 1290' : undefined,
-        });
-        nuevosRegistros.push(guardado);
-      }
+      const nuevosRegistros = await api.guardarPlanillaCalificaciones(gradeRows.map((row) => ({
+        matriculaId: row.matriculaId,
+        estudianteId: row.estudianteId,
+        cargaAcademicaId: selectedCargaId,
+        periodoId: selectedPeriodoId,
+        notaCognitiva: row.cognitiva,
+        notaProcedimental: row.procedimental,
+        notaActitudinal: row.actitudinal,
+        juicioValorativo: row.juicioValorativo || undefined,
+        planMejoramiento: row.definitiva < 3.0 ? row.planMejoramiento || 'Plan de nivelación pedagógica Decreto 1290' : undefined,
+      })));
 
       const todasActualizadas = await api.getCalificaciones();
       setCalificacionesAll(todasActualizadas);
@@ -312,6 +310,7 @@ export const DocenteDashboard: React.FC = () => {
         text: err instanceof Error ? err.message : 'Error guardando calificaciones en el servidor.',
       });
     } finally {
+      savingPlanilla.current = false;
       setSaving(false);
     }
   };
@@ -362,13 +361,14 @@ export const DocenteDashboard: React.FC = () => {
   };
 
   const handleGuardarAsistencia = async () => {
-    if (!selectedCargaId) return;
+    if (!selectedCargaId || savingPlanilla.current || gradeRows.length === 0) return;
+    savingPlanilla.current = true;
     setSaving(true);
     try {
       const hoy = new Date().toISOString().split('T')[0];
-      for (const row of gradeRows) {
+      await api.guardarPlanillaAsistencias(gradeRows.map((row) => {
         const estado = asistenciaMap[row.matriculaId] || 'PRESENTE';
-        await api.registrarAsistencia({
+        return {
           matriculaId: row.matriculaId,
           estudianteId: row.estudianteId,
           cargaAcademicaId: selectedCargaId,
@@ -376,8 +376,8 @@ export const DocenteDashboard: React.FC = () => {
           estado,
           minutosRetraso: estado === 'TARDE' ? 10 : 0,
           observacion: estado === 'AUSENTE' ? 'Inasistencia reportada en clase' : 'Control diario de aula',
-        });
-      }
+        };
+      }));
       const actualizado = await api.getAsistencias();
       setAsistenciaHistory(actualizado);
       setStatusMessage({
@@ -390,6 +390,7 @@ export const DocenteDashboard: React.FC = () => {
         text: err instanceof Error ? err.message : 'Error guardando asistencia.',
       });
     } finally {
+      savingPlanilla.current = false;
       setSaving(false);
     }
   };
@@ -510,7 +511,7 @@ export const DocenteDashboard: React.FC = () => {
             <span>·</span>
             <span>{cargas.length} asignaciones activas</span>
           </div>
-          <h1 style={{ margin: 0, fontSize: '1.55rem', fontWeight: 800, color: '#ffffff' }}>
+          <h1 style={{ margin: 0, fontSize: '1.55rem', fontWeight: 800, color: '#FFFFFF' }}>
             {cargaSeleccionadaObj
               ? `${cargaSeleccionadaObj.materia} — Grupo ${cargaSeleccionadaObj.grupo}`
               : 'Gestión Académica y Formativa'}
@@ -525,7 +526,7 @@ export const DocenteDashboard: React.FC = () => {
             type="button"
             onClick={() => setCurrentTab('asistencia_materia')}
             style={{
-              background: '#ffffff',
+                  background: 'var(--ec-surface-card)',
               color: 'var(--ec-primary-dark)',
               padding: '0.6rem 1rem',
               borderRadius: '11px',
@@ -544,8 +545,8 @@ export const DocenteDashboard: React.FC = () => {
               onClick={() => setCurrentTab('grupo_consolidado')}
               style={{
                 background: 'rgba(255,255,255,0.16)',
-                color: '#ffffff',
-                border: '1px solid rgba(255,255,255,0.28)',
+                color: 'var(--ec-text)',
+                border: '1px solid var(--ec-border)',
                 padding: '0.6rem 1rem',
                 borderRadius: '11px',
                 fontWeight: 600,

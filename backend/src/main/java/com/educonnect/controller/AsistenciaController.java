@@ -1,6 +1,8 @@
 package com.educonnect.controller;
 
 import com.educonnect.service.AcademicoInstitucionalService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +42,21 @@ public class AsistenciaController {
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         return ResponseEntity.ok(academicoService.registrarAsistencia(payload, userDetails.getUsername()));
+    }
+
+    public record Planilla(@NotEmpty List<@NotEmpty Map<String, Object>> registros) {
+        public Planilla {
+            if (registros != null) {
+                registros = Collections.unmodifiableList(new ArrayList<>(registros));
+            }
+        }
+    }
+
+    @PostMapping("/planilla")
+    @PreAuthorize("hasAnyRole('DOCENTE', 'DIRECTOR_GRUPO', 'COORDINADOR', 'ADMIN')")
+    public List<Map<String, Object>> guardarPlanilla(@Valid @RequestBody Planilla planilla,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return academicoService.guardarAsistencias(planilla.registros(), userDetails.getUsername());
     }
 
     @GetMapping("/justificaciones")

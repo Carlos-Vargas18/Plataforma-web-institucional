@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -178,6 +178,49 @@ export interface KpiCardProps {
   onClick?: () => void;
 }
 
+export function KpiValue({ value }: { value: React.ReactNode }) {
+  const displayRef = useRef<HTMLSpanElement>(null);
+  const label = typeof value === 'number' || typeof value === 'string' ? String(value) : '';
+  const numeric = /^(-?\d+)(?:([.,])(\d+))?(%?)$/.exec(label);
+  const amount = numeric ? Number(label.replace('%', '').replace(',', '.')) : NaN;
+  const separator = numeric?.[2] ?? '.';
+  const decimals = numeric?.[3]?.length ?? 0;
+  const suffix = numeric?.[4] ?? '';
+
+  useLayoutEffect(() => {
+    const display = displayRef.current;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!display || motion.matches || !Number.isFinite(amount) || amount === 0) return;
+
+    let frame = 0;
+    const intro = display.closest('.dashboard-layout')?.querySelector('.ec-dashboard-intro');
+    const elapsed = intro?.getAnimations()[0]?.currentTime;
+    const delay = typeof elapsed === 'number' && elapsed < 1100 ? 1330 - elapsed : 120;
+    const start = performance.now() + delay;
+    const update = (now: number) => {
+      const progress = Math.max(0, Math.min((now - start) / 640, 1));
+      const count = amount * (progress * progress * (3 - 2 * progress));
+      display.textContent = progress === 1 || motion.matches
+        ? label
+        : count.toFixed(Math.min(decimals, 20)).replace('.', separator) + suffix;
+      if (progress < 1 && !motion.matches) frame = requestAnimationFrame(update);
+    };
+    update(performance.now());
+    return () => {
+      cancelAnimationFrame(frame);
+      display.textContent = label;
+    };
+  }, [amount, decimals, label, separator, suffix]);
+
+  if (!numeric || !Number.isFinite(amount)) return <>{value}</>;
+  return (
+    <span className="ec-kpi-count">
+      <span>{label}</span>
+      <span ref={displayRef} aria-hidden="true">{label}</span>
+    </span>
+  );
+}
+
 export const KpiCard: React.FC<KpiCardProps> = ({
   icon,
   tone = 'blue',
@@ -188,11 +231,8 @@ export const KpiCard: React.FC<KpiCardProps> = ({
   footer,
   onClick,
 }) => (
-  <div
-    className="ec-kpi-card"
-    onClick={onClick}
-    style={onClick ? { cursor: 'pointer' } : undefined}
-  >
+  <div className="ec-kpi-card">
+    {onClick && <button className="ec-kpi-action" type="button" onClick={onClick} aria-label={label} />}
     <div className="ec-kpi-top">
       <div className={`stat-icon ${tone}`} style={{ width: '42px', height: '42px', borderRadius: '11px' }}>
         {icon}
@@ -204,11 +244,12 @@ export const KpiCard: React.FC<KpiCardProps> = ({
       )}
     </div>
     <div>
-      <div className="stat-number">{value}</div>
+      <div className="stat-number"><KpiValue value={value} /></div>
       <div className="stat-label">{label}</div>
     </div>
     {footer && (
       <div
+        className="ec-kpi-footer"
         style={{
           fontSize: '0.76rem',
           color: 'var(--ec-text-muted)',
@@ -259,6 +300,7 @@ export const SearchFilterBar: React.FC<{
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder={placeholder}
+        aria-label={placeholder}
         style={{ paddingLeft: '2.35rem' }}
       />
     </div>
@@ -283,7 +325,7 @@ export const PaginationBar: React.FC<{
         gap: '0.75rem',
         padding: '0.9rem 1.25rem',
         borderTop: '1px solid var(--ec-border)',
-        background: '#ffffff',
+        background: 'var(--ec-surface-card)',
         fontSize: '0.82rem',
         color: 'var(--ec-text-muted)',
       }}
@@ -333,6 +375,7 @@ export interface SidebarNavGroup {
 }
 
 export interface DashboardShellProps {
+  adminLayout?: boolean;
   portalTitle: string;
   portalSubtitle: string;
   portalBadge?: string;
@@ -349,6 +392,7 @@ export interface DashboardShellProps {
 }
 
 export const DashboardShell: React.FC<DashboardShellProps> = ({
+  adminLayout = false,
   portalTitle,
   portalSubtitle,
   portalBadge = 'v2.0',
@@ -364,7 +408,63 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
   children,
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
+  const previousTab = useRef(activeTab);
+  const veilRef = useRef<HTMLDivElement>(null);
+  const veilAnimationRef = useRef<Animation | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+  const activeNavItemRef = useRef<HTMLElement | null>(null);
+  const indicatorAnimationRef = useRef<Animation | null>(null);
+
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    const indicator = indicatorRef.current;
+    const active = nav?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!nav || !indicator) return;
+    const previous = activeNavItemRef.current;
+    activeNavItemRef.current = active ?? null;
+    indicator.hidden = !active;
+    if (!active) return;
+
+    const previousTop = indicator.getBoundingClientRect().top;
+    const placeIndicator = () => {
+      const bounds = active.getBoundingClientRect();
+      const origin = nav.getBoundingClientRect();
+      indicator.style.height = `${bounds.height}px`;
+      indicator.style.translate = `0 ${bounds.top - origin.top}px`;
+    };
+    placeIndicator();
+    if (previous && previous !== active && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const offset = previousTop - active.getBoundingClientRect().top;
+      indicatorAnimationRef.current?.cancel();
+      indicatorAnimationRef.current = indicator.animate([{ transform: `translateY(${offset}px)` }, { transform: 'translateY(0)' }], {
+        duration: 240,
+        easing: 'cubic-bezier(0.25, 0.70, 0.30, 1)',
+      });
+    }
+    const resize = new ResizeObserver(placeIndicator);
+    resize.observe(nav);
+    resize.observe(active);
+    return () => resize.disconnect();
+  }, [activeTab, navGroups]);
+
+  useLayoutEffect(() => {
+    if (previousTab.current === activeTab) return;
+    previousTab.current = activeTab;
+    const veil = veilRef.current;
+    const previous = veilAnimationRef.current;
+    if (!veil || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      previous?.cancel();
+      return;
+    }
+
+    const opacity = previous?.playState === 'running' ? Number(getComputedStyle(veil).opacity) : 0.24;
+    previous?.cancel();
+    veilAnimationRef.current = veil.animate([{ opacity }, { opacity: 0 }], {
+      duration: 180,
+      easing: 'cubic-bezier(0.24, 0.62, 0.34, 1)',
+    });
+  }, [activeTab]);
 
   const initials = userName
     .split(' ')
@@ -382,15 +482,26 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
   };
 
   return (
-    <div className="dashboard-layout">
+    <div className={`dashboard-layout${adminLayout ? ' dashboard-layout-admin' : ''}`} onKeyDown={(event) => {
+      if (event.key === 'Escape' && mobileOpen) {
+        setMobileOpen(false);
+        document.getElementById('ec-drawer-trigger')?.focus();
+      }
+    }}>
+      <a className="ec-skip-link" href="#main-content">Saltar al contenido</a>
       <div
         className={`ec-drawer-backdrop ${mobileOpen ? 'open' : ''}`}
         onClick={() => setMobileOpen(false)}
       />
 
+      <div className="ec-sidebar-rail">
       <aside
-        className={`dashboard-sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}
+        className={`dashboard-sidebar ${mobileOpen ? 'mobile-open' : ''}`}
+        id="dashboard-navigation"
         aria-label={`Navegación de ${portalTitle}`}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape' && mobileOpen) setMobileOpen(false);
+        }}
       >
         <div>
           <div className="sidebar-header">
@@ -398,24 +509,20 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
               <div className="brand-icon-box">
                 <GraduationCap size={20} />
               </div>
-              {!collapsed && (
-                <div style={{ minWidth: 0 }}>
-                  <div className="brand-title">
-                    EduConnect <span style={{ fontSize: '0.68rem', opacity: 0.7 }}>{portalBadge}</span>
-                  </div>
-                  <div className="brand-subtitle">{portalSubtitle}</div>
+              <div className="ec-rail-label" style={{ minWidth: 0 }}>
+                <div className="brand-title">
+                  EduConnect <span style={{ fontSize: '0.68rem', opacity: 0.7 }}>{portalBadge}</span>
                 </div>
-              )}
+                <div className="brand-subtitle">{portalSubtitle}</div>
+              </div>
             </div>
-
             <button
               type="button"
-              className="sidebar-collapse-btn"
-              onClick={() => setCollapsed((prev) => !prev)}
-              title={collapsed ? 'Expandir menú' : 'Colapsar menú'}
-              aria-label={collapsed ? 'Expandir menú lateral' : 'Colapsar menú lateral'}
+              className="ec-drawer-close"
+              aria-label="Cerrar menú de navegación"
+              onClick={() => setMobileOpen(false)}
             >
-              {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
+              <X size={18} />
             </button>
 
             <button
@@ -428,67 +535,70 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
             </button>
           </div>
 
-          {!collapsed && (
-            <div className="sidebar-user-mini">
-              <div className="sidebar-user-avatar">{initials}</div>
-              <div style={{ minWidth: 0, flex: 1 }}>
-                <div
-                  style={{
-                    color: '#ffffff',
-                    fontSize: '0.82rem',
-                    fontWeight: 700,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {userName}
-                </div>
-                <div
-                  style={{
-                    color: '#94a3b8',
-                    fontSize: '0.72rem',
-                    fontWeight: 500,
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {userRoleLabel}
-                  {userSubLabel ? ` · ${userSubLabel}` : ''}
-                </div>
+          <div className="ec-rail-details"><div><div className="sidebar-user-mini">
+            <div className="sidebar-user-avatar">{initials}</div>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div
+                style={{
+                  color: '#FFFFFF',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {userName}
+              </div>
+              <div
+                style={{
+                  color: '#FFFFFF',
+                  fontSize: '0.72rem',
+                  fontWeight: 500,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {userRoleLabel}
+                {userSubLabel ? ` · ${userSubLabel}` : ''}
               </div>
             </div>
-          )}
+          </div></div></div>
 
-          <div className="sidebar-nav-groups">
+          <div className="sidebar-nav-groups" ref={navRef}>
+            <span className="ec-nav-indicator" ref={indicatorRef} aria-hidden="true" hidden />
             {navGroups.map((group) => {
               const visibleItems = group.items.filter((it) => !it.hidden);
               if (visibleItems.length === 0) return null;
               return (
                 <div key={group.category}>
-                  {!collapsed && <div className="sidebar-group-label">{group.category}</div>}
+                  <div className="sidebar-group-label">{group.category}</div>
                   <ul className="sidebar-menu">
                     {visibleItems.map((item) => {
                       const isActive = activeTab === item.id;
                       return (
-                        <li
-                          key={item.id}
-                          className={`sidebar-item ${isActive ? 'active' : ''}`}
-                          onClick={() => handleNavClick(item.id)}
-                          title={collapsed ? item.label : undefined}
-                        >
-                          <div className="sidebar-item-left">
-                            {item.icon}
-                            {!collapsed && <span>{item.label}</span>}
-                          </div>
-                          {!collapsed && item.badge !== undefined && item.badge !== 0 && item.badge !== '' && (
-                            <span
-                              className={`sidebar-item-badge ${item.badgeTone === 'danger' ? 'danger' : ''}`}
-                            >
-                              {item.badge}
+                        <li key={item.id}>
+                          <button
+                            type="button"
+                            className={`sidebar-item ${isActive ? 'active' : ''}`}
+                            onClick={() => handleNavClick(item.id)}
+                            aria-label={item.label}
+                            aria-current={isActive ? 'page' : undefined}
+                            title={item.label}
+                          >
+                            <span className="sidebar-item-left">
+                              {item.icon}
+                              <span className="ec-rail-label">{item.label}</span>
                             </span>
-                          )}
+                            {item.badge !== undefined && item.badge !== 0 && item.badge !== '' && (
+                              <span
+                                className={`sidebar-item-badge ${item.badgeTone === 'danger' ? 'danger' : ''}`}
+                              >
+                                {item.badge}
+                              </span>
+                            )}
+                          </button>
                         </li>
                       );
                     })}
@@ -500,38 +610,42 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
         </div>
 
         <div className="sidebar-footer">
-          {!collapsed && sidebarExtra}
-          {!collapsed && (
-            <div className="sidebar-status-pill">
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#34d399', fontWeight: 700 }}>
-                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10b981' }} />
-                Sistema Activo
-              </span>
-              <span>TLS / JWT</span>
-            </div>
-          )}
+          <div className="ec-rail-details"><div><div className="ec-rail-footer-details">
+          {sidebarExtra && <div>{sidebarExtra}</div>}
+          <div className="sidebar-status-pill">
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#FFFFFF', fontWeight: 700 }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#FFFFFF' }} />
+              Sistema Activo
+            </span>
+            <span>TLS / JWT</span>
+          </div>
+          </div></div></div>
           <button type="button" className="btn-logout" onClick={onLogout} title="Cerrar sesión">
             <LogOut size={16} />
-            {!collapsed && <span>Cerrar Sesión</span>}
+            <span className="ec-rail-label">Cerrar Sesión</span>
           </button>
         </div>
       </aside>
+      </div>
 
       <div className="dashboard-main-wrapper">
         <header className="ec-sticky-header no-print">
           <div className="ec-header-left">
             <button
               type="button"
+              id="ec-drawer-trigger"
               className="ec-mobile-menu-btn"
               onClick={() => setMobileOpen((prev) => !prev)}
+              aria-expanded={mobileOpen}
+              aria-controls="dashboard-navigation"
               aria-label="Abrir menú de navegación"
             >
-              {mobileOpen ? <X size={19} /> : <Menu size={19} />}
+              <Menu size={19} />
             </button>
             <div className="ec-breadcrumb">
               <span>{portalTitle}</span>
               <span>/</span>
-              <strong>{activeItemLabel}</strong>
+              <strong key={activeTab}>{activeItemLabel}</strong>
             </div>
           </div>
 
@@ -551,7 +665,10 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({
           </div>
         </header>
 
-        <main className="dashboard-content">{children}</main>
+        <main id="main-content" tabIndex={-1} className="dashboard-content">
+          <div className="ec-section-veil no-print" ref={veilRef} aria-hidden="true" />
+          {children}
+        </main>
       </div>
     </div>
   );

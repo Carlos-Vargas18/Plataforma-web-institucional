@@ -26,7 +26,7 @@ public class EmailService {
 
     public boolean enviarCodigoRecuperacion(String destinatarioEmail, String nombreUsuario, String codigoOtp) {
         if (mailUsername == null || mailUsername.isBlank() || mailPassword == null || mailPassword.isBlank()) {
-            log.info("Servicio SMTP no configurado mediante variables de entorno (MAIL_USERNAME/MAIL_PASSWORD). Solicitud de recuperación registrada en BD para {}", destinatarioEmail);
+            log.info("Servicio SMTP sin configurar. Solicitud de recuperación registrada.");
             return false;
         }
         try {
@@ -57,7 +57,7 @@ public class EmailService {
             log.info("Correo de recuperación OTP enviado exitosamente a {}", destinatarioEmail);
             return true;
         } catch (Exception ex) {
-            log.warn("No fue posible despachar correo SMTP a {}: {}", destinatarioEmail, ex.getMessage());
+            log.warn("No fue posible despachar el correo de recuperación ({})", ex.getClass().getSimpleName());
             return false;
         }
     }
@@ -96,7 +96,7 @@ public class EmailService {
             log.info("Correo de bienvenida enviado exitosamente a {}", destinatarioEmail);
             return true;
         } catch (Exception ex) {
-            log.warn("No fue posible enviar correo de bienvenida a {}: {}", destinatarioEmail, ex.getMessage());
+            log.warn("No fue posible enviar el correo de bienvenida ({})", ex.getClass().getSimpleName());
             return false;
         }
     }

@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { User, AuthState, Role } from '../types';
 import { api } from '../services/api';
-import { getStoredToken, setStoredToken } from '../services/api/httpClient';
+import { ApiClientError, getStoredToken, setStoredToken } from '../services/api/httpClient';
 
 interface AuthContextType extends AuthState {
   login: (user: User) => void;
   logout: () => void;
   refreshProfile: () => Promise<void>;
+  profileUnavailable: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -17,9 +18,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAuthenticated: false,
     isLoading: true,
   });
+  const [profileUnavailable, setProfileUnavailable] = useState(false);
 
   const logout = useCallback(() => {
     setStoredToken(null);
+    setProfileUnavailable(false);
     setState({
       user: null,
       isAuthenticated: false,
@@ -30,18 +33,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const refreshProfile = useCallback(async () => {
     const token = getStoredToken();
     if (!token) {
+      setProfileUnavailable(false);
       setState({ user: null, isAuthenticated: false, isLoading: false });
       return;
     }
+    setProfileUnavailable(false);
+    setState((previous) => ({ ...previous, isLoading: true }));
     try {
       const verifiedUser = await api.getMe();
+      if (getStoredToken() !== token) return;
       setState({
         user: { ...verifiedUser, token },
         isAuthenticated: true,
         isLoading: false,
       });
-    } catch {
-      logout();
+    } catch (error) {
+      if (getStoredToken() !== token) return;
+      if (error instanceof ApiClientError && [401, 403].includes(error.status)) {
+        logout();
+        return;
+      }
+      setProfileUnavailable(true);
+      setState({ user: null, isAuthenticated: false, isLoading: false });
     }
   }, [logout]);
 
@@ -58,6 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [logout]);
 
   const login = (userData: User) => {
+    setProfileUnavailable(false);
     const rolNormalizado = (userData.rol?.toUpperCase() || 'ESTUDIANTE') as Role;
     const normalizedUser: User = {
       ...userData,
@@ -74,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, login, logout, refreshProfile }}>
+    <AuthContext.Provider value={{ ...state, login, logout, refreshProfile, profileUnavailable }}>
       {children}
     </AuthContext.Provider>
   );

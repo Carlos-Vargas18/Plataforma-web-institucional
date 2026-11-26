@@ -101,15 +101,16 @@ export async function httpRequest<T>(
     response = await fetch(url, {
       ...options,
       headers,
+      signal: options.signal ? AbortSignal.any([options.signal, AbortSignal.timeout(15000)]) : AbortSignal.timeout(15000),
     });
   } catch {
     throw new ApiClientError(
-      `No se pudo conectar con el servidor (${baseUrl}). Verifica que el servidor este encendido y en el mismo Wi-Fi, o actualiza la IP en "Cambiar IP / URL".`,
+      `No se pudo conectar con el servidor (${baseUrl}). Verifica que el servidor este encendido o actualiza la URL en "Cambiar IP / URL".`,
       0
     );
   }
 
-  if (response.status === 401 && !endpoint.includes('/auth/login')) {
+  if (response.status === 401 && token && getStoredToken() === token && !endpoint.includes('/auth/login')) {
     setStoredToken(null);
     window.dispatchEvent(new CustomEvent('educonnect:unauthorized'));
   }
