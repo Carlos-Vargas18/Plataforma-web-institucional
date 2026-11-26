@@ -173,9 +173,10 @@ public class AdminService {
             primerApellido = "Institucional";
         }
 
-        String rawPassword = (dto.getPassword() != null && !dto.getPassword().isBlank())
-                ? dto.getPassword().trim()
-                : "EduConnect" + dto.getDocumento().trim();
+        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
+            throw new BusinessException("La contraseña inicial es obligatoria.");
+        }
+        String rawPassword = dto.getPassword().trim();
 
         Usuario usuario = Usuario.builder()
                 .tipoDocumento(dto.getTipoDocumento() != null && !dto.getTipoDocumento().isBlank() ? dto.getTipoDocumento().toUpperCase() : "CC")
@@ -597,7 +598,11 @@ public class AdminService {
         }
 
         Docente docente = null;
-        if (payload.get("docenteId") != null) {
+        if (payload.get("docenteUsuarioId") != null) {
+            Long usuarioId = Long.valueOf(payload.get("docenteUsuarioId").toString());
+            docente = docenteRepository.findByUsuario_Id(usuarioId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Docente no encontrado."));
+        } else if (payload.get("docenteId") != null) {
             Long dId = Long.valueOf(payload.get("docenteId").toString());
             docente = docenteRepository.findById(dId)
                     .or(() -> docenteRepository.findByUsuario_Id(dId))

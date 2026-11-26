@@ -46,18 +46,24 @@ public class DataInitializer implements CommandLineRunner {
     @Value("${app.seed.default-password:}")
     private String configuredSeedPassword;
 
+    @Value("${app.seed.enabled:false}")
+    private boolean seedEnabled;
+
     @Override
     @Transactional
     public void run(String... args) {
+        if (!seedEnabled) {
+            return;
+        }
         if (usuarioRepository.count() > 0) {
             log.info("Base de datos EduConnect ya cuenta con {} usuarios registrados.", usuarioRepository.count());
             return;
         }
 
-        String seedPass = (configuredSeedPassword != null && !configuredSeedPassword.isBlank())
-                ? configuredSeedPassword
-                : "123456";
-        String bcryptHash = passwordEncoder.encode(seedPass);
+        if (configuredSeedPassword.isBlank()) {
+            throw new IllegalStateException("Configure una contraseña para habilitar la semilla de pruebas.");
+        }
+        String bcryptHash = passwordEncoder.encode(configuredSeedPassword);
 
         log.info("Inicializando catálogo institucional EduConnect en Base de Datos con integridad referencial verificada...");
 

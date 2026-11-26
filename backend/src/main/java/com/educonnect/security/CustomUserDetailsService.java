@@ -1,5 +1,6 @@
 package com.educonnect.security;
 
+import com.educonnect.model.Rol;
 import com.educonnect.model.Usuario;
 import com.educonnect.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(
                 usuario.getEmail(),
                 usuario.getPasswordHash(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()))
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" +
+                        (usuario.getRol().esAdministrador() ? Rol.ADMIN : usuario.getRol()).name()))
         );
     }
 }

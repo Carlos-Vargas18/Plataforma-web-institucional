@@ -8,5 +8,9 @@ public enum Rol {
     DOCENTE,
     ESTUDIANTE,
     TUTOR,
-    ADMINISTRATIVO
+    ADMINISTRATIVO;
+
+    public boolean esAdministrador() {
+        return this == ADMIN || this == ADMINISTRATIVO;
+    }
 }

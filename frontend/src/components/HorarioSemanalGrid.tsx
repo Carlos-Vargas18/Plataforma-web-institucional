@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { Calendar, Clock, MapPin, User, Plus, Trash2, Printer } from 'lucide-react';
 import { HorarioBloqueDto } from '../types';
 
@@ -22,6 +22,7 @@ interface HorarioSemanalGridProps {
 }
 
 const DIAS = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES'];
+const SUBJECT_TONES = ['blue', 'green', 'amber', 'purple', 'rose', 'cyan'];
 const FRANJAS = [
   '07:00 - 08:00',
   '08:00 - 09:00',
@@ -43,6 +44,8 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
   materiasDisponibles = ['Cálculo y Trigonometría', 'Física Mecánica', 'Química Inorgánica', 'Ingeniería de Software y Algoritmos'],
   docentesDisponibles = ['Roberto Arturo Silva Pineda', 'Elena Marcela Gómez Castro'],
 }) => {
+  const formId = useId();
+  const savingBlock = useRef(false);
   const [filtroGrupo, setFiltroGrupo] = useState<string>('TODOS');
   const [nuevoGrupo, setNuevoGrupo] = useState<string>(gruposDisponibles[0] || '10-A');
   const [nuevoDia, setNuevoDia] = useState<string>('LUNES');
@@ -59,7 +62,8 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!onAddBloque) return;
+    if (!onAddBloque || savingBlock.current) return;
+    savingBlock.current = true;
     setErrorMsg('');
     setSubmitting(true);
     try {
@@ -74,6 +78,7 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Error al asignar el bloque horario.');
     } finally {
+      savingBlock.current = false;
       setSubmitting(false);
     }
   };
@@ -154,8 +159,8 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
             }}
           >
             <div>
-              <label className="form-label">Grupo</label>
-              <select value={nuevoGrupo} onChange={(e) => setNuevoGrupo(e.target.value)} className="form-input">
+              <label className="form-label" htmlFor={`${formId}-group`}>Grupo</label>
+              <select id={`${formId}-group`} value={nuevoGrupo} onChange={(e) => setNuevoGrupo(e.target.value)} className="form-input">
                 {gruposDisponibles.map((g) => (
                   <option key={g} value={g}>
                     {g}
@@ -164,8 +169,8 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
               </select>
             </div>
             <div>
-              <label className="form-label">Día</label>
-              <select value={nuevoDia} onChange={(e) => setNuevoDia(e.target.value)} className="form-input">
+              <label className="form-label" htmlFor={`${formId}-day`}>Día</label>
+              <select id={`${formId}-day`} value={nuevoDia} onChange={(e) => setNuevoDia(e.target.value)} className="form-input">
                 {DIAS.map((d) => (
                   <option key={d} value={d}>
                     {d}
@@ -174,8 +179,8 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
               </select>
             </div>
             <div>
-              <label className="form-label">Franja Horaria</label>
-              <select value={nuevaHora} onChange={(e) => setNuevaHora(e.target.value)} className="form-input">
+              <label className="form-label" htmlFor={`${formId}-time`}>Franja Horaria</label>
+              <select id={`${formId}-time`} value={nuevaHora} onChange={(e) => setNuevaHora(e.target.value)} className="form-input">
                 {FRANJAS.filter((f) => !f.includes('DESCANSO')).map((f) => (
                   <option key={f} value={f}>
                     {f}
@@ -184,8 +189,8 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
               </select>
             </div>
             <div>
-              <label className="form-label">Asignatura</label>
-              <select value={nuevaMateria} onChange={(e) => setNuevaMateria(e.target.value)} className="form-input">
+              <label className="form-label" htmlFor={`${formId}-subject`}>Asignatura</label>
+              <select id={`${formId}-subject`} value={nuevaMateria} onChange={(e) => setNuevaMateria(e.target.value)} className="form-input">
                 {materiasDisponibles.map((m) => (
                   <option key={m} value={m}>
                     {m}
@@ -194,8 +199,8 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
               </select>
             </div>
             <div>
-              <label className="form-label">Docente</label>
-              <select value={nuevoDocente} onChange={(e) => setNuevoDocente(e.target.value)} className="form-input">
+              <label className="form-label" htmlFor={`${formId}-teacher`}>Docente</label>
+              <select id={`${formId}-teacher`} value={nuevoDocente} onChange={(e) => setNuevoDocente(e.target.value)} className="form-input">
                 {docentesDisponibles.map((d) => (
                   <option key={d} value={d}>
                     {d}
@@ -204,9 +209,11 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
               </select>
             </div>
             <div>
-              <label className="form-label">Salón / Aula</label>
+              <label className="form-label" htmlFor={`${formId}-room`}>Salón / Aula</label>
               <input
+                id={`${formId}-room`}
                 type="text"
+                maxLength={50}
                 value={nuevaAula}
                 onChange={(e) => setNuevaAula(e.target.value)}
                 className="form-input"
@@ -221,7 +228,7 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
         </form>
       )}
 
-      <div className="ec-table-responsive">
+      <div className="ec-table-responsive ec-schedule-table" tabIndex={0} role="region" aria-label={titulo}>
         <table className="data-table">
           <thead>
             <tr>
@@ -269,31 +276,38 @@ const HorarioSemanalGrid: React.FC<HorarioSemanalGridProps> = ({
                           items.map((item) => (
                             <div
                               key={item.id}
+                              className="ec-schedule-block"
+                              data-subject-id={item.materiaId}
+                              data-card-tone={SUBJECT_TONES[item.materiaId % SUBJECT_TONES.length]}
+                              data-tone-depth={Math.floor((item.materiaId - 1) / SUBJECT_TONES.length) % 4}
                               style={{
-                                background: 'var(--ec-primary-soft)',
-                                border: '1px solid var(--ec-primary-border)',
                                 borderRadius: '10px',
                                 padding: '0.55rem 0.7rem',
                                 marginBottom: '0.4rem',
                                 position: 'relative',
                               }}
                             >
-                              <div style={{ fontWeight: 700, fontSize: '0.83rem', color: 'var(--ec-text)', paddingRight: editable ? '1.2rem' : 0 }}>
+                              <div style={{ fontWeight: 700, fontSize: '0.83rem', paddingRight: editable ? '1.2rem' : 0 }}>
                                 {item.materia}
                               </div>
-                              <div style={{ fontSize: '0.75rem', color: 'var(--ec-primary-dark)', fontWeight: 700, marginTop: '2px' }}>
+                              <div className="ec-schedule-time">{item.hora}</div>
+                              <div style={{ fontSize: '0.75rem', fontWeight: 700, marginTop: '2px' }}>
                                 Grupo: {item.grupo}
                               </div>
-                              <div style={{ fontSize: '0.73rem', color: 'var(--ec-text-secondary)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                              <div style={{ fontSize: '0.73rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
                                 <User size={12} /> {item.docente}
                               </div>
-                              <div style={{ fontSize: '0.72rem', color: 'var(--ec-text-muted)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '1px' }}>
+                              <div style={{ fontSize: '0.72rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '1px' }}>
                                 <MapPin size={12} /> {item.aula}
                               </div>
                               {editable && onDeleteBloque && (
                                 <button
                                   type="button"
-                                  onClick={() => onDeleteBloque(item.id)}
+                                  onClick={() => {
+                                    if (window.confirm(`¿Eliminar el bloque de ${item.materia}?`)) {
+                                      void onDeleteBloque(item.id);
+                                    }
+                                  }}
                                   className="no-print"
                                   aria-label="Eliminar bloque horario"
                                   style={{

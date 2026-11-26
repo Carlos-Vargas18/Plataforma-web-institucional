@@ -57,9 +57,10 @@ export async function httpRequest<T>(
   const response = await fetch(url, {
     ...options,
     headers,
+    signal: options.signal ? AbortSignal.any([options.signal, AbortSignal.timeout(15000)]) : AbortSignal.timeout(15000),
   });
 
-  if (response.status === 401 && !endpoint.includes('/auth/login')) {
+  if (response.status === 401 && token && getStoredToken() === token && !endpoint.includes('/auth/login')) {
     setStoredToken(null);
     window.dispatchEvent(new CustomEvent('educonnect:unauthorized'));
   }

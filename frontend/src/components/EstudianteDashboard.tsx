@@ -146,7 +146,7 @@ export const EstudianteDashboard: React.FC = () => {
             <span>·</span>
             <span>Año Lectivo 2026</span>
           </div>
-          <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 800, color: '#ffffff' }}>
+          <h1 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 800, color: '#FFFFFF' }}>
             ¡Hola de nuevo, {user?.primerNombre || user?.nombreCompleto}!
           </h1>
           <p style={{ margin: '0.35rem 0 0', fontSize: '0.88rem', color: 'rgba(255,255,255,0.88)' }}>
@@ -159,7 +159,7 @@ export const EstudianteDashboard: React.FC = () => {
             type="button"
             onClick={() => setCurrentTab('horario')}
             style={{
-              background: '#ffffff',
+                  background: 'var(--ec-surface-card)',
               color: 'var(--ec-primary-dark)',
               padding: '0.58rem 1rem',
               borderRadius: '11px',
@@ -177,8 +177,8 @@ export const EstudianteDashboard: React.FC = () => {
             onClick={() => setShowBoletinModal(true)}
             style={{
               background: 'rgba(255,255,255,0.16)',
-              color: '#ffffff',
-              border: '1px solid rgba(255,255,255,0.28)',
+              color: 'var(--ec-text)',
+              border: '1px solid var(--ec-border)',
               padding: '0.58rem 1rem',
               borderRadius: '11px',
               fontWeight: 600,

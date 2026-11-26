@@ -1,3 +1,4 @@
+import { useDialogFocus } from './ui/useDialogFocus';
 import React, { useEffect, useState } from 'react';
 import { Printer, X, Award, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { api } from '../services/api';
@@ -45,6 +46,7 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
   inasistenciasTotales = 0,
   observacionGeneral,
 }) => {
+  const dialog = useDialogFocus(isOpen, onClose);
   const [boletinServidor, setBoletinServidor] = useState<BoletinOficialDto | null>(null);
 
   useEffect(() => {
@@ -111,12 +113,14 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
   return (
     <div
       className="boletin-container-printable"
+      {...dialog}
       role="dialog"
       aria-modal="true"
+      aria-label="Bolet?n oficial"
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(4, 8, 16, 0.88)',
+        backgroundColor: 'rgba(0, 0, 0, 0.88)',
         backdropFilter: 'blur(8px)',
         zIndex: 9999,
         overflowY: 'auto',
@@ -129,8 +133,8 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
       <div
         id="area-impresion-boletin"
         style={{
-          background: '#ffffff',
-          color: '#0f172a',
+          background: 'var(--ec-boletin-paper, #FFFFFF)',
+          color: 'var(--ec-boletin-ink, #000000)',
           width: '100%',
           maxWidth: '940px',
           borderRadius: '20px',
@@ -147,10 +151,10 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
             alignItems: 'center',
             marginBottom: '1.75rem',
             paddingBottom: '1rem',
-            borderBottom: '1px solid #e2e8f0',
+            borderBottom: '1px solid #FFFFFF',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#1e40af', fontWeight: 700 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'var(--ec-boletin-ink, #000000)', fontWeight: 700 }}>
             <ShieldCheck size={20} />
             <span>Documento Académico Verificado en Servidor ({codigoVerif})</span>
           </div>
@@ -159,7 +163,7 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
               type="button"
               onClick={() => window.print()}
               className="btn-primary-action"
-              style={{ background: '#1d4ed8', color: '#fff' }}
+              style={{ background: 'var(--ec-boletin-ink, #000000)', color: 'var(--ec-boletin-paper, #FFFFFF)' }}
             >
               <Printer size={16} />
               Imprimir / Guardar PDF Oficial
@@ -168,9 +172,9 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
               type="button"
               onClick={onClose}
               style={{
-                background: '#f1f5f9',
-                color: '#334155',
-                border: '1px solid #cbd5e1',
+                background: 'var(--ec-boletin-paper, #FFFFFF)',
+                color: 'var(--ec-boletin-ink, #000000)',
+                border: '1px solid var(--ec-boletin-ink, #000000)',
                 borderRadius: '999px',
                 padding: '0.55rem 1.1rem',
                 fontWeight: 700,
@@ -192,7 +196,7 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderBottom: '2px solid #0f172a',
+            borderBottom: '2px solid #000000',
             paddingBottom: '1.25rem',
             marginBottom: '1.25rem',
           }}
@@ -203,8 +207,8 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
                 width: '58px',
                 height: '58px',
                 borderRadius: '14px',
-                background: '#1e3a8a',
-                color: '#ffffff',
+                background: 'var(--ec-boletin-ink, #000000)',
+                color: 'var(--ec-boletin-paper, #FFFFFF)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -213,13 +217,13 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
               <Award size={32} />
             </div>
             <div>
-              <h2 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, color: '#0f172a' }}>
+              <h2 style={{ margin: 0, fontSize: '1.35rem', fontWeight: 900, color: 'var(--ec-boletin-ink, #000000)' }}>
                 INSTITUCIÓN EDUCATIVA EDUCONNECT
               </h2>
-              <p style={{ margin: '2px 0', fontSize: '0.82rem', color: '#475569', fontWeight: 600 }}>
+              <p style={{ margin: '2px 0', fontSize: '0.82rem', color: 'var(--ec-boletin-ink, #000000)', fontWeight: 600 }}>
                 Aprobación Oficial MEN — Sistema Institucional de Evaluación SIEE (Decreto 1290 de 2009)
               </p>
-              <p style={{ margin: 0, fontSize: '0.78rem', color: '#64748b' }}>
+              <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--ec-boletin-ink, #000000)' }}>
                 INFORME OFICIAL DE VALORACIÓN ACADÉMICA Y CONVIVENCIA ESCOLAR
               </p>
             </div>
@@ -243,8 +247,8 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
             gap: '0.75rem',
-            background: '#f8fafc',
-            border: '1px solid #cbd5e1',
+            background: 'var(--ec-boletin-paper, #FFFFFF)',
+            border: '1px solid var(--ec-boletin-ink, #000000)',
             borderRadius: '12px',
             padding: '1rem',
             marginBottom: '1.5rem',
@@ -252,27 +256,27 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
           }}
         >
           <div>
-            <span style={{ color: '#64748b', display: 'block', fontSize: '0.75rem' }}>ESTUDIANTE</span>
+            <span style={{ color: 'var(--ec-boletin-ink, #000000)', display: 'block', fontSize: '0.75rem' }}>ESTUDIANTE</span>
             <strong>{nombreFinal}</strong>
           </div>
           <div>
-            <span style={{ color: '#64748b', display: 'block', fontSize: '0.75rem' }}>DOCUMENTO / CÓDIGO</span>
+            <span style={{ color: 'var(--ec-boletin-ink, #000000)', display: 'block', fontSize: '0.75rem' }}>DOCUMENTO / CÓDIGO</span>
             <strong>
               {docFinal} ({codigoFinal})
             </strong>
           </div>
           <div>
-            <span style={{ color: '#64748b', display: 'block', fontSize: '0.75rem' }}>CURSO / GRUPO</span>
+            <span style={{ color: 'var(--ec-boletin-ink, #000000)', display: 'block', fontSize: '0.75rem' }}>CURSO / GRUPO</span>
             <strong>{grupoFinal}</strong>
           </div>
           <div>
-            <span style={{ color: '#64748b', display: 'block', fontSize: '0.75rem' }}>PROMEDIO / PUESTO</span>
+            <span style={{ color: 'var(--ec-boletin-ink, #000000)', display: 'block', fontSize: '0.75rem' }}>PROMEDIO / PUESTO</span>
             <strong>
               {promedioGlobal.toFixed(2)} ({getDesempeno(promedioGlobal)}) — Puesto {puestoFinal}
             </strong>
           </div>
           <div>
-            <span style={{ color: '#64748b', display: 'block', fontSize: '0.75rem' }}>INASISTENCIAS</span>
+            <span style={{ color: 'var(--ec-boletin-ink, #000000)', display: 'block', fontSize: '0.75rem' }}>INASISTENCIAS</span>
             <strong>{fallasFinal} registradas</strong>
           </div>
         </div>
@@ -280,42 +284,42 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
         {/* Tabla de Valoraciones Decreto 1290 */}
         <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1.5rem' }}>
           <thead>
-            <tr style={{ background: '#f1f5f9' }}>
-              <th style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>Área / Asignatura</th>
-              <th style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>I.H.</th>
-              <th style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>Saber (40%)</th>
-              <th style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>Hacer (30%)</th>
-              <th style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>Ser (30%)</th>
-              <th style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>Definitiva</th>
-              <th style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>Desempeño Decreto 1290</th>
+            <tr style={{ background: 'var(--ec-boletin-paper, #FFFFFF)' }}>
+              <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>Área / Asignatura</th>
+              <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>I.H.</th>
+              <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>Saber (40%)</th>
+              <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>Hacer (30%)</th>
+              <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>Ser (30%)</th>
+              <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>Definitiva</th>
+              <th style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>Desempeño Decreto 1290</th>
             </tr>
           </thead>
           <tbody>
             {filas.map((item, idx) => (
               <React.Fragment key={item.id || idx}>
                 <tr>
-                  <td style={{ color: '#0f172a', border: '1px solid #cbd5e1' }}>
+                  <td style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)' }}>
                     <strong>{item.materia}</strong>
                     {item.docente && (
-                      <div style={{ fontSize: '0.75rem', color: '#475569' }}>Docente: {item.docente}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--ec-boletin-ink, #000000)' }}>Docente: {item.docente}</div>
                     )}
                   </td>
-                  <td style={{ color: '#0f172a', border: '1px solid #cbd5e1', textAlign: 'center' }}>
+                  <td style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)', textAlign: 'center' }}>
                     {item.intensidadHoraria || 4}h
                   </td>
-                  <td style={{ color: '#0f172a', border: '1px solid #cbd5e1', textAlign: 'center' }}>
+                  <td style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)', textAlign: 'center' }}>
                     {Number(item.nota1).toFixed(1)}
                   </td>
-                  <td style={{ color: '#0f172a', border: '1px solid #cbd5e1', textAlign: 'center' }}>
+                  <td style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)', textAlign: 'center' }}>
                     {Number(item.nota2).toFixed(1)}
                   </td>
-                  <td style={{ color: '#0f172a', border: '1px solid #cbd5e1', textAlign: 'center' }}>
+                  <td style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)', textAlign: 'center' }}>
                     {Number(item.nota3).toFixed(1)}
                   </td>
-                  <td style={{ color: '#0f172a', border: '1px solid #cbd5e1', textAlign: 'center', fontWeight: 800 }}>
+                  <td style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)', textAlign: 'center', fontWeight: 800 }}>
                     {Number(item.notaFinal).toFixed(1)}
                   </td>
-                  <td style={{ color: '#0f172a', border: '1px solid #cbd5e1', textAlign: 'center', fontWeight: 700 }}>
+                  <td style={{ color: 'var(--ec-boletin-ink, #000000)', border: '1px solid var(--ec-boletin-ink, #000000)', textAlign: 'center', fontWeight: 700 }}>
                     {getDesempeno(Number(item.notaFinal))}
                   </td>
                 </tr>
@@ -324,10 +328,10 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
                     <td
                       colSpan={7}
                       style={{
-                        color: '#334155',
-                        border: '1px solid #cbd5e1',
+                        color: 'var(--ec-boletin-ink, #000000)',
+                        border: '1px solid var(--ec-boletin-ink, #000000)',
                         fontSize: '0.78rem',
-                        background: '#f8fafc',
+                        background: 'var(--ec-boletin-paper, #FFFFFF)',
                         padding: '0.4rem 0.85rem',
                       }}
                     >
@@ -343,7 +347,7 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
         {observacionGeneral && (
           <div
             style={{
-              border: '1px solid #cbd5e1',
+              border: '1px solid var(--ec-boletin-ink, #000000)',
               borderRadius: '10px',
               padding: '0.85rem 1rem',
               marginBottom: '2rem',
@@ -366,11 +370,11 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
             fontSize: '0.84rem',
           }}
         >
-          <div style={{ borderTop: '1.5px solid #0f172a', paddingTop: '0.5rem' }}>
+          <div style={{ borderTop: '1.5px solid #000000', paddingTop: '0.5rem' }}>
             <strong>Dr. Fernando José Gaviria Restrepo</strong>
             <div>Rector Institucional</div>
           </div>
-          <div style={{ borderTop: '1.5px solid #0f172a', paddingTop: '0.5rem' }}>
+          <div style={{ borderTop: '1.5px solid #000000', paddingTop: '0.5rem' }}>
             <strong>{boletinServidor?.directorGrupo || 'Dirección de Grupo Oficial'}</strong>
             <div>Director(a) de Grupo {grupoFinal}</div>
           </div>
@@ -380,7 +384,7 @@ const BoletinOficialModal: React.FC<BoletinOficialModalProps> = ({
           style={{
             marginTop: '1.5rem',
             fontSize: '0.74rem',
-            color: '#64748b',
+            color: 'var(--ec-boletin-ink, #000000)',
             textAlign: 'center',
             display: 'flex',
             alignItems: 'center',

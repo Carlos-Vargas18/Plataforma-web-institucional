@@ -28,18 +28,19 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuarioResponseDto>> listarUsuarios() {
         return ResponseEntity.ok(adminService.listarTodosLosUsuarios());
     }
 
     @PostMapping("/usuarios")
-    @PreAuthorize("hasAnyRole('ADMIN', 'COORDINADOR', 'RECTOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UsuarioResponseDto> crearUsuario(@Valid @RequestBody UsuarioCreateUpdateDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(adminService.crearUsuario(dto));
     }
 
     @PutMapping("/usuarios/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'COORDINADOR', 'RECTOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UsuarioResponseDto> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioCreateUpdateDto dto) {
         return ResponseEntity.ok(adminService.actualizarUsuario(id, dto));
     }

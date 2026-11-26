@@ -5,6 +5,9 @@ import com.educonnect.model.CodigoRecuperacion;
 import com.educonnect.model.Estudiante;
 import com.educonnect.model.PeriodoAcademico;
 import com.educonnect.repository.CargaAcademicaRepository;
+import com.educonnect.repository.AsistenciaRepository;
+import com.educonnect.repository.MatriculaRepository;
+import com.educonnect.repository.UsuarioRepository;
 import com.educonnect.repository.CodigoRecuperacionRepository;
 import com.educonnect.repository.EstudianteRepository;
 import com.educonnect.repository.PeriodoAcademicoRepository;
@@ -25,6 +28,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +37,8 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,12 +60,210 @@ class EduconnectBackendApplicationTests {
     private CargaAcademicaRepository cargaAcademicaRepository;
 
     @Autowired
+    private AsistenciaRepository asistenciaRepository;
+
+    @Autowired
+    private MatriculaRepository matriculaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
     private PeriodoAcademicoRepository periodoAcademicoRepository;
 
     @Autowired
     private CodigoRecuperacionRepository codigoRecuperacionRepository;
 
     private static final String TEST_SEED_PASS = "123456";
+
+    @Test
+    void filtersTargetedAnnouncementsInTheDirectoryAndEduBot() throws Exception {
+        String coord = "Bearer " + loginAndGetToken("coordinador@educonnect.com", TEST_SEED_PASS);
+        String tutor = "Bearer " + loginAndGetToken("juan.ramirez@gmail.com", TEST_SEED_PASS);
+        String student = "Bearer " + loginAndGetToken("carlosvargas@educonnect.com", TEST_SEED_PASS);
+        String titulo = "Circular reservada para acudientes";
+        mockMvc.perform(post("/api/v1/comunicados").header("Authorization", coord)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Map.of(
+                                "titulo", titulo, "contenido", "Información de prueba", "destinatarioRol", "TUTORES"))))
+                .andExpect(status().isCreated());
+        var asTutor = mockMvc.perform(get("/api/v1/comunicados").header("Authorization", tutor))
+                .andExpect(status().isOk()).andReturn();
+        var asStudent = mockMvc.perform(get("/api/v1/comunicados").header("Authorization", student))
+                .andExpect(status().isOk()).andReturn();
+        assertThat(objectMapper.readTree(asTutor.getResponse().getContentAsString()).findValuesAsText("titulo")).contains(titulo);
+        assertThat(objectMapper.readTree(asStudent.getResponse().getContentAsString()).findValuesAsText("titulo")).doesNotContain(titulo);
+        var chat = mockMvc.perform(post("/api/v1/edubot/consulta").header("Authorization", student)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"pregunta\":\"Última circular\"}"))
+                .andExpect(status().isOk()).andReturn();
+        assertThat(objectMapper.readTree(chat.getResponse().getContentAsString()).get("respuesta").asText())
+                .doesNotContain(titulo);
+    }
+
+    @Test
+    void academicAssignmentAcceptsTeacherUserIdFromTheAdminForm() throws Exception {
+        String token = "Bearer " + loginAndGetToken("admin@educonnect.com", TEST_SEED_PASS);
+        var carga = cargaAcademicaRepository.findAll().getFirst();
+        var creada = mockMvc.perform(post("/api/v1/admin/materias").header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"codigo\":\"AUD-CARGA\",\"nombre\":\"Didáctica de prueba\"}"))
+                .andExpect(status().isCreated()).andReturn();
+        long materiaId = objectMapper.readTree(creada.getResponse().getContentAsString()).get("id").asLong();
+        var entrada = Map.of("grupoId", carga.getGrupo().getId(), "materiaId", materiaId,
+                "docenteUsuarioId", carga.getDocente().getUsuario().getId(), "intensidadHoraria", 3);
+        mockMvc.perform(post("/api/v1/admin/cargas").header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(entrada)))
+                .andExpect(status().isCreated());
+        assertThat(cargaAcademicaRepository.findByGrupo_IdAndMateria_Id(carga.getGrupo().getId(), materiaId))
+                .hasValueSatisfying(saved -> assertThat(saved.getDocente().getId()).isEqualTo(carga.getDocente().getId()));
+    }
+
+    @Test
+    void convivenciaDoesNotSubstituteAnotherStudentForMissingEnrollment() throws Exception {
+        String token = "Bearer " + loginAndGetToken("coordinador@educonnect.com", TEST_SEED_PASS);
+        mockMvc.perform(post("/api/v1/convivencia").header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"matriculaId\":999999,\"descripcion\":\"Seguimiento ficticio\"}"))
+                .andExpect(status().isNotFound());
+        mockMvc.perform(post("/api/v1/convivencia").header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"descripcion\":\"Seguimiento ficticio\"}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void managesUserDirectoryOnlyAsAdministratorIncludingLegacyRole() throws Exception {
+        for (String email : List.of("rector@educonnect.com", "coordinador@educonnect.com", "prof.gomez@educonnect.com")) {
+            String token = "Bearer " + loginAndGetToken(email, TEST_SEED_PASS);
+            mockMvc.perform(get("/api/v1/admin/usuarios").header("Authorization", token))
+                    .andExpect(status().isForbidden());
+            mockMvc.perform(post("/api/v1/admin/usuarios").header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                    .andExpect(status().isForbidden());
+        }
+        String token = "Bearer " + loginAndGetToken("admin@educonnect.com", TEST_SEED_PASS);
+        String fixtureEmail = "administrativo@example.test";
+        var datos = new HashMap<>(Map.of(
+                "documento", "AUD-ALIAS-01", "email", fixtureEmail, "rol", "ADMINISTRATIVO",
+                "primerNombre", "Auditoría", "primerApellido", "Local"));
+        mockMvc.perform(post("/api/v1/admin/usuarios").header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(datos)))
+                .andExpect(status().isBadRequest());
+        datos.put("password", TEST_SEED_PASS);
+        mockMvc.perform(post("/api/v1/admin/usuarios").header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(datos)))
+                .andExpect(status().isCreated());
+        String legacyToken = "Bearer " + loginAndGetToken(fixtureEmail, TEST_SEED_PASS);
+        mockMvc.perform(get("/api/v1/auth/me").header("Authorization", legacyToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.rol").value("ADMINISTRATIVO"));
+        mockMvc.perform(get("/api/v1/admin/usuarios").header("Authorization", legacyToken))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void disabledAccountCannotUseAnExistingTokenOrLogIn() throws Exception {
+        String email = "prof.gomez@educonnect.com";
+        String token = "Bearer " + loginAndGetToken(email, TEST_SEED_PASS);
+        var usuario = usuarioRepository.findByEmail(email).orElseThrow();
+        usuario.setEstado(false);
+        usuarioRepository.save(usuario);
+        try {
+            mockMvc.perform(get("/api/v1/auth/me").header("Authorization", token))
+                    .andExpect(status().isUnauthorized());
+            mockMvc.perform(post("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(Map.of("email", email, "password", TEST_SEED_PASS))))
+                    .andExpect(status().isUnauthorized());
+        } finally {
+            usuario.setEstado(true);
+            usuarioRepository.save(usuario);
+        }
+    }
+
+    @Test
+    void corsAllowsLocalFrontendAndRejectsOtherOrigins() throws Exception {
+        String allowed = "http://localhost:5173";
+        mockMvc.perform(options("/api/v1/auth/me").header("Origin", allowed)
+                        .header("Access-Control-Request-Method", "GET")
+                        .header("Access-Control-Request-Headers", "Authorization"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", allowed));
+        mockMvc.perform(options("/api/v1/auth/me").header("Origin", "https://unlisted.example.test")
+                        .header("Access-Control-Request-Method", "GET"))
+                .andExpect(status().isForbidden())
+                .andExpect(header().doesNotExist("Access-Control-Allow-Origin"));
+    }
+
+    @Test
+    void attendanceRollsBackPartialBatchAndKeepsOneRecordOnRetry() throws Exception {
+        String token = "Bearer " + loginAndGetToken("admin@educonnect.com", TEST_SEED_PASS);
+        var matricula = matriculaRepository.findAll().getFirst();
+        var carga = cargaAcademicaRepository.findByGrupo_Id(matricula.getGrupo().getId()).getFirst();
+        var fecha = LocalDate.of(2025, 3, 17);
+        var entrada = Map.<String, Object>of(
+                "matriculaId", matricula.getId(), "cargaAcademicaId", carga.getId(),
+                "fecha", fecha.toString(), "estado", "TARDE", "minutosRetraso", 10,
+                "observacion", "Llegada después del timbre");
+        var invalida = new HashMap<>(entrada);
+        invalida.put("fecha", "2025-02-30");
+        mockMvc.perform(post("/api/v1/asistencias/planilla").header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Map.of("registros", List.of(entrada, invalida)))))
+                .andExpect(status().isBadRequest());
+        assertThat(asistenciaRepository.findByMatricula_IdAndCargaAcademica_IdAndFechaClase(
+                matricula.getId(), carga.getId(), fecha)).isEmpty();
+
+        for (int intento = 0; intento < 2; intento++) {
+            mockMvc.perform(post("/api/v1/asistencias/planilla").header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(Map.of("registros", List.of(entrada)))))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$[0].minutosRetraso").value(10));
+        }
+        assertThat(asistenciaRepository.findByCargaAcademica_IdAndFechaClase(carga.getId(), fecha))
+                .singleElement().satisfies(registro -> assertThat(registro.getObservacion())
+                        .isEqualTo("Llegada después del timbre"));
+    }
+
+    @Test
+    void tutorCanConfirmOwnCitationAndOtherRolesCannotModifyIt() throws Exception {
+        String tutor = "Bearer " + loginAndGetToken("juan.ramirez@gmail.com", TEST_SEED_PASS);
+        String docente = "Bearer " + loginAndGetToken("prof.gomez@educonnect.com", TEST_SEED_PASS);
+        String estudiante = "Bearer " + loginAndGetToken("carlosvargas@educonnect.com", TEST_SEED_PASS);
+        var result = mockMvc.perform(get("/api/v1/citaciones").header("Authorization", tutor))
+                .andExpect(status().isOk())
+                .andReturn();
+        long id = objectMapper.readTree(result.getResponse().getContentAsString()).get(0).get("id").asLong();
+        for (String token : List.of(docente, estudiante)) {
+            mockMvc.perform(put("/api/v1/citaciones/{id}", id).header("Authorization", token)
+                            .contentType(MediaType.APPLICATION_JSON).content("{\"estado\":\"CONFIRMADA\"}"))
+                    .andExpect(status().isForbidden());
+        }
+        mockMvc.perform(put("/api/v1/citaciones/{id}", id).header("Authorization", tutor)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"estado\":\"REALIZADA\"}"))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(put("/api/v1/citaciones/{id}", id).header("Authorization", tutor)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"estado\":\"CONFIRMADA\"}"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void studentCanOnlySignOwnObservations() throws Exception {
+        String owner = "Bearer " + loginAndGetToken("carlosvargas@educonnect.com", TEST_SEED_PASS);
+        String otherEmail = estudianteRepository.findAll().stream()
+                .map(e -> e.getUsuario().getEmail())
+                .filter(email -> !email.equals("carlosvargas@educonnect.com"))
+                .findFirst().orElseThrow();
+        String other = "Bearer " + loginAndGetToken(otherEmail, TEST_SEED_PASS);
+        var result = mockMvc.perform(get("/api/v1/observador").header("Authorization", owner))
+                .andExpect(status().isOk())
+                .andReturn();
+        long id = objectMapper.readTree(result.getResponse().getContentAsString()).get(0).get("id").asLong();
+        mockMvc.perform(put("/api/v1/observador/{id}/firmar", id).header("Authorization", other))
+                .andExpect(status().isForbidden());
+        mockMvc.perform(put("/api/v1/observador/{id}/firmar", id).header("Authorization", owner))
+                .andExpect(status().isOk());
+    }
 
     @BeforeEach
     void setUp() {

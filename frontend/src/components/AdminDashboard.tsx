@@ -13,6 +13,7 @@ import {
 import HorarioSemanalGrid from './HorarioSemanalGrid';
 import BoletinOficialModal from './BoletinOficialModal';
 import MipaTelemetriaPanel from './MipaTelemetriaPanel';
+import { useDialogFocus } from './ui/useDialogFocus';
 import {
   DashboardShell,
   EmptyOrLoadingState,
@@ -69,6 +70,7 @@ export const AdminDashboard: React.FC = () => {
 
   // Modal Usuario (Crear / Editar)
   const [showUsuarioModal, setShowUsuarioModal] = useState(false);
+  const usuarioDialog = useDialogFocus(showUsuarioModal, () => setShowUsuarioModal(false));
   const [editingUsuarioId, setEditingUsuarioId] = useState<number | null>(null);
   const [formUsuario, setFormUsuario] = useState<UsuarioCreatePayload>({
     tipoDocumento: 'CC',
@@ -453,8 +455,12 @@ export const AdminDashboard: React.FC = () => {
     },
   ];
 
+  const isOverview = currentTab === 'stats';
+  const sectionTitle = navGroups.flatMap(({ items }) => items).find(({ id }) => id === currentTab)?.label;
+
   return (
     <DashboardShell
+      adminLayout
       portalTitle="Administración General"
       portalSubtitle="Consola de Adm."
       navGroups={navGroups}
@@ -475,14 +481,16 @@ export const AdminDashboard: React.FC = () => {
         </button>
       }
     >
-      <div className="dashboard-topbar">
+      <div className={isOverview ? 'ec-hero-banner ec-admin-hero' : 'dashboard-topbar ec-admin-section-header'}>
         <div>
-          <h1 className="dashboard-page-title">Panel de Control del Administrador</h1>
-          <p className="dashboard-page-subtitle">
-            Bienvenido, <strong>{user?.nombreCompleto}</strong>. Gestión integral de usuarios, estructura académica y telemetría institucional.
-          </p>
+          <h1 className="dashboard-page-title">{isOverview ? 'Panorama institucional' : sectionTitle}</h1>
+          {isOverview && (
+            <p className="dashboard-page-subtitle">
+              Bienvenido, <strong>{user?.primerNombre || user?.nombreCompleto}</strong>. Consulta la matrícula, el rendimiento y la actividad académica.
+            </p>
+          )}
         </div>
-        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+        <div className="ec-admin-heading-actions">
           <button type="button" className="btn-secondary-action" onClick={() => setCurrentTab('horarios')}>
             <Calendar size={15} /> Horarios
           </button>
@@ -505,26 +513,23 @@ export const AdminDashboard: React.FC = () => {
       ) : (
         <>
           {/* VISTA 1: STATS */}
-          {currentTab === 'stats' && (
-            <>
+          {isOverview && (
+            <div className="ec-admin-overview">
+              <div className="ec-admin-overview-column">
               <div className="stats-grid">
                 <KpiCard
                   icon={<Users size={21} />}
                   tone="blue"
-                  badge="RBAC Activo"
-                  badgeTone="primary"
                   value={stats?.totalUsuarios ?? usuarios.length}
-                  label="Usuarios en Base de Datos"
-                  footer={`${docentesDisponibles.length} docentes · ${stats?.totalTutores ?? 0} tutores`}
+                  label="Usuarios registrados"
+                  footer={`${docentesDisponibles.length} docentes · ${stats?.totalTutores ?? 0} ${stats?.totalTutores === 1 ? 'tutor' : 'tutores'}`}
                   onClick={() => setCurrentTab('usuarios')}
                 />
                 <KpiCard
                   icon={<ShieldCheck size={21} />}
                   tone="emerald"
-                  badge="Planta"
-                  badgeTone="success"
                   value={stats?.totalDocentes ?? docentesDisponibles.length}
-                  label="Docentes Activos"
+                  label="Docentes activos"
                   footer={`${cargas.length} asignaciones académicas`}
                   onClick={() => setCurrentTab('cargas')}
                 />
@@ -540,16 +545,13 @@ export const AdminDashboard: React.FC = () => {
                 <KpiCard
                   icon={<BookOpen size={21} />}
                   tone="purple"
-                  badge="Ley 115"
                   value={stats?.totalMaterias ?? materias.length}
-                  label="Asignaturas Oficiales"
-                  footer="Plan de estudios vigente"
+                  label="Asignaturas oficiales"
                   onClick={() => setCurrentTab('materias')}
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
-                <div className="panel-card" style={{ marginBottom: 0 }}>
+                <div className="panel-card ec-admin-performance">
                   <div className="panel-header">
                     <h3>Rendimiento Académico y Asistencia Global</h3>
                     <span className="grade-badge superior">SIEE Activo</span>
@@ -564,10 +566,11 @@ export const AdminDashboard: React.FC = () => {
                       </div>
                       <div style={{ height: '9px', background: 'var(--ec-surface-low)', borderRadius: '999px', overflow: 'hidden' }}>
                         <div
+                          className="ec-metric-fill"
                           style={{
                             width: `${Math.min(100, ((stats?.promedioInstitucional ?? 0) / 5) * 100)}%`,
                             height: '100%',
-                            background: 'var(--ec-primary-gradient)',
+                            background: 'var(--ec-chart-solid)',
                             borderRadius: '999px',
                           }}
                         />
@@ -583,10 +586,11 @@ export const AdminDashboard: React.FC = () => {
                       </div>
                       <div style={{ height: '9px', background: 'var(--ec-surface-low)', borderRadius: '999px', overflow: 'hidden' }}>
                         <div
+                          className="ec-metric-fill"
                           style={{
                             width: `${Math.min(100, stats?.porcentajeAsistencia ?? 100)}%`,
                             height: '100%',
-                            background: '#10b981',
+                            background: 'var(--ec-chart-pattern)',
                             borderRadius: '999px',
                           }}
                         />
@@ -610,14 +614,16 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="panel-card" style={{ marginBottom: 0 }}>
+              </div>
+              <div className="ec-admin-overview-column">
+                <div className="panel-card ec-admin-shortcuts">
                   <div className="panel-header">
                     <h3>
                       <Zap size={17} style={{ color: 'var(--ec-primary)' }} />
                       Accesos Rápidos de Administración
                     </h3>
                   </div>
-                  <div className="panel-body" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '0.75rem' }}>
+                  <div className="panel-body ec-admin-shortcut-list">
                     <button type="button" className="btn-secondary-action" style={{ justifyContent: 'flex-start', padding: '0.9rem' }} onClick={handleOpenCrearUsuario}>
                       <UserPlus size={17} style={{ color: 'var(--ec-primary)' }} />
                       <span>Registrar Usuario</span>
@@ -627,7 +633,7 @@ export const AdminDashboard: React.FC = () => {
                       <span>Gestionar Grupos</span>
                     </button>
                     <button type="button" className="btn-secondary-action" style={{ justifyContent: 'flex-start', padding: '0.9rem' }} onClick={() => setCurrentTab('cargas')}>
-                      <Briefcase size={17} style={{ color: '#7c3aed' }} />
+                      <Briefcase size={17} style={{ color: '#000000' }} />
                       <span>Cargas Docentes</span>
                     </button>
                     <button type="button" className="btn-secondary-action" style={{ justifyContent: 'flex-start', padding: '0.9rem' }} onClick={() => setCurrentTab('comunicados')}>
@@ -636,19 +642,17 @@ export const AdminDashboard: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              </div>
-
               {grupos.length > 0 && (
-                <div className="panel-card">
+                <div className="panel-card ec-admin-capacity">
                   <div className="panel-header">
                     <h3>Distribución de Grupos y Capacidad Instalada</h3>
                     <span className="grade-badge alto">{grupos.length} cursos configurados</span>
                   </div>
-                  <div className="panel-body" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '1rem' }}>
+                  <div className="panel-body ec-admin-capacity-list">
                     {grupos.slice(0, 6).map((g) => {
                       const pct = g.cupoMaximo > 0 ? Math.min(100, Math.round((g.totalEstudiantes / g.cupoMaximo) * 100)) : 0;
                       return (
-                        <div key={g.id} style={{ background: 'var(--ec-surface-low)', border: '1px solid var(--ec-border)', borderRadius: '14px', padding: '1rem' }}>
+                        <div key={g.id} className="ec-admin-capacity-item">
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.45rem' }}>
                             <strong style={{ color: 'var(--ec-text)' }}>Grupo {g.codigoGrupo || g.nombre}</strong>
                             <span className="grade-badge alto">{pct}% aforo</span>
@@ -656,8 +660,8 @@ export const AdminDashboard: React.FC = () => {
                           <div style={{ fontSize: '0.78rem', color: 'var(--ec-text-muted)', marginBottom: '0.5rem' }}>
                             {g.grado} · {g.salon || g.salonAula} · {g.jornada}
                           </div>
-                          <div style={{ height: '7px', background: '#dbeafe', borderRadius: '999px', overflow: 'hidden', marginBottom: '0.45rem' }}>
-                            <div style={{ width: `${pct}%`, height: '100%', background: 'var(--ec-primary)', borderRadius: '999px' }} />
+                          <div className="ec-admin-capacity-track">
+                            <div className="ec-metric-fill" style={{ width: `${pct}%`, height: '100%', background: 'var(--ec-primary)', borderRadius: '999px' }} />
                           </div>
                           <div style={{ fontSize: '0.76rem', color: 'var(--ec-text-secondary)', fontWeight: 600 }}>
                             {g.totalEstudiantes} / {g.cupoMaximo} estudiantes
@@ -668,18 +672,22 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
               )}
-            </>
+              </div>
+            </div>
           )}
 
           {/* VISTA 2: USUARIOS Y ROLES */}
           {currentTab === 'usuarios' && (
+            <>
+            <div className="stats-grid">
+              <KpiCard icon={<Users size={19} />} value={usuarios.length} label="Cuentas registradas" />
+              <KpiCard icon={<ShieldCheck size={19} />} tone="emerald" value={usuarios.filter(({ estado }) => estado).length} label="Cuentas activas" />
+              <KpiCard icon={<Layers size={19} />} tone="purple" value={new Set(usuarios.map(({ rol }) => rol)).size} label="Roles asignados" />
+            </div>
             <div className="panel-card">
               <div className="panel-header">
                 <div>
-                  <h3>Gestión de Usuarios, Estudiantes, Docentes y Roles</h3>
-                  <p style={{ fontSize: '0.82rem', color: 'var(--ec-text-muted)', marginTop: '0.2rem' }}>
-                    {usuarios.length} cuentas registradas con autenticación BCrypt y control RBAC
-                  </p>
+                  <h3>Directorio institucional</h3>
                 </div>
 
                 <button type="button" className="btn-primary-action" onClick={handleOpenCrearUsuario}>
@@ -700,6 +708,7 @@ export const AdminDashboard: React.FC = () => {
                   <select
                     className="form-input"
                     style={{ width: 'auto', minWidth: '190px' }}
+                    aria-label="Filtrar usuarios por rol"
                     value={roleFilter}
                     onChange={(e) => {
                       setRoleFilter(e.target.value);
@@ -722,8 +731,8 @@ export const AdminDashboard: React.FC = () => {
                 <table className="data-table">
                   <thead>
                     <tr>
-                      <th>Documento</th>
                       <th>Nombre Completo</th>
+                      <th>Documento</th>
                       <th>Correo Institucional</th>
                       <th>Rol</th>
                       <th>Grupo / Especialidad</th>
@@ -742,11 +751,16 @@ export const AdminDashboard: React.FC = () => {
                       paginatedUsers.map((u) => (
                         <tr key={u.id}>
                           <td>
+                            <span className="ec-table-identity">
+                              <span aria-hidden="true">{u.nombreCompleto.split(' ').filter(Boolean).slice(0, 2).map((name) => name[0]).join('')}</span>
+                              <strong>{u.nombreCompleto}</strong>
+                            </span>
+                          </td>
+                          <td>
                             <code style={{ background: 'var(--ec-surface-low)', padding: '0.2rem 0.45rem', borderRadius: '6px', fontSize: '0.78rem' }}>
                               {u.tipoDocumento} {u.documento}
                             </code>
                           </td>
-                          <td style={{ fontWeight: 700, color: 'var(--ec-text)' }}>{u.nombreCompleto}</td>
                           <td style={{ color: 'var(--ec-text-muted)' }}>{u.email}</td>
                           <td><span className="grade-badge alto">{u.rol}</span></td>
                           <td>{u.grupo || u.especialidad || 'Institucional'}</td>
@@ -802,6 +816,7 @@ export const AdminDashboard: React.FC = () => {
                 onPageChange={setUserPage}
               />
             </div>
+            </>
           )}
 
           {/* VISTA 3: GRUPOS Y CURSOS */}
@@ -912,35 +927,28 @@ export const AdminDashboard: React.FC = () => {
                 </button>
               </div>
 
-              <div className="ec-table-responsive">
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>Código Oficial</th>
-                      <th>Asignatura</th>
-                      <th>Área de Conocimiento</th>
-                      <th>Intensidad Semanal</th>
-                      <th>Docentes / Grupos</th>
-                      <th>Acción</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {materias.map((m) => (
-                      <tr key={m.id}>
-                        <td>
-                          <code style={{ background: 'var(--ec-surface-low)', padding: '0.2rem 0.45rem', borderRadius: '6px', fontSize: '0.78rem' }}>
-                            {m.codigoOficial || m.codigo}
-                          </code>
-                        </td>
-                        <td style={{ fontWeight: 700, color: 'var(--ec-text)' }}>{m.nombre}</td>
-                        <td><span className="grade-badge alto">{m.areaConocimiento || m.area}</span></td>
-                        <td>{m.intensidadHoraria || m.horasSemanales} hrs/sem</td>
-                        <td>{m.docente} ({m.grupos})</td>
-                        <td>
+              {materias.length === 0 ? (
+                <EmptyOrLoadingState message="Todavía no hay asignaturas registradas." />
+              ) : (
+                <div className="panel-body ec-subject-grid">
+                  {materias.map((m) => (
+                    <article key={m.id} className="ec-subject-card">
+                      <div className="ec-subject-illustration">
+                        <BookOpen size={34} strokeWidth={1.5} aria-hidden="true" />
+                      </div>
+                      <div className="ec-subject-details">
+                        <div className="ec-subject-meta">
+                          <code>{m.codigoOficial || m.codigo}</code>
+                          <span>{m.intensidadHoraria || m.horasSemanales} h/sem</span>
+                        </div>
+                        <h4>{m.nombre}</h4>
+                        <p>{m.areaConocimiento || m.area}</p>
+                        <div className="ec-subject-footer">
+                          <span>{m.docente} ({m.grupos})</span>
                           <button
                             type="button"
                             className="btn-secondary-action"
-                            style={{ padding: '0.35rem 0.55rem', color: 'var(--ec-primary)' }}
+                            aria-label={`Editar ${m.nombre}`}
                             onClick={() => {
                               setEditingMateriaId(m.id);
                               setFormMateria({
@@ -955,12 +963,12 @@ export const AdminDashboard: React.FC = () => {
                           >
                             <Edit size={14} />
                           </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -1032,6 +1040,7 @@ export const AdminDashboard: React.FC = () => {
                 <select
                   className="form-input"
                   style={{ width: 'auto', minWidth: '185px' }}
+                  aria-label="Grupo del horario administrativo"
                   value={horarioGrupoFilter}
                   onChange={(e) => setHorarioGrupoFilter(e.target.value)}
                 >
@@ -1128,12 +1137,13 @@ export const AdminDashboard: React.FC = () => {
       {/* MODAL USUARIO */}
       {showUsuarioModal && (
         <div className="ec-modal-overlay">
-          <div className="ec-modal-card" style={{ maxWidth: '540px' }}>
+          <div {...usuarioDialog} className="ec-modal-card" role="dialog" aria-modal="true"
+            aria-labelledby="admin-user-dialog-title" style={{ maxWidth: '540px' }}>
             <div className="ec-modal-header">
-              <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800 }}>
+              <h3 id="admin-user-dialog-title" style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800 }}>
                 {editingUsuarioId ? 'Actualizar Usuario Institucional' : 'Registrar Usuario Institucional'}
               </h3>
-              <button type="button" onClick={() => setShowUsuarioModal(false)} className="btn-secondary-action" style={{ padding: '0.35rem' }}>
+              <button type="button" aria-label="Cerrar formulario de usuario" onClick={() => setShowUsuarioModal(false)} className="btn-secondary-action" style={{ padding: '0.35rem' }}>
                 <X size={18} />
               </button>
             </div>
@@ -1189,10 +1199,13 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="form-label">Correo Institucional *</label>
+                  <label htmlFor="admin-user-email" className="form-label">Correo Institucional *</label>
                   <div style={{ position: 'relative' }}>
                     <Mail size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
                     <input
+                      id="admin-user-email"
+                      name="email"
+                      autoComplete="email"
                       type="email"
                       required
                       placeholder="correo@educonnect.edu.co"
@@ -1204,10 +1217,13 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="form-label">{editingUsuarioId ? 'Nueva contraseña (opcional)' : 'Contraseña inicial *'}</label>
+                  <label htmlFor="admin-user-password" className="form-label">{editingUsuarioId ? 'Nueva contraseña (opcional)' : 'Contraseña inicial *'}</label>
                   <div style={{ position: 'relative' }}>
                     <Lock size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--ec-text-subtle)' }} />
                     <input
+                      id="admin-user-password"
+                      name="password"
+                      autoComplete="new-password"
                       type="password"
                       required={!editingUsuarioId}
                       placeholder={editingUsuarioId ? 'Dejar vacío para conservar la actual' : 'Contraseña inicial'}
@@ -1332,7 +1348,7 @@ export const AdminDashboard: React.FC = () => {
               <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800 }}>
                 {editingMateriaId ? 'Editar Asignatura' : 'Nueva Asignatura'}
               </h3>
-              <button type="button" onClick={() => setShowMateriaModal(false)} className="btn-secondary-action" style={{ padding: '0.35rem' }}>
+              <button type="button" aria-label="Cerrar formulario de asignatura" onClick={() => setShowMateriaModal(false)} className="btn-secondary-action" style={{ padding: '0.35rem' }}>
                 <X size={18} />
               </button>
             </div>

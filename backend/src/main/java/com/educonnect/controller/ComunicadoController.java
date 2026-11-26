@@ -20,8 +20,9 @@ public class ComunicadoController {
     private final AcademicoInstitucionalService academicoService;
 
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> listarComunicados() {
-        return ResponseEntity.ok(academicoService.listarComunicados());
+    public ResponseEntity<List<Map<String, Object>>> listarComunicados(
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(academicoService.listarComunicados(userDetails.getUsername()));
     }
 
     @PostMapping

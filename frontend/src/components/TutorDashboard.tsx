@@ -225,7 +225,7 @@ export const TutorDashboard: React.FC = () => {
       sidebarExtra={
         hijos.length > 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '0.35rem' }}>
-            <div style={{ fontSize: '0.68rem', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            <div style={{ fontSize: '0.68rem', color: '#FFFFFF', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               Acudido Activo
             </div>
             {hijos.map((h, idx) => (
@@ -234,9 +234,9 @@ export const TutorDashboard: React.FC = () => {
                 type="button"
                 onClick={() => void handleSeleccionarHijo(idx)}
                 style={{
-                  background: selectedHijoIndex === idx ? 'rgba(23, 92, 255, 0.22)' : 'rgba(255, 255, 255, 0.04)',
-                  border: selectedHijoIndex === idx ? '1px solid #3b82f6' : '1px solid rgba(255,255,255,0.08)',
-                  color: '#ffffff',
+                  background: selectedHijoIndex === idx ? '#FFFFFF' : '#000000',
+                  border: '1px solid #FFFFFF',
+                  color: selectedHijoIndex === idx ? '#000000' : '#FFFFFF',
                   borderRadius: '10px',
                   padding: '0.45rem 0.65rem',
                   textAlign: 'left',
@@ -245,7 +245,7 @@ export const TutorDashboard: React.FC = () => {
                 }}
               >
                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.nombreCompleto}</div>
-                <div style={{ fontSize: '0.68rem', color: '#93c5fd' }}>Grupo {h.grupo}</div>
+                <div style={{ fontSize: '0.68rem', color: 'inherit' }}>Grupo {h.grupo}</div>
               </button>
             ))}
           </div>
@@ -295,8 +295,8 @@ export const TutorDashboard: React.FC = () => {
                   type="button"
                   onClick={() => void handleSeleccionarHijo(idx)}
                   style={{
-                    background: isSelected ? 'var(--ec-primary-gradient)' : '#ffffff',
-                    color: isSelected ? '#ffffff' : 'var(--ec-text)',
+                    background: isSelected ? 'var(--ec-primary-gradient)' : 'var(--ec-surface-card)',
+                    color: isSelected ? '#FFFFFF' : 'var(--ec-text)',
                     border: `1px solid ${isSelected ? 'var(--ec-primary)' : 'var(--ec-border)'}`,
                     borderRadius: '14px',
                     padding: '0.65rem 1rem',
@@ -313,7 +313,7 @@ export const TutorDashboard: React.FC = () => {
                       height: '36px',
                       borderRadius: '50%',
                       background: isSelected ? 'rgba(255,255,255,0.2)' : 'var(--ec-primary-soft)',
-                      color: isSelected ? '#ffffff' : 'var(--ec-primary-dark)',
+                      color: isSelected ? '#FFFFFF' : 'var(--ec-primary-dark)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',

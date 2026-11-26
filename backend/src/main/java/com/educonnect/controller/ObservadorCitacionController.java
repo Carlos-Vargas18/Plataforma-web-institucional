@@ -38,6 +38,7 @@ public class ObservadorCitacionController {
     }
 
     @PutMapping("/observador/{id}/firmar")
+    @PreAuthorize("hasAnyRole('ESTUDIANTE', 'TUTOR')")
     public ResponseEntity<Map<String, Object>> firmarObservacion(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails
@@ -63,8 +64,9 @@ public class ObservadorCitacionController {
     @PutMapping("/citaciones/{id}")
     public ResponseEntity<Map<String, Object>> actualizarCitacion(
             @PathVariable Long id,
-            @RequestBody Map<String, Object> payload
+            @RequestBody Map<String, Object> payload,
+            @AuthenticationPrincipal UserDetails userDetails
     ) {
-        return ResponseEntity.ok(academicoService.actualizarEstadoCitacion(id, payload));
+        return ResponseEntity.ok(academicoService.actualizarEstadoCitacion(id, payload, userDetails.getUsername()));
     }
 }

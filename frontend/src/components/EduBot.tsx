@@ -91,10 +91,10 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
             width: '60px',
             height: '60px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
-            color: '#ffffff',
+            background: 'linear-gradient(135deg, #000000 0%, #000000 100%)',
+            color: '#FFFFFF',
             border: '2px solid rgba(255,255,255,0.2)',
-            boxShadow: '0 12px 30px rgba(37, 99, 235, 0.5)',
+            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.5)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -109,7 +109,7 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
             width: '380px',
             maxWidth: 'calc(100vw - 2rem)',
             height: '520px',
-            background: '#ffffff',
+            background: 'var(--ec-surface-card)',
             border: '1px solid var(--ec-border)',
             borderRadius: '22px',
             boxShadow: 'var(--ec-shadow-lg)',
@@ -120,12 +120,12 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
         >
           <div
             style={{
-              background: 'linear-gradient(135deg, #07142f 0%, #175cff 100%)',
+              background: 'linear-gradient(135deg, #000000 0%, #000000 100%)',
               padding: '1rem 1.2rem',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              color: '#fff',
+              color: '#FFFFFF',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
@@ -142,7 +142,7 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
                 type="button"
                 onClick={() => setMessages([buildWelcomeMessage()])}
                 title="Reiniciar conversación"
-                style={{ background: 'rgba(255,255,255,0.16)', border: 'none', color: '#fff', borderRadius: '8px', padding: '6px', cursor: 'pointer' }}
+                style={{ background: 'rgba(255,255,255,0.16)', border: 'none', color: '#FFFFFF', borderRadius: '8px', padding: '6px', cursor: 'pointer' }}
               >
                 <RotateCcw size={15} />
               </button>
@@ -150,7 +150,7 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 title="Cerrar asistente"
-                style={{ background: 'rgba(255,255,255,0.16)', border: 'none', color: '#fff', borderRadius: '8px', padding: '6px', cursor: 'pointer' }}
+                style={{ background: 'rgba(255,255,255,0.16)', border: 'none', color: '#FFFFFF', borderRadius: '8px', padding: '6px', cursor: 'pointer' }}
               >
                 <X size={15} />
               </button>
@@ -168,8 +168,8 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
               >
                 <div
                   style={{
-                    background: msg.sender === 'user' ? 'var(--ec-primary)' : '#ffffff',
-                    color: msg.sender === 'user' ? '#ffffff' : 'var(--ec-text)',
+                    background: msg.sender === 'user' ? 'var(--ec-action-bg)' : 'var(--ec-surface-card)',
+                    color: msg.sender === 'user' ? 'var(--ec-action-ink)' : 'var(--ec-text)',
                     border: msg.sender === 'user' ? 'none' : '1px solid var(--ec-border)',
                     padding: '0.72rem 0.95rem',
                     borderRadius: msg.sender === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
@@ -226,7 +226,7 @@ export const EduBot: React.FC<EduBotProps> = ({ userRole, userName }) => {
             style={{
               padding: '0.75rem',
               borderTop: '1px solid var(--ec-border)',
-              background: '#ffffff',
+              background: 'var(--ec-surface-card)',
               display: 'flex',
               gap: '0.5rem',
             }}

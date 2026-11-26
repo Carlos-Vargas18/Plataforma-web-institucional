@@ -2,6 +2,7 @@ package com.educonnect.dto;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -22,16 +23,19 @@ public class CalificacionRequest {
     @NotNull(message = "La nota cognitiva (Saber 40%) es obligatoria")
     @DecimalMin(value = "1.0", message = "La nota mínima en la escala nacional es 1.0")
     @DecimalMax(value = "5.0", message = "La nota máxima en la escala nacional es 5.0")
+    @Digits(integer = 1, fraction = 1)
     private BigDecimal notaCognitiva;
 
     @NotNull(message = "La nota procedimental (Hacer 30%) es obligatoria")
     @DecimalMin(value = "1.0", message = "La nota mínima es 1.0")
     @DecimalMax(value = "5.0", message = "La nota máxima es 5.0")
+    @Digits(integer = 1, fraction = 1)
     private BigDecimal notaProcedimental;
 
     @NotNull(message = "La nota actitudinal (Ser 30%) es obligatoria")
     @DecimalMin(value = "1.0", message = "La nota mínima es 1.0")
     @DecimalMax(value = "5.0", message = "La nota máxima es 5.0")
+    @Digits(integer = 1, fraction = 1)
     private BigDecimal notaActitudinal;
 
     private String juicioValorativo;
